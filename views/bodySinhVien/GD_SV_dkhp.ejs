@@ -1,0 +1,249 @@
+
+    <div class="container">
+        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+            <h2>Đăng kí học phần</h2>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+
+            </div>
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div class="form-group">
+                    <label class="label-control col-xs-4 col-sm-4 col-md-4 col-lg-4 ">Năm học:</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <select class="form-control" id="sel1">
+                            <option>2021-2022</option>
+                            <option>2022-2023</option>
+                            <option>2023-2024</option>
+                            <option>2024-2025</option>
+                          </select>
+                          <br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label-control col-xs-4 col-sm-4 col-md-4 col-lg-4 ">Học kì:</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <select class="form-control" id="sel1">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                          </select>
+                          <br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <button type="button" class="btn btn-info">Lọc</button>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Danh sách môn học phần</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chọn</th>
+                            <th>Mã môn</th>
+                            <th>Tên môn</th>
+                            <th>Tín chỉ</th>
+                            <th>Học phần yêu cầu</th>
+                            <th>Bắt buộc</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="monhp" type="radio" value="monhp"/>
+                            </td>
+                            <td>MHP01</td>
+                            <td>Lập trình phân tán</td>
+                            <td>3</td>
+                            <td>Lập trình hướng sự kiện</td>
+                            <td>Bắt buộc</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input name="monhp" type="radio" value="monhp"/>
+                            </td>
+                            <td>MHP02</td>
+                            <td>Toán cao cấp 1</td>
+                            <td>3</td>
+                            <td>Không</td>
+                            <td></td>
+                        </tr>
+        
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-info">Lọc</button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Danh sách lớp học phần</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chọn</th>
+                            <th>Mã Lớp</th>
+                            <th>Sĩ số</th>
+                            <th>Số lượng đã đăng kí</th>
+                            <th>Tình trạng</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="lhpdk" type="radio" value="lhpdk"/>
+                            </td>
+                            <td>LHP01</td>
+                            <td>70</td>
+                            <td>3</td>
+                            <td>Đợi sinh viên đăng kí</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <input name="lhpdk" type="radio" value="lhpdk"/>
+                            </td>
+                            <td>LHP02</td>
+                            <td>70</td>
+                            <td>50</td>
+                            <td>Chấp nhận mở lớp</td>
+                            
+                        </tr>
+        
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-info">Lọc</button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Danh sách nhóm thực hành</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chọn</th>
+                            <th>Mã nhóm</th>
+                            <th>Tên giảng viên</th>
+                            <th>Ngày học</th>
+                            <th>Phòng học</th>
+                            <th>Tiết học</th>
+                            <th>Ngày bắt đầu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="nhomth" type="radio" value="nhomth"/>
+                            </td>
+                            <td>TH1</td>
+                            <td>Nguyễn Văn Thuận</td>
+                            <td>Thứ 3</td>
+                            <td>A17</td>
+                            <td>1-3</td>
+                            <td>12/11/2021</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>
+                                <input name="nhomth" type="radio" value="nhomth"/>
+                            </td>
+                            <td>TH2</td>
+                            <td>Nguyễn Thị Thu Hà</td>
+                            <td>Thứ 3</td>
+                            <td>A17</td>
+                            <td>4-6</td>
+                            <td>12/11/2021</td>
+                            
+                            
+                        </tr>
+        
+                    </tbody>
+                </table>
+                
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Danh sách nhóm lý thuyết</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chọn</th>
+                            <th>Mã nhóm</th>
+                            <th>Tên giảng viên</th>
+                            <th>Ngày học</th>
+                            <th>Phòng học</th>
+                            <th>Tiết học</th>
+                            <th>Ngày bắt đầu</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="nhomlt" type="radio" value="lhpdk"/>
+                            </td>
+                            <td>LT1</td>
+                            <td>Nguyễn Văn Thuận</td>
+                            <td>Thứ 2</td>
+                            <td>B6</td>
+                            <td>1-3</td>
+                            <td>1/11/2021</td>
+                            
+                        </tr>
+        
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-info">Đăng kí</button>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Danh sách các lớp học phần đã đăng kí</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Chọn</th>
+                            <th>Mã Lớp</th>
+                            <th>Tên môn</th>
+                            <th>Nhóm</th>
+                            <th>Giảng viên</th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input name="lhpddk" type="radio" value="lhpddk"/>
+                            </td>
+                            <td>LHP03</td>
+                            <td>Lập trình phần tán</td>
+                            <td>LT1</td>
+                            <td>Nguyễn Ngọc Khánh</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input name="lhpddk" type="radio" value="lhpddk"/>
+                            </td>
+                            <td>LHP03</td>
+                            <td>Lập trình phần tán</td>
+                            <td>TH1</td>
+                            <td>Nguyễn Ngọc Khánh</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input name="lhpddk" type="radio" value="lhpddk"/>
+                            </td>
+                            <td>LHP40</td>
+                            <td>Tiếng Anh 1</td>
+                            <td>LT1</td>
+                            <td>Nguyễn Thị Nhuận</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-danger">Hủy Đăng kí</button>
+            </div>
+        </div>
+
+    </div>
