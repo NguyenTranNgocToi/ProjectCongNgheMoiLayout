@@ -37,62 +37,9 @@ app.use('/sinhvien', sinhvienRoute);
 
 
 // không menu
-app.get('/cnsinhvien/add-sv', (req, res) => {
-    //res.render('GD_NV_From_Add_SV');
-    return res.render('./bodyKhongMenu/GD_NV_From_Add_SV',{layout: './layouts/layoutKhongMenu' , title: 'Thêm Sinh Viên'});
-});
 
-app.post('/save_sv', upload.fields([]), (req, res) => {
-    console.log(req.body);
-    const passdefaut = "123456";
-    bcrypt.hash(passdefaut, saltRounds, function(err, hash) {
-        let data = {
-            MSSV: req.body.masv, DiaChi: req.body.diachi_sv, GioiTinh: req.body.gioitinh,
-            HoTen: req.body.hotensv, NgaySinh: req.body.ns_sv, SoDT: req.body.dt_sv
-        };
-        let tk = { MaTaiKhoan: req.body.masv, Pass: hash };
-        database.themSV(data, function (results) {
-            database.themtaikhoansv(tk, function (resultss) {
-                res.redirect('/cnsinhvien');
-                //return res.render('./bodyNhanVien/CNSinhVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Sinh Viên',listsv: results});
-            })
-    
-        });
-    });
-    
-});
 
-app.get('/cnsinhvien/editsv/:svid', (req, res) => {
-    const svid = req.params.svid;
-    database.chuyenDenUpdate(svid, function (results) {
-        console.log(results[0]);
-       // res.render('GD_NV_From_Update_SV', { sv: results[0] });
-        return res.render('./bodyKhongMenu/GD_NV_From_Update_SV',{layout: './layouts/layoutKhongMenu' , title: 'Thêm Sinh Viên', sv: results[0] });
-    });
-});
 
-app.get('/cnsinhvien/deletesv/:svid', (req, res) => {
-    const svid = req.params.svid;
-
-    database.xoatksv(svid, function (resultss) {
-        database.xoaSV(svid,function(results){
-            res.redirect('/cnsinhvien');
-        });       
-    });
-});
-
-app.post('/update_sv', upload.fields([]), (req, res) => {
-    const masv = req.body.masv;
-    const hoten = req.body.hotensv;
-    const gioitinh = req.body.gioitinh;
-    const ns = req.body.ns_sv;
-    const diachi = req.body.diachi_sv;
-    const dt = req.body.dt_sv;
-    database.updateSV(masv, hoten, gioitinh, ns, diachi, dt, function (results) {
-        res.redirect('/cnsinhvien');
-    });
-    //console.log(req.body);
-});
 
 app.post('/dangnhaptong', upload.fields([]), (req, res) => {
     var username = req.body.tendn;
