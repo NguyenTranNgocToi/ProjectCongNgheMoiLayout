@@ -6,7 +6,7 @@
             </h2>
         </div>
         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 2%;">
-            <a href="/nhanvien/cnsinhvien/add-sv" class="btn btn-primary" >Thêm khoa</a><br/>
+            <a href="/nhanvien/cnkhoa/add-khoa" class="btn btn-primary" >Thêm khoa</a><br/>
             <h3>Thêm khoa bằng excel</h3>
             <form id="uploadForm" enctype="multipart/form-data" action="/nhanvien/cnkhoa/uploadfileKhoa" method="post">
                 <input type="file" name="myfilekhoa" value="Chọn file"/>
@@ -30,8 +30,8 @@
                     <%for(let i=0;i< listkhoa.length;i++){%>
                       <tr>
                           <!-- <td><input type="radio"></td> -->
-                          <td><%=listsv[i].MaKhoa%></td>
-                          <td><%=listsv[i].TenKhoa  %></td>
+                          <td><%=listkhoa[i].MaKhoa%></td>
+                          <td><%=listkhoa[i].TenKhoa%></td>
                           <td>
                               <a href="/nhanvien/cnkhoa/editkhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-warning" >Sửa</a>
                               <a href="/nhanvien/cnkhoa/deletekhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-danger" >Xóa</a>

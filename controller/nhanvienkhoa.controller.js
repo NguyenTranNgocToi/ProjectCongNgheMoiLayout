@@ -15,9 +15,9 @@ var storage = multer.diskStorage({
 var upload1 = multer({ storage: storage }).single('myfilekhoa');
 
 
-module.exports.trangcapnhatsv = function (req, res) {
+module.exports.trangcapnhatkhoa = function (req, res) {
     database.getAllKhoa(function (result) {
-        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: result });
+        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa : result});
     })
 };
 
@@ -25,21 +25,21 @@ module.exports.trangchunv = function (req, res) {
     return res.render('./bodyNhanVien/GD_NV_TrangChu', { layout: './layouts/layoutNhanVien', title: 'Trang Chủ Khoa' });
 };
 
-module.exports.chuyennhapsv = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_From_Add_Khoa', { layout: './layouts/layoutKhongMenu', title: 'Thêm Khoa' });
+module.exports.chuyennhapkhoa = function (req, res) {
+    return res.render('./bodyKhongMenu/GD_NV_Form_Add_Khoa', { layout: './layouts/layoutKhongMenu', title: 'Thêm Khoa' });
 };
 
 module.exports.chuyenedit = function (req, res) {
     const khoaid = req.params.khoaid;
     database.chuyenDenUpdate(khoaid, function (results) {
         console.log(results[0]);
-        res.render('GD_NV_From_Update_Khoa', { sv: results[0] });
-        // return res.render('./bodyKhongMenu/GD_NV_From_Update_Khoa', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật khoa', khoa: results[0] });
+        // res.render('GD_NV_From_Update_Khoa', { sv: results[0] });
+        return res.render('./bodyKhongMenu/GD_NV_Form_Update_Khoa', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật khoa', khoa: results[0] });
     });
 };
 
 module.exports.xoakhoa = function (req, res) {
-    const khoaid = req.params.svid;
+    const khoaid = req.params.khoaid;
         database.xoaKhoa(khoaid, function(results){
             res.redirect('/nhanvien/cnkhoa');
         });
@@ -47,15 +47,12 @@ module.exports.xoakhoa = function (req, res) {
 
 module.exports.luukhoa = function(req,res){
     console.log(req.body);
-    const passdefaut = "123456";
-    bcrypt.hash(passdefaut, saltRounds, function(req, res){
         let data = {
-            MaKhoa: req.body.tenkhoa, TenKhoa: req.body.tenkhoa
+            MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
         };
         database.themKhoa(data, function(results){
             res.redirect('/nhanvien/cnkhoa');
         });
-    });
 };
 
 module.exports.capnhatkhoa = function(req,res){
@@ -87,26 +84,20 @@ module.exports.savedata = function (req, res) {
             type: String
         }
     }
-    const passdefaut = "123456";
-    bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
-        readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
-            errors.length === 0;
+    readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
             for (let i = 0; i < rows.length; i++) {
-                // console.log(rows);   
                 let data = {
                     MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
                 };
-                // let tk = { MaTaiKhoan: rows[i].MSSV, Pass: hash };
-                // console.log(data);
-                // database.themSV(data, function (results) {
-                //     database.themtaikhoansv(tk, function (resultss) {
-                //     })
-                // });
-
             };
             res.redirect('/nhanvien/cnkhoa');
-        });
     });
+
+    // const passdefaut = "123456";
+    // bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
+    //     
+    // });
     // readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
     //     errors.length === 0;
     //     for (let i = 0; i < rows.length; i++) {

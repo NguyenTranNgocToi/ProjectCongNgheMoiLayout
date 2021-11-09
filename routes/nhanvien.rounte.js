@@ -5,7 +5,8 @@ var express = require('express');
 const multer = require('multer');
 const upload = multer();
 
-const controllersv = require('../controller/sinhvien.controller')
+const controllersv = require('../controller/sinhvien.controller');
+const controllerkhoa = require('../controller/nhanvienkhoa.controller');
 
 
 var database = require("../database");
@@ -16,14 +17,19 @@ router.use(expressLayouts);
 
 //Nhân Viên
 router.get('/trangchu',controllersv.trangchunv );
-router.get('/cnkhoa', (req, res) => {
-    //return res.render('CNKhoa');
-    return res.render('./bodyNhanVien/CNKhoa',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Khoa'});
-});
+
+
 
 router.get('/cnchuyennganh', (req, res) => {
     return res.render('./bodyNhanVien/CNChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành'});
 });
+
+//Nhan vien cap nhat khoa
+router.get('/cnkhoa',controllerkhoa.trangcapnhatkhoa);
+router.get('/cnkhoa/add-khoa', controllerkhoa.chuyennhapkhoa);
+router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);
+router.get('/cnkhoa/editkhoa/:khoaid', controllerkhoa.chuyenedit);
+router.post('/cnkhoa/save_khoa', upload.fields([]),controllerkhoa.luukhoa);
 
 //Nhân viên cập nhật sinh viên
 router.get('/cnsinhvien',controllersv.trangcapnhatsv );
