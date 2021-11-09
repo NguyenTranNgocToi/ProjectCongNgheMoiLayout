@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
 
     host:'localhost',
     user:'root',
-    password:'sapassword',
+    password:'123456',
     database:'sqlquanlyhocphan'
 
     //phải có dòng này trong mysql local, còn trên aws không cần
@@ -36,18 +36,7 @@ var closeDB = function(){
     })
 }
 
-exports.getAllSV = function(callbackQuery){
-    connect();
-    connection.query("SELECT * FROM sinhvien", function(err, results,fields){
-        if(!err){
-            callbackQuery(results);
-        }else{
-            console.log(err);
-           
-        }
-    })  
-    //closeDB();
-}
+
 // lay ds nam
 
 exports.getdsNam = function(callbackQuery){
@@ -92,6 +81,20 @@ exports.getPassNV = function(MSNV,callbackQuery){
 /*
     Bắt đầu xử lý cho giao diện sinh viên
 */
+
+// Lấy dữ liệu từ bảng sinh viên
+exports.getAllSV = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien order by MSSV DESC limit 5", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+           
+        }
+    })  
+    //closeDB();
+}
 //Thêm sinh viên
 exports.themSV = function(data,callbackQuery){
     connect();

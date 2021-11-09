@@ -4,8 +4,8 @@ const expressLayouts = require('express-ejs-layouts');
 var express = require('express');
 const multer = require('multer');
 const upload = multer();
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+
+const controllersv = require('../controller/sinhvien.controller')
 
 
 var database = require("../database");
@@ -15,6 +15,7 @@ router.use(express.static('../views'));
 router.use(expressLayouts);
 
 //Nhân Viên
+router.get('/trangchu',controllersv.trangchunv );
 router.get('/cnkhoa', (req, res) => {
     //return res.render('CNKhoa');
     return res.render('./bodyNhanVien/CNKhoa',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Khoa'});
@@ -24,13 +25,18 @@ router.get('/cnchuyennganh', (req, res) => {
     return res.render('./bodyNhanVien/CNChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành'});
 });
 
-router.get('/cnsinhvien', (req, res) => {
-    //const dsnam = null;
-    database.getAllSV(function (results) {
-        //return res.render('CNSinhVien', { listsv: results });
-        return res.render('./bodyNhanVien/CNSinhVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Sinh Viên',listsv: results});
-    });
-});
+//Nhân viên cập nhật sinh viên
+router.get('/cnsinhvien',controllersv.trangcapnhatsv );
+router.get('/cnsinhvien/add-sv', controllersv.chuyennhapsv);
+router.get('/cnsinhvien/editsv/:svid', controllersv.chuyenedit);
+router.get('/cnsinhvien/deletesv/:svid', controllersv.xoasv);
+router.post('/cnsinhvien/save_sv', upload.fields([]), controllersv.luusv);
+router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
+router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
+router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
+
+
+
 
 router.get('/cngiangvien', (req, res) => {
    // return res.render('CNGiangVien');
@@ -101,61 +107,5 @@ router.get('/timmonhp', (req, res) => {
 });
 
 
-router.get('/cnsinhvien/editsv/:svid', (req, res) => {
-    const svid = req.params.svid;
-    database.chuyenDenUpdate(svid, function (results) {
-        console.log(results[0]);
-       // res.render('GD_NV_From_Update_SV', { sv: results[0] });
-        return res.render('./bodyKhongMenu/GD_NV_From_Update_SV',{layout: './layouts/layoutKhongMenu' , title: 'Thêm Sinh Viên', sv: results[0] });
-    });
-});
 
-router.get('/cnsinhvien/deletesv/:svid', (req, res) => {
-    const svid = req.params.svid;
-
-    database.xoatksv(svid, function (resultss) {
-        database.xoaSV(svid,function(results){
-            res.redirect('/nhanvien/cnsinhvien');
-        });       
-    });
-});
-
-router.post('/update_sv', upload.fields([]), (req, res) => {
-    const masv = req.body.masv;
-    const hoten = req.body.hotensv;
-    const gioitinh = req.body.gioitinh;
-    const ns = req.body.ns_sv;
-    const diachi = req.body.diachi_sv;
-    const dt = req.body.dt_sv;
-    database.updateSV(masv, hoten, gioitinh, ns, diachi, dt, function (results) {
-        res.redirect('/nhanvien/cnsinhvien');
-    });
-    //console.log(req.body);
-});
-
-
-router.get('/cnsinhvien/add-sv', (req, res) => {
-    //res.render('GD_NV_From_Add_SV');
-    return res.render('./bodyKhongMenu/GD_NV_From_Add_SV',{layout: './layouts/layoutKhongMenu' , title: 'Thêm Sinh Viên'});
-});
-
-router.post('/save_sv', upload.fields([]), (req, res) => {
-    console.log(req.body);
-    const passdefaut = "123456";
-    bcrypt.hash(passdefaut, saltRounds, function(err, hash) {
-        let data = {
-            MSSV: req.body.masv, DiaChi: req.body.diachi_sv, GioiTinh: req.body.gioitinh,
-            HoTen: req.body.hotensv, NgaySinh: req.body.ns_sv, SoDT: req.body.dt_sv
-        };
-        let tk = { MaTaiKhoan: req.body.masv, Pass: hash };
-        database.themSV(data, function (results) {
-            database.themtaikhoansv(tk, function (resultss) {
-                res.redirect('/nhanvien/cnsinhvien');
-                //return res.render('./bodyNhanVien/CNSinhVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Sinh Viên',listsv: results});
-            })
-    
-        });
-    });
-    
-});
 module.exports = router;

@@ -63,7 +63,7 @@ app.post('/dangnhaptong', upload.fields([]), (req, res) => {
                         // console.log("encrypted2:"+encryptedPass);
                         // console.log("reult:"+ result);
                         if (result) {
-                            return res.redirect('/trangchuNV');
+                            return res.redirect('/nhanvien/trangchu');
                         } else {
                             return res.json({ result: 'pass nv sai' });
                         }
