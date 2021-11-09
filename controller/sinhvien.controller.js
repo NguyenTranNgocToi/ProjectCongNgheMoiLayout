@@ -134,22 +134,21 @@ module.exports.savedata = function (req, res) {
             res.redirect('/nhanvien/cnsinhvien');
         });
     });
-    // readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
-    //     errors.length === 0;
-    //     for (let i = 0; i < rows.length; i++) {
-    //         // console.log(rows);   
-    //         let data = {
-    //             MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-    //             HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
-    //         };
-    //         console.log(data);
-    //         database.themSV(data, function (results) {
+};
 
-    //         });
+module.exports.timkiemsv = function (req, res) {
+    var query = req.query.tukhoasv;
+    console.log(query);
+    database.timkiemsv(query, function (results) {
+        if (results.length > 0) {
+            res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: results });
+        } else {
+            database.getAllSV(function (result) {
+                res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: result });
+            });
+        }
 
-    //     };
-    //     res.redirect('/nhanvien/cnsinhvien');
-    // });
+    });
 };
 
 

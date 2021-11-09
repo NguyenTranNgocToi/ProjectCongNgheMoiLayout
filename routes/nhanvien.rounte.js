@@ -34,6 +34,7 @@ router.post('/cnsinhvien/save_sv', upload.fields([]), controllersv.luusv);
 router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
+router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
 
 
 

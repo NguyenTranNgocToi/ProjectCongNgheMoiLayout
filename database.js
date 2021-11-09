@@ -84,7 +84,7 @@ exports.getPassNV = function(MSNV,callbackQuery){
 
 // Lấy dữ liệu từ bảng sinh viên
 exports.getAllSV = function(callbackQuery){
-    connect();
+    connect();// order by MSSV DESC limit 5
     connection.query("SELECT * FROM sinhvien order by MSSV DESC limit 5", function(err, results,fields){
         if(!err){
             callbackQuery(results);
@@ -159,6 +159,20 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,callbackQuer
     connect();
     connection.query("update sinhvien set DiaChi = ?, GioiTinh = ?, HoTen = ?, NgaySinh = ?, SoDT = ? where MSSV = ?",
     [diachi,gioitinh,hoten,ns,dienthoai,masv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
+exports.timkiemsv = function(tukhoa,callbackQuery){
+    connect();
+    connection.query("Select * from sinhvien where Hoten like N'%"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' limit 10",
+    (err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{
