@@ -31,6 +31,7 @@ router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);
 router.get('/cnkhoa/editkhoa/:khoaid', controllerkhoa.chuyenedit);
 router.post('/cnkhoa/save_khoa', upload.fields([]),controllerkhoa.luukhoa);
 
+
 //Nhân viên cập nhật sinh viên
 router.get('/cnsinhvien',controllersv.trangcapnhatsv );
 router.get('/cnsinhvien/add-sv', controllersv.chuyennhapsv);
