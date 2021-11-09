@@ -11,12 +11,9 @@ const expressLayouts = require('express-ejs-layouts');
 //database NTNT
 var database = require("./database");
 
-<<<<<<< HEAD
-=======
 var nhanvienRoute = require('./routes/nhanvien.rounte');
 var sinhvienRoute = require('./routes/sinhvien.route');
 
->>>>>>> f5939907259a11260ce06795bf4ab97fd4fa0468
 
 app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
