@@ -13,10 +13,6 @@ const expressLayouts = require('express-ejs-layouts');
 var database = require("./database");
 
 
-
-
-
-
 app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
 
