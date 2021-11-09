@@ -170,3 +170,75 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,callbackQuer
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
+
+/*
+    Bắt đầu xử lý cho giao diện Khoa
+*/
+
+// Lấy dữ liệu từ bảng khoa
+exports.getAllKhoa = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien order by MaKhoa DESC limit 5", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+           
+        }
+    })  
+    //closeDB();
+}
+//Thêm khoa
+exports.themKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into khoa Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa khoa
+exports.xoaKhoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Delete from khoa where MaKhoa = ?",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+//Cập nhật lại khoa
+exports.chuyenDenUpdate = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa = ?",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.updateKhoa = function(makhoa,tenkhoa,callbackQuery){
+    connect();
+    connection.query("update khoa set tenkhoa = ? where MaKhoa = ?",
+    [tenkhoa,makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện khoa
+*/

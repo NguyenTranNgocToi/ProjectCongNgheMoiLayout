@@ -6,84 +6,60 @@
             </h2>
         </div>
         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 2%;">
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                <label class="label-control col-xs-3 col-sm-3 col-md-3 col-lg-3 ">Mã khoa</label>
-                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                    <input type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-                <label class="label-control col-xs-3 col-sm-3 col-md-3 col-lg-3 ">Tên khoa</label>
-                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                    <input type="text" class="form-control" />
-                </div>
-            </div>
-        <div class="row">
-            <input type="button" value="Xóa trắng" class="btn btn-warning" style="margin-left: 13%;margin-top: 5%;">
-            <input type="button" value="Thêm" class="btn btn-warning" style="margin-left: 13%;margin-top: 5%;">
-            <input type="button" value="Xóa" class="btn btn-warning" style="margin-left: 13%;margin-top: 5%;">
-            <input type="button" value="Cập nhật" class="btn btn-warning" style="margin-left: 13%;margin-top: 5%;">
-        </div>
-        </div>
-        <div class="row">  
+            <a href="/nhanvien/cnsinhvien/add-sv" class="btn btn-primary" >Thêm khoa</a><br/>
+            <h3>Thêm khoa bằng excel</h3>
+            <form id="uploadForm" enctype="multipart/form-data" action="/nhanvien/cnkhoa/uploadfileKhoa" method="post">
+                <input type="file" name="myfilekhoa" value="Chọn file"/>
+                <br />
+                <input type="submit" value="Đưa lên server" name="submit">
+                <br />
+                <span id="status"></span><br>
+            </form>
+            <a href="/nhanvien/cnkhoa/savedata" class="btn btn-primary" >Lưu dữ liệu từ file</a><br/>
         </div>
         <div class="row">
             <table class="table table-bordered" style="margin-top: 2%;">
                 <thead>
                   <tr>
-                    <th>Chọn</th>
+                    <!-- <th>Chọn</th> -->
                     <th>Mã khoa</th>
                     <th>Tên khoa</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>CNTT</td>
-                    <td>Công nghệ thông tin</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>CND</td>
-                    <td>Công nghệ điện</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>KHCN</td>
-                    <td>Khoa học cơ bản</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>NN</td>
-                    <td>Ngoại ngữ</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>QP</td>
-                    <td>Quốc phòng</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>KT</td>
-                    <td>Kinh tế</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>XD</td>
-                    <td>Xây dựng</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>L</td>
-                    <td>Luật</td>
-                  </tr>
-                  <tr>
-                    <td><input type="radio"></td>
-                    <td>CT</td>
-                    <td>Chính trị</td>
-                  </tr>
+                    <%for(let i=0;i< listkhoa.length;i++){%>
+                      <tr>
+                          <!-- <td><input type="radio"></td> -->
+                          <td><%=listsv[i].MaKhoa%></td>
+                          <td><%=listsv[i].TenKhoa  %></td>
+                          <td>
+                              <a href="/nhanvien/cnkhoa/editkhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-warning" >Sửa</a>
+                              <a href="/nhanvien/cnkhoa/deletekhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-danger" >Xóa</a>
+                          </td>
+                      </tr>
+                      <%}%>
                 </tbody>
               </table>
         </div>  
     </div>
+    <script>
+      $(document).ready(function () {
+          $('#uploadForm').submit(function () {
+              $("#status").empty().text("Đang tải thư mục lên...");
+
+              $(this).ajaxSubmit({
+
+                  error: function (xhr) {
+                      status('Error: ' + xhr.status);
+                  },
+
+                  success: function (response) {
+                      console.log(response)
+                      $("#status").empty().text(response);
+                  }
+              });
+              return false;
+          });
+      });
+  </script>
 </header>
