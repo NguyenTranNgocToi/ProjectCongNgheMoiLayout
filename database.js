@@ -228,7 +228,7 @@ exports.xoaKhoa = function(makhoa,callbackQuery){
 };
 
 //Cập nhật lại khoa
-exports.chuyenDenUpdate = function(makhoa,callbackQuery){
+exports.chuyenDenUpdateKhoa = function(makhoa,callbackQuery){
     connect();
     connection.query("Select * from khoa where MaKhoa = ?",[makhoa],(err,results)=>{
         if(!err){
@@ -244,6 +244,19 @@ exports.updateKhoa = function(makhoa,tenkhoa,callbackQuery){
     connect();
     connection.query("update khoa set tenkhoa = ? where MaKhoa = ?",
     [tenkhoa,makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+
+exports.timkiemkhoa = function(tukhoakhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa like N'%"+tukhoakhoa+"%' or TenKhoa like N'%"+tukhoakhoa+"%' limit 10",
+    (err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{

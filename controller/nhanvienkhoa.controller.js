@@ -49,9 +49,9 @@ module.exports.xoakhoa = function (req, res) {
         });
 };
 
-module.exports.chuyenedit = function (req, res) {
+module.exports.chuyeneditkhoa = function (req, res) {
     const khoaid = req.params.khoaid;
-    database.chuyenDenUpdate(khoaid, function (results) {
+    database.chuyenDenUpdateKhoa(khoaid, function (results) {
         console.log(results[0]);
         // res.render('GD_NV_From_Update_Khoa', { sv: results[0] });
         return res.render('./bodyKhongMenu/GD_NV_Form_Update_Khoa', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật khoa', khoa: results[0] });
@@ -64,5 +64,74 @@ module.exports.capnhatkhoa = function(req,res){
 
     database.updateKhoa(makhoa,tenkhoa,function (results){
         res.redirect('/nhanvien/cnkhoa');
+    });
+};
+
+module.exports.uploadfilekhoa = function (req, res) {
+    upload1(req, res, function (err) {
+        if (err) {
+            return res.end('Error uploading file');
+        }
+        res.end('File is uploaded successfully');
+    });
+};
+
+module.exports.savedatakhoa = function (req, res) {
+    const schema = {
+        'Mã khoa': {
+            prop: 'MaKhoa',
+            type: String
+        },
+        'Tên khoa': {
+            prop: 'TenKhoa',
+            type: String
+        }
+    }
+    readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
+            for (let i = 0; i < rows.length; i++) {
+                let data = {
+                    MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
+                };
+            };
+            res.redirect('/nhanvien/cnkhoa');
+    });
+
+    // const passdefaut = "123456";
+    // bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
+    //     
+    // });
+    // readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
+    //     errors.length === 0;
+    //     for (let i = 0; i < rows.length; i++) {
+    //         // console.log(rows);   
+    //         let data = {
+    //             MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
+    //             HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
+    //         };
+    //         console.log(data);
+    //         database.themSV(data, function (results) {
+
+    //         });
+
+    //     };
+    //     res.redirect('/nhanvien/cnsinhvien');
+    // });
+
+    
+};
+
+module.exports.timkiemkhoa = function (req, res) {
+    var query = req.query.tukhoakhoa;
+    console.log(query);
+    database.timkiemkhoa(query, function (results) {
+        if (results.length > 0) {
+            res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: results });
+        } else {
+            database.getAllKhoa(function (result) {
+                res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: result });
+            });
+        }
+
     });
 };

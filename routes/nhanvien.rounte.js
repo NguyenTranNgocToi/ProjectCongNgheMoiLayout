@@ -27,8 +27,14 @@ router.get('/cnchuyennganh', (req, res) => {
 router.get('/cnkhoa',controllerkhoa.trangcapnhatkhoa);
 router.get('/cnkhoa/add-khoa', controllerkhoa.chuyennhapkhoa);
 router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);
+router.get('/cnkhoa/editkhoa/:khoaid', controllerkhoa.chuyeneditkhoa);
+router.get('/cnkhoa/timkhoa',upload.fields([]), controllerkhoa.timkiemkhoa);
+
 
 router.post('/cnkhoa/save_khoa', upload.fields([]),controllerkhoa.luukhoa);
+router.post('/cnkhoa/update_khoa', upload.fields([]), controllerkhoa.capnhatkhoa);
+router.post('/cnkhoa/uploadfileKhoa', controllerkhoa.uploadfilekhoa);
+router.get('/cnkhoa/savedataKhoa', upload.fields([]),controllerkhoa.savedatakhoa);
 
 //Nhân viên cập nhật sinh viên
 router.get('/cnsinhvien',controllersv.trangcapnhatsv );
