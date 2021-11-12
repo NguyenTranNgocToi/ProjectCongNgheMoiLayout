@@ -7,6 +7,7 @@ const upload = multer();
 
 const controllersv = require('../controller/sinhvien.controller');
 const controllerkhoa = require('../controller/nhanvienkhoa.controller');
+const controllerchuyennganh = require('../controller/NhanVienChuyenNganh.controller');
 
 
 var database = require("../database");
@@ -19,11 +20,19 @@ router.use(expressLayouts);
 router.get('/trangchu',controllersv.trangchunv );
 
 
-router.get('/cnchuyennganh', (req, res) => {
-    return res.render('./bodyNhanVien/CNChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành'});
-});
 
-//Nhan vien cap nhat khoa
+//Nhân viên cập nhật chuyên ngành
+
+router.get('/cnchuyennganh',controllerchuyennganh.trangcapnhatchuyennganh);
+router.get('/cnchuyennganh/add-chuyennganh',controllerchuyennganh.chuyenaddchuyennganh);
+router.get('/cnchuyennganh/deletechuyennganh/:chuyennganhid',controllerchuyennganh.xoachuyennganh);
+router.get('/cnchuyennganh/editchuyennganh/:chuyennganhid', controllerchuyennganh.chuyeneditchuyennganh);
+router.get('/cnchuyennganh/timchuyennganh',upload.fields([]), controllerchuyennganh.timkiemchuyennganh);
+
+router.post('/cnchuyennganh/save_chuyennganh', upload.fields([]),controllerchuyennganh.luuchuyennganh);
+router.post('/cnchuyennganh/update_chuyennganh', upload.fields([]), controllerchuyennganh.capnhatchuyennganh);
+
+//Nhân viên cập nhật khoa
 router.get('/cnkhoa',controllerkhoa.trangcapnhatkhoa);
 router.get('/cnkhoa/add-khoa', controllerkhoa.chuyennhapkhoa);
 router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);

@@ -268,3 +268,87 @@ exports.timkiemkhoa = function(tukhoakhoa,callbackQuery){
 /*
     Kết thúc xử lý cho giao diện khoa
 */
+
+/*
+    Bắt đầu xử lý cho giao diện chuyên ngành
+*/
+
+// Lấy dữ liệu từ bảng khoa
+exports.getAllChuyenNganh = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM chuyennganh order by MaChuyenNganh", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm chuyên ngành
+exports.themChuyenNganh = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into chuyennganh Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa chuyên ngành
+exports.xoaChuyenNganh = function(machuyennganh,callbackQuery){
+    connect();
+    connection.query("Delete from chuyennganh where MaChuyenNganh = ?",[machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+//Cập nhật lại chuyên ngành
+exports.chuyenDenUpdateChuyenNganh = function(machuyennganh,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh = ?",[machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.updateChuyenNganh = function(tenchuyennganh,machuyennganh,callbackQuery){
+    connect();
+    connection.query("update chuyennganh set TenChuyenNganh = ? where MaChuyenNganh = ?",
+    [tenchuyennganh,machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+
+exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaKhoa like N'%"+tukhoachuyennganh+"%' or TenChuyenNganh like N'%"+tukhoachuyennganh+"%' or MaChuyenNganh like N'%"+tukhoachuyennganh+"%' limit 10",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện chuyên ngành
+*/
