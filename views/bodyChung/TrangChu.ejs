@@ -1,5 +1,4 @@
 
-
     
     <!-- Phan Model-->
     <div id="myModal" class="modal fade" role="dialog">
@@ -11,6 +10,10 @@
                 </div>
                 <div class="modal-body">
                     <form action="/dangnhaptong" method="post" enctype="multipart/form-data">
+                        <div class="form-group"> 
+                            <label for="erroe"><%= mess%></label>
+                            
+                        </div>
                         <div class="form-group">
                             <label for="email">Tên đăng nhập:</label>
                             <input type="text" class="form-control" name="tendn">
@@ -27,6 +30,14 @@
         </div>
     </div>
     <!-- Phan Model-->
+    <% if(mess!=''){ %>
+        <script>
+            $('#myModal').modal('show');
+        </script>
+     <% } %>
+     
+     
+
     <div class="container">
         <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
             <h2>NHỮNG NHÀ PHÁT TRIỂN CỦA PHẦM MỀM QUẢN LÝ HỌC TẬP</h2><br><br>

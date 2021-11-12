@@ -43,6 +43,11 @@ router.get('/xemlh', (req, res) => {
     return res.render('./bodySinhVien/GD_SV_xemlh',{layout: './layouts/layoutSinhVien' , title: 'Xem Lịch Học'});
 });
 
+router.get('/dangxuat', (req, res) => {
+    res.clearCookie('ms');
+    return res.redirect('/');
+});
+
 
 module.exports = router;
 

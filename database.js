@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
 
     host:'localhost',
     user:'root',
-    password:'123456',
+    password:'sapassword',
     database:'sqlquanlyhocphan'
 
     //phải có dòng này trong mysql local, còn trên aws không cần
