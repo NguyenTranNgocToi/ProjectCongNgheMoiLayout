@@ -85,7 +85,7 @@ exports.getPassNV = function(MSNV,callbackQuery){
 // Lấy dữ liệu từ bảng sinh viên
 exports.getAllSV = function(callbackQuery){
     connect();// order by MSSV DESC limit 5
-    connection.query("SELECT * FROM sinhvien order by MSSV DESC limit 5", function(err, results,fields){
+    connection.query("SELECT * FROM sinhvien", function(err, results,fields){
         if(!err){
             callbackQuery(results);
         }else{
@@ -170,8 +170,8 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,callbackQuer
 
 
 exports.timkiemsv = function(tukhoa,callbackQuery){
-    connect();
-    connection.query("Select * from sinhvien where Hoten like N'%"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' limit 10",
+    connect();//or DiaChi like N'%"+tukhoa+"%'
+    connection.query("Select * from sinhvien where Hoten like N'%"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -180,7 +180,7 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
             results = null;
         }
     }) 
-}
+};
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
@@ -351,4 +351,177 @@ exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
 }
 /*
     Kết thúc xử lý cho giao diện chuyên ngành
+*/
+
+
+/*
+    Xử lý giao diện xếp lịch
+*/
+
+exports.laylichhoc = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM thoigian_phonghoc_giangvien",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.timlophplh = function(malophp,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM thoigian_phonghoc_giangvien where MaLopHP = ?",[malophp],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.xoalichhoc = function(malophp,manhom,callbackQuery){
+    connect();
+    connection.query("DELETE FROM thoigian_phonghoc_giangvien where MaLopHP = ? and MaNhom = ?",[malophp,manhom],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.themlichhoc = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into thoigian_phonghoc_giangvien Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
+
+/*
+   Kết thúc xử lý giao diện xếp lịch
+*/
+
+/*
+    Xử lý giao diện chia chuyên ngành
+*/
+
+exports.laymachuyennganh = function(callbackQuery){
+    connect();
+    connection.query("Select MaChuyenNganh from chuyennganh",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+
+exports.laysvtheocn = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT sv.* FROM sinhvien sv join sinhvien_thuoc_nganh svn on sv.MSSV = svn.MSSV where svn.MaChuyenNganh = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.xoaSVKCN = function(data,callbackQuery){
+    connect();
+    connection.query("Delete from sinhvien_thuoc_nganh where MSSV = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.themCNSV = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into sinhvien_thuoc_nganh Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
+/*
+   Kết thúc xử lý giao diện chia chuyên ngành
+*/
+
+/*
+    Xử lý giao diện xếp chương trình khung
+*/
+
+exports.laymhtheocng = function(macng,callbackQuery){
+    connect();
+    connection.query("SELECT ctk.MachuyenNganh,ctk.MaMHP,mh.TenMHHP,ctk.HocKy FROM monhocphan mh join chuongtrinhkhung ctk on mh.MaMHP = ctk.MaMHP where ctk.MachuyenNganh = ?",[macng],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.xoamhkhcn = function(mamh,callbackQuery){
+    connect();
+    connection.query("DELETE FROM sqlquanlyhocphan.chuongtrinhkhung where  MaMHP = ?",[mamh],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.themMHCN = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into chuongtrinhkhung Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
+
+/*
+   Kết thúc xử lý giao diện xếp chương trình khung
 */

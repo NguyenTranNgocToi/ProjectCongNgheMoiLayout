@@ -8,6 +8,9 @@ const upload = multer();
 const controllersv = require('../controller/sinhvien.controller');
 const controllerkhoa = require('../controller/nhanvienkhoa.controller');
 const controllerchuyennganh = require('../controller/NhanVienChuyenNganh.controller');
+const controllerlh = require('../controller/lichhoc.controller');
+const controllercn = require('../controller/chiachuyennganh.controller');
+const controllerchcckh = require('../controller/chuongtrkh.controller');
 
 
 var database = require("../database");
@@ -20,15 +23,12 @@ router.use(expressLayouts);
 router.get('/trangchu',controllersv.trangchunv );
 
 
-
 //Nhân viên cập nhật chuyên ngành
-
 router.get('/cnchuyennganh',controllerchuyennganh.trangcapnhatchuyennganh);
 router.get('/cnchuyennganh/add-chuyennganh',controllerchuyennganh.chuyenaddchuyennganh);
 router.get('/cnchuyennganh/deletechuyennganh/:chuyennganhid',controllerchuyennganh.xoachuyennganh);
 router.get('/cnchuyennganh/editchuyennganh/:chuyennganhid', controllerchuyennganh.chuyeneditchuyennganh);
 router.get('/cnchuyennganh/timchuyennganh',upload.fields([]), controllerchuyennganh.timkiemchuyennganh);
-
 router.post('/cnchuyennganh/save_chuyennganh', upload.fields([]),controllerchuyennganh.luuchuyennganh);
 router.post('/cnchuyennganh/update_chuyennganh', upload.fields([]), controllerchuyennganh.capnhatchuyennganh);
 
@@ -38,8 +38,6 @@ router.get('/cnkhoa/add-khoa', controllerkhoa.chuyennhapkhoa);
 router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);
 router.get('/cnkhoa/editkhoa/:khoaid', controllerkhoa.chuyeneditkhoa);
 router.get('/cnkhoa/timkhoa',upload.fields([]), controllerkhoa.timkiemkhoa);
-
-
 router.post('/cnkhoa/save_khoa', upload.fields([]),controllerkhoa.luukhoa);
 router.post('/cnkhoa/update_khoa', upload.fields([]), controllerkhoa.capnhatkhoa);
 router.post('/cnkhoa/uploadfileKhoa', controllerkhoa.uploadfilekhoa);
@@ -55,6 +53,30 @@ router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
 router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
+
+
+//Nhân viên xếp lịch học
+router.get('/xeplichhoc', controllerlh.trangxeplich);
+router.get('/xeplichhoc/timlhp',upload.fields([]), controllerlh.timlhp);
+router.get('/xeplichhoc/xoalich/:malop&:manhom', controllerlh.xoalichhoc);
+router.post('/xeplichhoc/uploadfilelh', controllerlh.uploadfile);
+router.get('/xeplichhoc/savedata', upload.fields([]),controllerlh.savedata);
+
+//Nhân viên chia chuyên ngành
+router.get('/chiachuyennganh', controllercn.trangchiacn);
+router.get('/chiachuyennganh/lockq', controllercn.lockqcn);
+router.get('/chiachuyennganh/deletesvng/:svid', controllercn.xoasvkhcn);
+router.post('/chiachuyennganh/uploadfilesvcn', controllercn.uploadfilesvcn);
+router.get('/chiachuyennganh/savedata', upload.fields([]),controllercn.savedata);
+
+
+//nhân viên chia chương trình khung
+router.get('/xepkhung', controllerchcckh.trangxepkhung);
+router.get('/xepkhung/lockq', controllerchcckh.lockq);
+router.get('/xepkhung/deletemhp/:mhid', controllerchcckh.xoamhkhcn);
+router.post('/xepkhung/uploadfilemhcn', controllerchcckh.uploadfilemhcn);
+router.get('/xepkhung/savedata', upload.fields([]),controllerchcckh.savedata);
+
 
 
 
@@ -86,13 +108,6 @@ router.get('/cnphonghoc', (req, res) => {
     return res.render('./bodyNhanVien/CNPhongHoc',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Phòng Học'});
 });
 
-router.get('/chiachuyennganh', (req, res) => {
-    return res.render('./bodyNhanVien/ChiaChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Chia Chuyên Ngành'});
-});
-
-router.get('/xeplichhoc', (req, res) => {
-    return res.render('./bodyNhanVien/XepLichHoc',{layout: './layouts/layoutNhanVien' , title: 'Xếp Lịch Học'});
-});
 
 router.get('/xemkhoa', (req, res) => {
     return res.render('./bodyNhanVien/DMKhoa',{layout: './layouts/layoutNhanVien' , title: 'Xem Khoa'});
@@ -112,9 +127,7 @@ router.get('/trangchuNV', (req, res) => {
     return res.render('./bodyNhanVien/GD_NV_TrangChu',{layout: './layouts/layoutNhanVien' , title: 'Trang Chủ Nhân Viên'});
 });
 
-router.get('/xepkhung', (req, res) => {
-    return res.render('./bodyNhanVien/XepKhung',{layout: './layouts/layoutNhanVien' , title: 'Xếp Khung'});
-});
+
 
 router.get('/timsv', (req, res) => {
     return res.render('./bodyNhanVien/TimKiemSV',{layout: './layouts/layoutNhanVien' , title:'Tìm Kiếm Sinh Viên'});
