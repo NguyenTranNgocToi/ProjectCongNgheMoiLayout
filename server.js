@@ -16,7 +16,9 @@ var database = require("./database");
 var nhanvienRoute = require('./routes/nhanvien.rounte');
 var sinhvienRoute = require('./routes/sinhvien.route');
  
-var authmiddle = require('./middlewares/auth.middleware');
+var authmiddlenv = require('./middlewares/auth.middlewarenv');
+var authmiddlesv = require('./middlewares/auth.middlewaresv');
+
 
 app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
@@ -33,10 +35,10 @@ app.get('/', (req, res) => {
 });
 
 //Nhân Viên
-app.use('/nhanvien',authmiddle.requireAuth ,nhanvienRoute);
+app.use('/nhanvien',authmiddlenv.requireAuth ,nhanvienRoute);
 
 //Sinh Viên
-app.use('/sinhvien',authmiddle.requireAuth, sinhvienRoute);
+app.use('/sinhvien',authmiddlesv.requireAuth, sinhvienRoute);
 
 
 // không menu
@@ -47,17 +49,20 @@ app.use('/sinhvien',authmiddle.requireAuth, sinhvienRoute);
 app.post('/dangnhaptong', upload.fields([]), (req, res) => {
     var username = req.body.tendn;
     var pass = req.body.matkhau;
+
+    console.log("tendn" + username);
     let encryptedPass = '';
     bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(pass, salt, function (err, hash) {
             encryptedPass = hash;
+            console.log("hash pass" + hash);
             database.getPassNV(username, function (resultQuery1) {
                 if (resultQuery1.length > 0) {
  
                     bcrypt.compare(pass, resultQuery1[0].Pass.toString(), function (err, result) {
                        
                         if (result) {
-                            res.cookie('ms', username);
+                            res.cookie('msnv', username);
                             return res.redirect('/nhanvien/trangchu');
                         } else {
                             
@@ -71,7 +76,7 @@ app.post('/dangnhaptong', upload.fields([]), (req, res) => {
                             bcrypt.compare(pass, resultQuery[0].Pass, function (err, result) {
                                 console.log("reult:" + result);
                                 if (result) {
-                                    res.cookie('ms', username);
+                                    res.cookie('mssv', username);
                                     return res.redirect('sinhvien/trangchu');
                                 } else {
                                    

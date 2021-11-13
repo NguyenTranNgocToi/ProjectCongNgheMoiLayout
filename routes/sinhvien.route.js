@@ -2,10 +2,15 @@ const { Connect } = require('aws-sdk');
 const expressLayouts = require('express-ejs-layouts');
 var express = require('express');
 var database = require("../database");
+var controllerSV = require("../controller/sinhvien.controller");
 var router = express.Router();
 router.use(express.json({ extended: false }));
 router.use(express.static('../views'));
 router.use(expressLayouts);
+
+
+const multer = require('multer');
+const upload = multer();
 
 router.get('/trangchu', (req, res) => {
 
@@ -22,10 +27,8 @@ router.get('/xemttcn', (req, res) => {
     return res.render('./bodySinhVien/GD_SV_xemttcn',{layout: './layouts/layoutSinhVien' , title: 'Xem Thông Tin Cá Nhân'});
 });
 
-router.get('/doimk', (req, res) => {
- 
-    return res.render('./bodySinhVien/GD_SV_doimk',{layout: './layouts/layoutSinhVien' , title: 'Đổi Mật Khẩu'});
-});
+router.get('/doimk', controllerSV.doiMatKhauSV);
+router.post('/doimatkhau',upload.fields([]), controllerSV.postDoiMatKhauSV);
 
 router.get('/xemcongno', (req, res) => {
 
@@ -44,7 +47,8 @@ router.get('/xemlh', (req, res) => {
 });
 
 router.get('/dangxuat', (req, res) => {
-    res.clearCookie('ms');
+    res.clearCookie('mssv');
+    res.clearCookie('msnv');
     return res.redirect('/');
 });
 

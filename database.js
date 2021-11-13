@@ -181,6 +181,21 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
         }
     }) 
 }
+
+//update pass tk sinh viên
+exports.updatematkhausv = function(masv,pass,callbackQuery){
+    connect();
+    connection.query("UPDATE taikhoansv SET Pass = ? WHERE (MaTaiKhoan = ?)",
+    [pass,masv],(err,results)=>{
+        if(!err){
+            //callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
