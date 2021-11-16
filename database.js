@@ -85,11 +85,7 @@ exports.getPassNV = function(MSNV,callbackQuery){
 // Lấy dữ liệu từ bảng sinh viên
 exports.getAllSV = function(callbackQuery){
     connect();// order by MSSV DESC limit 5
-<<<<<<< HEAD
-    connection.query("SELECT * FROM sinhvien order by MSSV ", function(err, results,fields){
-=======
     connection.query("SELECT * FROM sinhvien", function(err, results,fields){
->>>>>>> fb7747ddb331b2dfcae8487409ba195ff4f879d4
         if(!err){
             callbackQuery(results);
         }else{
