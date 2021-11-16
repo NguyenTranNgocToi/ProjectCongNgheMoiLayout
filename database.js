@@ -181,6 +181,19 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
         }
     }) 
 };
+
+exports.kiemtradl = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien where MSSV = ?",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
