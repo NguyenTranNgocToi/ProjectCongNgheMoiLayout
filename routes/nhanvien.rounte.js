@@ -109,19 +109,8 @@ router.get('/cnphonghoc', (req, res) => {
 });
 
 
-router.get('/xemkhoa', (req, res) => {
-    return res.render('./bodyNhanVien/DMKhoa',{layout: './layouts/layoutNhanVien' , title: 'Xem Khoa'});
-});
 
-router.get('/xemgiangvien', (req, res) => {
 
-    return res.render('./bodyNhanVien/DMGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Xem Giảng Viên'});
-});
-
-router.get('/xemnganh', (req, res) => {
-    
-    return res.render('./bodyNhanVien/DMChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Xem Chuyen Ngành'});
-});
 
 router.get('/trangchuNV', (req, res) => {
     return res.render('./bodyNhanVien/GD_NV_TrangChu',{layout: './layouts/layoutNhanVien' , title: 'Trang Chủ Nhân Viên'});

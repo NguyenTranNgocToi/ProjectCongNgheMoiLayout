@@ -92,6 +92,7 @@ module.exports.uploadfile = function (req, res) {
 };
 
 module.exports.savedata = function (req, res) {
+
     const schema = {
         'Mã số': {
             prop: 'MSSV',
@@ -121,22 +122,31 @@ module.exports.savedata = function (req, res) {
     const passdefaut = "123456";
     bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
         readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
+            // if(errors) res.send('Loi file');
             errors.length === 0;
-            for (let i = 0; i < rows.length; i++) {
-                // console.log(rows);   
-                let data = {
-                    MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-                    HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
-                };
-                let tk = { MaTaiKhoan: rows[i].MSSV, Pass: hash };
-                console.log(data);
-                database.themSV(data, function (results) {
-                    database.themtaikhoansv(tk, function (resultss) {
-                    })
-                });
+            var mssv = rows[0].MSSV;
+            database.kiemtradl(mssv, function (results) {
+                if (results.length > 0) {
+                    res.send({ message: 'Dữ liệu bị trùng từ mã số:'+ results[0].MSSV  });
+                } else {
+                    for (let i = 0; i < rows.length; i++) {
+                        let data = {
+                            MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
+                            HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
+                        };
+                        let tk = { MaTaiKhoan: rows[i].MSSV, Pass: hash };
 
-            };
-            res.redirect('/nhanvien/cnsinhvien');
+
+                        database.themSV(data, function (results) {
+                            database.themtaikhoansv(tk, function (resultss) {
+
+                            });
+                        });
+
+                    };
+                    res.send({ message: 'Thành công' });
+                }
+            });
         });
     });
 };
