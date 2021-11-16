@@ -155,10 +155,10 @@ exports.chuyenDenUpdate = function(masv,callbackQuery){
     })  
 };
 
-exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,callbackQuery){
+exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,khoahoc,callbackQuery){
     connect();
-    connection.query("update sinhvien set DiaChi = ?, GioiTinh = ?, HoTen = ?, NgaySinh = ?, SoDT = ? where MSSV = ?",
-    [diachi,gioitinh,hoten,ns,dienthoai,masv],(err,results)=>{
+    connection.query("update sinhvien set DiaChi = ?, GioiTinh = ?, HoTen = ?, NgaySinh = ?, SoDT = ?, KhoaHoc = ? where MSSV = ?",
+    [diachi,gioitinh,hoten,ns,dienthoai,khoahoc,masv],(err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{
@@ -185,6 +185,18 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
 exports.kiemtradl = function(masv,callbackQuery){
     connect();
     connection.query("SELECT * FROM sinhvien where MSSV = ?",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+exports.laysvtheokh = function(khoahoc,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien where KhoaHoc = ?",[khoahoc],
     (err,results)=>{
         if(!err){
             callbackQuery(results);

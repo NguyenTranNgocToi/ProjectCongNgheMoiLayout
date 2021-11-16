@@ -16,14 +16,31 @@ var upload1 = multer({ storage: storage }).single('myfilesv');
 
 
 module.exports.trangcapnhatsv = function (req, res) {
-    var page = parseInt( req.query.page) || 1;//n
+    // var page = parseInt( req.query.page) || 1;//n
+    // var perPage = 10;
+    // var start = (page - 1) *perPage;
+    // var end = page * perPage;
+    // database.getAllSV(function (result) {
+    //     let sotrang = (result.length)/perPage;
+    //     res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: result.slice(start,end), trang:sotrang+1 });
+    // })
+    res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: 0, trang: 0,kh:0 });
+};
+
+module.exports.lockqkh = function (req, res) {
+
+    var page = parseInt(req.query.page) || 1;
     var perPage = 10;
-    var start = (page - 1) *perPage;
+
+    var start = (page - 1) * perPage;
     var end = page * perPage;
-    database.getAllSV(function (result) {
-        let sotrang = (result.length)/perPage;
-        res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: result.slice(start,end), trang:sotrang+1 });
-    })
+    var kh = req.query.khoahocsv;
+
+    database.laysvtheokh(kh, function (listsv) {
+        let sotrang = (listsv.length) / perPage;
+        res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: listsv.slice(start,end), trang: sotrang+1,kh:kh });
+    });
+
 };
 
 module.exports.trangchunv = function (req, res) {
@@ -58,7 +75,7 @@ module.exports.luusv = function (req, res) {
     bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
         let data = {
             MSSV: req.body.masv, DiaChi: req.body.diachi_sv, GioiTinh: req.body.gioitinh,
-            HoTen: req.body.hotensv, NgaySinh: req.body.ns_sv, SoDT: req.body.dt_sv
+            HoTen: req.body.hotensv, NgaySinh: req.body.ns_sv, SoDT: req.body.dt_sv, KhoaHoc: req.body.khoahoc_sv
         };
         let tk = { MaTaiKhoan: req.body.masv, Pass: hash };
         database.themSV(data, function (results) {
@@ -77,7 +94,8 @@ module.exports.capnhatsv = function (req, res) {
     const ns = req.body.ns_sv;
     const diachi = req.body.diachi_sv;
     const dt = req.body.dt_sv;
-    database.updateSV(masv, hoten, gioitinh, ns, diachi, dt, function (results) {
+    const kh = req.body.khoahoc_sv;
+    database.updateSV(masv, hoten, gioitinh, ns, diachi, dt, kh, function (results) {
         res.redirect('/nhanvien/cnsinhvien');
     });
 };
@@ -117,6 +135,10 @@ module.exports.savedata = function (req, res) {
         'Số điện thoại': {
             prop: 'SoDT',
             type: String
+        },
+        'Khóa học': {
+            prop: 'KhoaHoc',
+            type: String
         }
     }
     const passdefaut = "123456";
@@ -127,12 +149,12 @@ module.exports.savedata = function (req, res) {
             var mssv = rows[0].MSSV;
             database.kiemtradl(mssv, function (results) {
                 if (results.length > 0) {
-                    res.send({ message: 'Dữ liệu bị trùng từ mã số:'+ results[0].MSSV  });
+                    res.send({ message: 'Dữ liệu bị trùng từ mã số:' + results[0].MSSV });
                 } else {
                     for (let i = 0; i < rows.length; i++) {
                         let data = {
                             MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-                            HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
+                            HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT, KhoaHoc: rows[i].KhoaHoc
                         };
                         let tk = { MaTaiKhoan: rows[i].MSSV, Pass: hash };
 
@@ -152,21 +174,15 @@ module.exports.savedata = function (req, res) {
 };
 
 module.exports.timkiemsv = function (req, res) {
-    var page = parseInt( req.query.page) || 1;//n
-    var perPage = 10;
-    var start = (page - 1) *perPage;
-    var end = page * perPage;
+    
     var query = req.query.tukhoasv;
-    console.log(query);
     database.timkiemsv(query, function (results) {
         if (results.length > 0) {
-            let sotrang = (results.length)/perPage;
-            console.log(sotrang);
-            res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: results.slice(start,end), trang:sotrang+1 });
+           
+            res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:results, trang:0,kh:0 });
         } else {
             database.getAllSV(function (result) {
-                let sotrang = (result.length)/perPage;
-                res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: result.slice(start,end), trang:sotrang+1 });
+                res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:0, trang:0,kh:0 });
             });
         }
 
