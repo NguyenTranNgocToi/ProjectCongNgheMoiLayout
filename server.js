@@ -34,18 +34,15 @@ app.get('/', (req, res) => {
     return res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ'}, mess='');
 });
 
-//Nhân Viên
+//Nhân Viên router ntnt
 app.use('/nhanvien',authmiddlenv.requireAuth ,nhanvienRoute);
 
-//Sinh Viên
+//Sinh Viên router ntnt
 app.use('/sinhvien',authmiddlesv.requireAuth, sinhvienRoute);
 
 
 // không menu
-
-
-
-
+// đăng nhập post ntnt
 app.post('/dangnhaptong', upload.fields([]), (req, res) => {
     var username = req.body.tendn;
     var pass = req.body.matkhau;

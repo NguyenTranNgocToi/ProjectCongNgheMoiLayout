@@ -231,8 +231,43 @@ module.exports.postDoiMatKhauSV = function (req, res) {
     });
 
 };
+//xem thông tin cá nhân ntnt
+module.exports.xemthongtincanha = function(req, res){
+    const { cookies } = req;
+   // console.log(cookies.mssv);
+    var mssv = cookies.mssv
+    database.getTTCNSV(mssv, function (resultQuery) {
+        // console.log("msss:"+ resultQuery[0].MSSV);
+        // console.log("địa chỉ:"+ resultQuery[0].DiaChi);
+        // console.log("giới tính:"+ resultQuery[0].GioiTinh);
+        // console.log("Họ tên:"+ resultQuery[0].HoTen);
+        // console.log("ngày sinh:"+ resultQuery[0].NgaySinh);
+        // console.log("Số ĐT:"+ resultQuery[0].SoDT);
+        // console.log("Khóa Học:"+ resultQuery[0].KhoaHoc);
+        var diachi =resultQuery[0].DiaChi;
+        var gioitinh =resultQuery[0].GioiTinh;
+        var hoten =resultQuery[0].HoTen;
+        var ngaysinh  =resultQuery[0].NgaySinh;
+        var sodt =resultQuery[0].SoDT;
+        var khoahoc =resultQuery[0].KhoaHoc;
+        
+        console.log("resultQuery[0]"+resultQuery[0]);
+        return res.render('./bodySinhVien/GD_SV_xemttcn',{layout: './layouts/layoutSinhVien' , title: 'Xem Thông Tin Cá Nhân', diachi, gioitinh,ngaysinh,sodt,khoahoc,mssv,hoten});
+    });
+    //return res.render('./bodySinhVien/GD_SV_xemttcn',{layout: './layouts/layoutSinhVien' , title: 'Xem Thông Tin Cá Nhân', });
+};
+//xem chương trình khung ntnt
 
+module.exports.xemchuongtrinhkhung = function(req, res){
+    const { cookies } = req;
+   // console.log(cookies.mssv);
+    var mssv = cookies.mssv
+    database.xemchuongtrinhkhung(mssv, function (resultQuery) {
+        return res.render('./bodySinhVien/GD_SV_xemctkhung',{layout: './layouts/layoutSinhVien' , title: 'Xem Chương Trình Khung', list:resultQuery});
+    });
+   
 
+};
 
 
 

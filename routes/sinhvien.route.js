@@ -22,12 +22,13 @@ router.get('/dangkyhp', (req, res) => {
     return res.render('./bodySinhVien/GD_SV_dkhp',{layout: './layouts/layoutSinhVien' , title: 'Đăng Ký Học Phần'});
 });
 
-router.get('/xemttcn', (req, res) => {
-  
-    return res.render('./bodySinhVien/GD_SV_xemttcn',{layout: './layouts/layoutSinhVien' , title: 'Xem Thông Tin Cá Nhân'});
-});
+//xem thông tin cá nhân ntnt
+router.get('/xemttcn', controllerSV.xemthongtincanha);
 
+//đổi mật khẩu get ntnt
 router.get('/doimk', controllerSV.doiMatKhauSV);
+
+//đổi mật khẩu post ntnt
 router.post('/doimatkhau',upload.fields([]), controllerSV.postDoiMatKhauSV);
 
 router.get('/xemcongno', (req, res) => {
@@ -35,10 +36,8 @@ router.get('/xemcongno', (req, res) => {
     return res.render('./bodySinhVien/GD_SV_xemcongno',{layout: './layouts/layoutSinhVien' , title: 'Xem Công Nợ'});
 });
 
-router.get('/xemctk', (req, res) => {
-
-    return res.render('./bodySinhVien/GD_SV_xemctkhung',{layout: './layouts/layoutSinhVien' , title: 'Xem Chương Trình Khung'});
-});
+//xem chương trình khung ntnt
+router.get('/xemctk',controllerSV.xemchuongtrinhkhung);
 
 
 router.get('/xemlh', (req, res) => {
