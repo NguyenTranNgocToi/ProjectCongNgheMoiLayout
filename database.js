@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
 
     host:'localhost',
     user:'root',
-    password:'123456',
+    password:'sapassword',
     database:'sqlquanlyhocphan'
 
     //phải có dòng này trong mysql local, còn trên aws không cần
@@ -50,7 +50,7 @@ exports.getdsNam = function(callbackQuery){
         }
     })  
 };
-
+// lấy mật khẩu sv ntnt
 exports.getPassSV = function(MSSV,callbackQuery){
     connect();
     connection.query("SELECT Pass FROM taikhoansv where MaTaiKhoan =? ",[MSSV], function(err, results,fields){
@@ -64,7 +64,7 @@ exports.getPassSV = function(MSSV,callbackQuery){
     //closeDB();
 };
 
-
+//lấy mật khẩu nv ntnt
 exports.getPassNV = function(MSNV,callbackQuery){
     connect();
     connection.query("SELECT Pass FROM taikhoannv where MaTaiKhoan = ?",[MSNV], function(err, results,fields){
@@ -82,7 +82,7 @@ exports.getPassNV = function(MSNV,callbackQuery){
     Bắt đầu xử lý cho giao diện sinh viên
 */
 
-// Lấy dữ liệu từ bảng sinh viên
+// Lấy dữ liệu từ bảng sinh viên ntnt
 exports.getAllSV = function(callbackQuery){
     connect();// order by MSSV DESC limit 5
     connection.query("SELECT * FROM sinhvien", function(err, results,fields){
@@ -167,7 +167,18 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,khoahoc,call
         }
     }) 
 };
-
+// lấy thông tin cá nhân sinh viên ntnt
+exports.getTTCNSV = function(MSSV,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("SELECT * FROM sqlquanlyhocphan.sinhvien where MSSV = ?",[MSSV], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
 
 exports.timkiemsv = function(tukhoa,callbackQuery){
     connect();//or DiaChi like N'%"+tukhoa+"%'
@@ -193,6 +204,7 @@ exports.kiemtradl = function(masv,callbackQuery){
             results = null;
         }
     }) 
+<<<<<<< HEAD
 };
 exports.laysvtheokh = function(khoahoc,callbackQuery){
     connect();
@@ -200,12 +212,65 @@ exports.laysvtheokh = function(khoahoc,callbackQuery){
     (err,results)=>{
         if(!err){
             callbackQuery(results);
+=======
+}
+
+//update pass tk sinh viên ntnt
+exports.updatematkhausv = function(masv,pass,callbackQuery){
+    connect();
+    connection.query("UPDATE taikhoansv SET Pass = ? WHERE (MaTaiKhoan = ?)",
+    [pass,masv],(err,results)=>{
+        if(!err){
+            //callbackQuery(results);
+>>>>>>> NTNT
         }else{
             console.log(err);
             results = null;
         }
     }) 
 };
+<<<<<<< HEAD
+=======
+
+//xem chương trình khung 
+exports.xemchuongtrinhkhung = function(MSSV,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select chuyennganh.TenChuyenNganh,monhocphan.MaMHP,monhocphan.TenMHHP , chuongtrinhkhung.HocKy from sinhvien_thuoc_nganh inner join chuongtrinhkhung on sinhvien_thuoc_nganh.MaChuyenNganh  = chuongtrinhkhung.MachuyenNganh inner join monhocphan on monhocphan.MaMHP  = chuongtrinhkhung.MaMHP inner join chuyennganh on chuyennganh.MaChuyenNganh = sinhvien_thuoc_nganh.MaChuyenNganh where sinhvien_thuoc_nganh.MSSV = ? order by  chuongtrinhkhung.HocKy asc",[MSSV], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//lấy danh sách môn học phần cho sinh viên đang ký
+exports.laydanhsachmonhocphanchosinhvien = function(MSSV,HocKy,Nam,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select monhocphan.* from sinhvien_thuoc_nganh inner join chuongtrinhkhung on sinhvien_thuoc_nganh.MaChuyenNganh  = chuongtrinhkhung.MachuyenNganh inner join lophocphan on lophocphan.MaMHP = chuongtrinhkhung.MaMHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP where sinhvien_thuoc_nganh.MSSV = ? and lophocphan.HocKy =? and lophocphan.Nam =? GROUP BY lophocphan.MaMHP",[MSSV,HocKy,Nam], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//lấy danh sách lớp học phần cho sinh viên
+exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query(" select lophocphan.* from lophocphan where lophocphan.MaMHP =?",[MaLopHP], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
+
+>>>>>>> NTNT
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */

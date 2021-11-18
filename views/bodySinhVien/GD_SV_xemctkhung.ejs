@@ -13,12 +13,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Kỹ thuật phần mềm</td>
-                <td>MHP01</td>
-                <td>Lập trình phân tán</td>
-                <td>3</td>
-              </tr>
+              <%for(let i=0;i< list.length;i++){%>
+                <tr>
+                  <td> <%=list[i].TenChuyenNganh%></td>
+                  <td> <%=list[i].MaMHP%></td>
+                  <td> <%=list[i].TenMHHP%></td>
+                  <td> <%=list[i].HocKy%></td>
+                </tr>
+                <%}%>
+              
               
             </tbody>
           </table>

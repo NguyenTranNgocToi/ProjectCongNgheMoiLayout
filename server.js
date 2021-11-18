@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const multer = require('multer');
 const upload = multer();
+
+const cookieParser = require('cookie-parser');
 //mã hóa
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -13,11 +15,14 @@ var database = require("./database");
 
 var nhanvienRoute = require('./routes/nhanvien.rounte');
 var sinhvienRoute = require('./routes/sinhvien.route');
+ 
+var authmiddlenv = require('./middlewares/auth.middlewarenv');
+var authmiddlesv = require('./middlewares/auth.middlewaresv');
 
 
 app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
-
+app.use(cookieParser());
 
 app.use(expressLayouts);
 //app.set('layout', './layouts/layoutChung');
@@ -26,46 +31,39 @@ app.set('view engine', 'ejs');
 
 //Chung
 app.get('/', (req, res) => {
-    return res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ'});
+    return res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ'}, mess='');
 });
 
-//Nhân Viên
-app.use('/nhanvien', nhanvienRoute);
+//Nhân Viên router ntnt
+app.use('/nhanvien',authmiddlenv.requireAuth ,nhanvienRoute);
 
-//Sinh Viên
-app.use('/sinhvien', sinhvienRoute);
+//Sinh Viên router ntnt
+app.use('/sinhvien',authmiddlesv.requireAuth, sinhvienRoute);
 
 
 // không menu
-
-
-
-
+// đăng nhập post ntnt
 app.post('/dangnhaptong', upload.fields([]), (req, res) => {
     var username = req.body.tendn;
     var pass = req.body.matkhau;
+
+    console.log("tendn" + username);
     let encryptedPass = '';
     bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(pass, salt, function (err, hash) {
-            // Store hash in your password DB.
             encryptedPass = hash;
-            // console.log("hash:"+hash);
-            //  console.log("encrypted:"+encryptedPass);
-
+            console.log("hash pass" + hash);
             database.getPassNV(username, function (resultQuery1) {
                 if (resultQuery1.length > 0) {
-                    // console.log("pass:"+JSON.stringify(resultQuery1));
-                    // console.log("pass2:"+resultQuery1[0].Pass);
+ 
                     bcrypt.compare(pass, resultQuery1[0].Pass.toString(), function (err, result) {
-                        // result == true
-                        //console.log("encrypted:"+encryptedPass);
-                        // console.log("result 1:"+resultQuery1[0].Pass);
-                        // console.log("encrypted2:"+encryptedPass);
-                        // console.log("reult:"+ result);
+                       
                         if (result) {
+                            res.cookie('msnv', username);
                             return res.redirect('/nhanvien/trangchu');
                         } else {
-                            return res.json({ result: 'pass nv sai' });
+                            
+                            res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass nv sai' });
                         }
                     });
                 } else {
@@ -75,15 +73,18 @@ app.post('/dangnhaptong', upload.fields([]), (req, res) => {
                             bcrypt.compare(pass, resultQuery[0].Pass, function (err, result) {
                                 console.log("reult:" + result);
                                 if (result) {
-                                    return res.redirect('/trangchu');
+                                    res.cookie('mssv', username);
+                                    return res.redirect('sinhvien/trangchu');
                                 } else {
-                                    return res.json({ result: 'pass sv sai' });
+                                   
+                                    res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass sv sai' });
                                 }
 
                             });
 
                         }else{
-                            return res.json({ result: 'tên tài khoản không tồn tại' });
+                           
+                            res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass sv sai' });
                         }
                     });
                 }
