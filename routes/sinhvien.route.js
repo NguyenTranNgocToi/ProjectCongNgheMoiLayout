@@ -17,10 +17,7 @@ router.get('/trangchu', (req, res) => {
     return res.render('./bodySinhVien/GD_SV_trangchu',{layout: './layouts/layoutSinhVien' , title: 'Trang Chủ Sinh Viên'});
 });
 
-router.get('/dangkyhp', (req, res) => {
-    
-    return res.render('./bodySinhVien/GD_SV_dkhp',{layout: './layouts/layoutSinhVien' , title: 'Đăng Ký Học Phần'});
-});
+router.get('/dangkyhp', controllerSV.dangkyhocphan)
 
 //xem thông tin cá nhân ntnt
 router.get('/xemttcn', controllerSV.xemthongtincanha);

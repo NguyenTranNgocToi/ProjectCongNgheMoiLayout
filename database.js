@@ -219,6 +219,31 @@ exports.xemchuongtrinhkhung = function(MSSV,callbackQuery){
     })  
     //closeDB();
 }
+//lấy danh sách môn học phần cho sinh viên đang ký
+exports.laydanhsachmonhocphanchosinhvien = function(MSSV,HocKy,Nam,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select monhocphan.* from sinhvien_thuoc_nganh inner join chuongtrinhkhung on sinhvien_thuoc_nganh.MaChuyenNganh  = chuongtrinhkhung.MachuyenNganh inner join lophocphan on lophocphan.MaMHP = chuongtrinhkhung.MaMHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP where sinhvien_thuoc_nganh.MSSV = ? and lophocphan.HocKy =? and lophocphan.Nam =? GROUP BY lophocphan.MaMHP",[MSSV,HocKy,Nam], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//lấy danh sách lớp học phần cho sinh viên
+exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query(" select lophocphan.* from lophocphan where lophocphan.MaMHP =?",[MaLopHP], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
 
 /*
     Kết thúc xử lý cho giao diện sinh viên

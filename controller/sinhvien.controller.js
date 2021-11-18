@@ -159,7 +159,7 @@ module.exports.timkiemsv = function (req, res) {
 //đổi mật khẩu sv ntnt
 module.exports.doiMatKhauSV = function (req, res) {
     const { cookies } = req;
-    console.log(cookies.mssv);
+    // console.log(cookies.mssv);
     var mssv = cookies.mssv
     var mkc = "";
     var mkm = "";
@@ -169,16 +169,16 @@ module.exports.doiMatKhauSV = function (req, res) {
 
 module.exports.postDoiMatKhauSV = function (req, res) {
     const { cookies } = req;
-    console.log(cookies.mssv);
+    // console.log(cookies.mssv);
     var mssv = cookies.mssv
 
     var mkc = req.body.mkc;
     var mkm = req.body.mkm;
 
     let doimatkhauthanhcong = 0;
-    console.log("post đổi mật khẩu");
-    console.log(mkc + "");
-    console.log("mật khẩu mới" + mkm + "");
+    // console.log("post đổi mật khẩu");
+    // console.log(mkc + "");
+    // console.log("mật khẩu mới" + mkm + "");
     if (mkc == '' && mkm == '') {
         return res.render('./bodySinhVien/GD_SV_doimk', { layout: './layouts/layoutSinhVien', title: 'Đổi Mật Khẩu', mssv, erromkc: '(trống)', erromkm: '(trống)', mkc, mkm });
     } else if (mkm == '') {
@@ -263,11 +263,61 @@ module.exports.xemchuongtrinhkhung = function(req, res){
    // console.log(cookies.mssv);
     var mssv = cookies.mssv
     database.xemchuongtrinhkhung(mssv, function (resultQuery) {
+        var list = resultQuery;
+        console.log("list:"+ list[0]);
         return res.render('./bodySinhVien/GD_SV_xemctkhung',{layout: './layouts/layoutSinhVien' , title: 'Xem Chương Trình Khung', list:resultQuery});
     });
    
 
 };
+
+//đăng ký học phần ntnt
+module.exports.dangkyhocphan = function(req,res){
+    var hocky = req.query.hocky;
+    var namhoc = req.query.namhoc;
+    
+
+    const { cookies } = req;
+    var mssv = cookies.mssv
+    console.log(mssv);
+
+    var mamonhoc = req.query.monhp;
+    var malophoc = req.query.lophocphan;
+
+    console.log("học kỳ:"+hocky);
+    console.log("năm học:"+namhoc);
+    console.log("mã môn học"+mamonhoc);
+    console.log("mã lớp học"+malophoc);
+    var listmh;
+    var listlh;
+
+
+
+    
+        database.laydanhsachmonhocphanchosinhvien(mssv,hocky,namhoc, function (resultQuery){
+             listmh = resultQuery;
+            console.log("listmh:"+ listmh[0]);
+            //console.log("listmh mã 0 :"+ listmh[0].MaMHP);
+            //console.log("resultQuerymh"+ resultQuery.length);
+                database.laydanhsachlophocphanchosinhvien(mamonhoc, function (resultQuery1){ 
+                     listlh = resultQuery1;
+                    //console.log("listlh:"+ listlh[0].MalopHP);
+                    console.log("resultQuerylh"+ resultQuery1.length);
+                    return res.render('./bodySinhVien/GD_SV_dkhp',{
+                        layout: './layouts/layoutSinhVien' , 
+                        title: 'Đăng Ký Học Phần', 
+                        listmh, 
+                        listlh, 
+                        namhoc, 
+                        hocky,
+                        mamonhoc,
+                        malophoc 
+                    });
+                 });
+        });
+};
+
+
 
 
 
