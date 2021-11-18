@@ -64,7 +64,7 @@ module.exports.savedata = function (req, res) {
             type: String
         },
     };
-
+    
     readXlsxFile('./file/datasvthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
         //console.log(rows);
@@ -78,7 +78,22 @@ module.exports.savedata = function (req, res) {
             });
 
         };
-         res.redirect('/nhanvien/chiachuyennganh');
+        res.send({ message: 'Đã thêm' });
     });
 
+};
+
+module.exports.timsvcn = function (req, res) {
+    var masvcn = req.query.masvcn;
+    database.laymachuyennganh(function (dsma) {
+        database.timsvtrongcn(masvcn,function(listsv){
+            if (listsv.length > 0) {
+                return res.render('./bodyNhanVien/ChiaChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Chia Chuyên Ngành',dsmacn:dsma,listsvn:listsv,macn:0,sotrang:0});
+            } else {
+                return res.render('./bodyNhanVien/ChiaChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Chia Chuyên Ngành',dsmacn:dsma,listsvn:0,macn:0,sotrang:0});
+            }
+            
+        });
+    });
+    
 };

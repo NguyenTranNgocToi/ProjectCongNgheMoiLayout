@@ -168,16 +168,11 @@
         $(document).ready(function () {
             $('#btnsavedatasv').click(function () {
                 $.ajax({url: "/nhanvien/cnsinhvien/savedata", success: function(result){
-                    $("#statusupdate").text(result.message);
+                    $("#statusupdate").text(result);
                 }});
-               
+                return false;
             });
             
         });
-
-
-
-
-
     </script>
 </header>

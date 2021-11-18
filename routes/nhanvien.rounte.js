@@ -61,6 +61,7 @@ router.get('/xeplichhoc/timlhp',upload.fields([]), controllerlh.timlhp);
 router.get('/xeplichhoc/xoalich/:malop&:manhom', controllerlh.xoalichhoc);
 router.post('/xeplichhoc/uploadfilelh', controllerlh.uploadfile);
 router.get('/xeplichhoc/savedata', upload.fields([]),controllerlh.savedata);
+router.get('/xeplichhoc/lockq', controllerlh.lockqlh);
 
 //Nhân viên chia chuyên ngành
 router.get('/chiachuyennganh', controllercn.trangchiacn);
@@ -68,7 +69,7 @@ router.get('/chiachuyennganh/lockq', controllercn.lockqcn);
 router.get('/chiachuyennganh/deletesvng/:svid', controllercn.xoasvkhcn);
 router.post('/chiachuyennganh/uploadfilesvcn', controllercn.uploadfilesvcn);
 router.get('/chiachuyennganh/savedata', upload.fields([]),controllercn.savedata);
-
+router.get('/chiachuyennganh/timsv',upload.fields([]), controllercn.timsvcn);
 
 //nhân viên chia chương trình khung
 router.get('/xepkhung', controllerchcckh.trangxepkhung);

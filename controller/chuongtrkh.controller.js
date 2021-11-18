@@ -1,4 +1,4 @@
-var database = require('../database');  
+var database = require('../database');
 const readXlsxFile = require('read-excel-file/node');
 
 var multer = require('multer');
@@ -24,24 +24,24 @@ module.exports.uploadfilemhcn = function (req, res) {
 
 
 module.exports.trangxepkhung = function (req, res) {
-    database.laymachuyennganh(function(dsma){
-        return res.render('./bodyNhanVien/XepKhung',{layout: './layouts/layoutNhanVien' , title: 'Xếp Chương Trình Khung',dsmacn:dsma,listmh:0,macn:0,sotrang:0}); 
-    }); 
+    database.laymachuyennganh(function (dsma) {
+        return res.render('./bodyNhanVien/XepKhung', { layout: './layouts/layoutNhanVien', title: 'Xếp Chương Trình Khung', dsmacn: dsma, listmh: 0, macn: 0, sotrang: 0 });
+    });
 };
 
 
 module.exports.lockq = function (req, res) {
-    var page = parseInt( req.query.page) || 1;
+    var page = parseInt(req.query.page) || 1;
     var perPage = 10;
 
-    var start = (page - 1) *perPage;
+    var start = (page - 1) * perPage;
     var end = page * perPage;
     var macn = req.query.macn;
-    database.laymachuyennganh(function(dsma){
-        database.laymhtheocng(macn,function(dsmh){
+    database.laymachuyennganh(function (dsma) {
+        database.laymhtheocng(macn, function (dsmh) {
             //console.log(dsmh);
-            let sotrang = (dsmh.length)/perPage;
-            return res.render('./bodyNhanVien/XepKhung',{layout: './layouts/layoutNhanVien' , title: 'Xếp Chương Trình Khung',dsmacn:dsma,listmh:dsmh.slice(start,end),macn:macn,sotrang:sotrang+1}); 
+            let sotrang = (dsmh.length) / perPage;
+            return res.render('./bodyNhanVien/XepKhung', { layout: './layouts/layoutNhanVien', title: 'Xếp Chương Trình Khung', dsmacn: dsma, listmh: dsmh.slice(start, end), macn: macn, sotrang: sotrang + 1 });
         });
     });
 };
@@ -54,6 +54,9 @@ module.exports.xoamhkhcn = function (req, res) {
         res.redirect('/nhanvien/xepkhung');
     });
 };
+
+
+
 
 module.exports.savedata = function (req, res) {
 
@@ -73,20 +76,22 @@ module.exports.savedata = function (req, res) {
     };
     readXlsxFile('./file/datamhthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaChuyenNganh: rows[i].MaChuyenNganh, MaMHP: rows[i].MaMHP, HocKy:rows[i].HocKy
-            };
-            database.themMHCN(data, function (results) {
-                
-            });
+            
+                let data = {
+                    MaChuyenNganh: rows[i].MaChuyenNganh, MaMHP: rows[i].MaMHP, HocKy: rows[i].HocKy
+                };
+                database.themMHCN(data, function (results) {
 
+                });
+            
         };
-         res.redirect('/nhanvien/xepkhung');
+        res.send({ message: 'Thành công' });
+
     });
 
-    
-
 };
+
+
+
+

@@ -435,6 +435,19 @@ exports.themlichhoc = function(data,callbackQuery){
     }) 
 };
 
+exports.nvloclichhoc = function(nh,hk,callbackQuery){
+    connect();
+    connection.query("select thoigian_phonghoc_giangvien.* from lophocphan INNER JOIN thoigian_phonghoc_giangvien on lophocphan.MaLopHP =  thoigian_phonghoc_giangvien.MaLopHP where lophocphan.HocKy = ? and  lophocphan.Nam =?",[hk,nh],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 
 /*
@@ -487,6 +500,19 @@ exports.xoaSVKCN = function(data,callbackQuery){
 exports.themCNSV = function(data,callbackQuery){
     connect();
     connection.query("Insert into sinhvien_thuoc_nganh Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.timsvtrongcn = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT sv.* FROM sinhvien sv join sinhvien_thuoc_nganh svn on sv.MSSV = svn.MSSV where sv.MSSV = ?;",[masv],
     (err,results)=>{
         if(!err){
             callbackQuery(results);

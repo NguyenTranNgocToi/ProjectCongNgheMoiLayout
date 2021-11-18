@@ -21,15 +21,24 @@ module.exports.uploadfile = function (req, res) {
 };
 
 module.exports.trangxeplich = function (req, res) {
-    var page = parseInt( req.query.page) || 1;//n
-    var perPage = 10;
-    var start = (page - 1) *perPage;
-    var end = page * perPage;
-    database.laylichhoc(function(listlh){
-        let sotrang = (listlh.length)/perPage;
-        return res.render('./bodyNhanVien/XepLichHoc',{layout: './layouts/layoutNhanVien' , title: 'Xếp Lịch Học',listlh:listlh.slice(start,end),sotrang:sotrang+1});
-    });
+    return res.render('./bodyNhanVien/XepLichHoc',{layout: './layouts/layoutNhanVien' , title: 'Xếp Lịch Học',listlh:0,sotrang:0,nam:0,hk:0});
     
+};
+
+module.exports.lockqlh = function (req, res) {
+
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+    var namhoc = req.query.namhoc;
+    var hocky = req.query.hocky;
+    database.nvloclichhoc(namhoc,hocky,function (listlich) {
+        let sotrang = (listlich.length) / perPage;
+        res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlich.slice(start,end), sotrang: sotrang+1,nam:namhoc,hk:hocky });
+    })
+
 };
 
 module.exports.timlhp = function (req, res) {
@@ -40,13 +49,9 @@ module.exports.timlhp = function (req, res) {
     var malophp = req.query.malophocphan;
     database.timlophplh(malophp,function(listlh){
         if (listlh.length > 0) {
-            let sotrang = (listlh.length)/perPage;
-            res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp Lịch Học', listlh:listlh.slice(start,end),sotrang:sotrang+1 });
+            res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlh, sotrang:0,nam:0,hk:0 });
         } else {
-            database.getAllSV(function (result) {
-                let sotrang = (result.length)/perPage;
-                res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp Lịch Học', listlh:listlh.slice(start,end),sotrang:sotrang+1 });
-            });
+            res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: 0, sotrang: 0,nam:0,hk:0 });
         }
         
     });
@@ -62,6 +67,7 @@ module.exports.xoalichhoc = function (req, res) {
 };
 
 module.exports.savedata = function (req, res) {
+    res.send({ message: 'Đã thêm' });
     const schema = {
         'Mã nhóm': {
             prop: 'MaNhom',
@@ -104,7 +110,8 @@ module.exports.savedata = function (req, res) {
                 });
 
             };
-            res.redirect('/nhanvien/xeplichhoc');
+            res.send({ message: 'Đã thêm' });
+           
     });
 };
 
