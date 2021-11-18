@@ -204,16 +204,14 @@ exports.kiemtradl = function(masv,callbackQuery){
             results = null;
         }
     }) 
-<<<<<<< HEAD
 };
 exports.laysvtheokh = function(khoahoc,callbackQuery){
     connect();
     connection.query("SELECT * FROM sinhvien where KhoaHoc = ?",[khoahoc],
     (err,results)=>{
         if(!err){
-            callbackQuery(results);
-=======
-}
+            callbackQuery(results);}
+    })}
 
 //update pass tk sinh viên ntnt
 exports.updatematkhausv = function(masv,pass,callbackQuery){
@@ -222,15 +220,12 @@ exports.updatematkhausv = function(masv,pass,callbackQuery){
     [pass,masv],(err,results)=>{
         if(!err){
             //callbackQuery(results);
->>>>>>> NTNT
         }else{
             console.log(err);
             results = null;
         }
     }) 
 };
-<<<<<<< HEAD
-=======
 
 //xem chương trình khung 
 exports.xemchuongtrinhkhung = function(MSSV,callbackQuery){
@@ -270,7 +265,6 @@ exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
 }
 
 
->>>>>>> NTNT
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
@@ -374,7 +368,7 @@ exports.getAllChuyenNganh = function(callbackQuery){
         }
     })  
     //closeDB();
-}
+};
 //Thêm chuyên ngành
 exports.themChuyenNganh = function(data,callbackQuery){
     connect();
@@ -534,7 +528,7 @@ exports.laymachuyennganh = function(callbackQuery){
             results = null;
         }
     }) 
-}
+};
 
 exports.laysvtheocn = function(data,callbackQuery){
     connect();
