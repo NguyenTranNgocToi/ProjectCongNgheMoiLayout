@@ -3,10 +3,13 @@
         <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
             <h2>XEM CHƯƠNG TRÌNH KHUNG</h2><br><br>
         </div>
+        <div class="row col-xs-5 col-sm-5 col-md-5 col-lg-5">
+            <h4> Tên Chuyên Ngành:<%=list[0].TenChuyenNganh%> </h4>
+        </div>
         <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Tên chuyên ngành</th>
+              
                 <th>Mã môn học phần</th>
                 <th>Tên môn học phần</th>
                 <th>Học kì</th>
@@ -15,7 +18,7 @@
             <tbody>
               <%for(let i=0;i< list.length;i++){%>
                 <tr>
-                  <td> <%=list[i].TenChuyenNganh%></td>
+            
                   <td> <%=list[i].MaMHP%></td>
                   <td> <%=list[i].TenMHHP%></td>
                   <td> <%=list[i].HocKy%></td>
