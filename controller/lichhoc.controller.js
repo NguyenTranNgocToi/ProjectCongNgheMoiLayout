@@ -63,7 +63,7 @@ module.exports.xoalichhoc = function (req, res) {
     const manhom = req.params.manhom;
     database.xoalichhoc(malhp,manhom,function(results){
         res.redirect('/nhanvien/xeplichhoc');
-    })   
+    })
 };
 
 module.exports.savedata = function (req, res) {

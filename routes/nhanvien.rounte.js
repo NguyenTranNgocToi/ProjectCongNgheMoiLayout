@@ -58,7 +58,7 @@ router.get('/cnsinhvien/lockq',controllersv.lockqkh );
 //Nhân viên xếp lịch học
 router.get('/xeplichhoc', controllerlh.trangxeplich);
 router.get('/xeplichhoc/timlhp',upload.fields([]), controllerlh.timlhp);
-router.get('/xeplichhoc/xoalich/:malop&:manhom', controllerlh.xoalichhoc);
+router.get('/xeplichhoc/xoalich/:manhom&:malop', controllerlh.xoalichhoc);
 router.post('/xeplichhoc/uploadfilelh', controllerlh.uploadfile);
 router.get('/xeplichhoc/savedata', upload.fields([]),controllerlh.savedata);
 router.get('/xeplichhoc/lockq', controllerlh.lockqlh);
