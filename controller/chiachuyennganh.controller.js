@@ -53,6 +53,7 @@ module.exports.xoasvkhcn = function (req, res) {
     });
 };
 
+
 module.exports.savedata = function (req, res) {
     const schema = {
         'Mã số': {
@@ -64,10 +65,9 @@ module.exports.savedata = function (req, res) {
             type: String
         },
     };
-    
+   
     readXlsxFile('./file/datasvthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
             // console.log(rows);   
             let data = {
@@ -76,11 +76,9 @@ module.exports.savedata = function (req, res) {
             database.themCNSV(data, function (results) {
                 
             });
-
-        };
+        };   
         res.send({ message: 'Đã thêm' });
     });
-
 };
 
 module.exports.timsvcn = function (req, res) {
@@ -96,4 +94,34 @@ module.exports.timsvcn = function (req, res) {
         });
     });
     
+};
+
+
+module.exports.kiemtradulieu = function (req, res) {
+    const schema = {
+        'Mã số': {
+            prop: 'MSSV',
+            type: String
+        },
+        'Mã chuyên ngành': {
+            prop: 'MaChuyenNganh',
+            type: String
+        },
+    };
+    var arr = new Array();
+    readXlsxFile('./file/datasvthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
+        for (let i = 0; i < rows.length; i++) {
+            let MSSV = rows[i].MSSV;
+            arr.push(MSSV);
+            
+        };
+         database.kiemtradulieubangmang(arr,function (results) {
+             if(results.length>0){
+                 res.send({ message: 'Dữ liệu sai' });
+             }else{
+                res.send({ message: 'Dữ liệu đúng' });
+             }
+         });
+    });
 };

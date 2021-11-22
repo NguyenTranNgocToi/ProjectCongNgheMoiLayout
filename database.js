@@ -523,6 +523,32 @@ exports.timsvtrongcn = function(masv,callbackQuery){
     }) 
 };
 
+exports.kiemtradulieusvcn = function(masv,macn,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV = ? and MaChuyenNganh = ?",[masv,macn],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtradulieubangmang = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV in (?)",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 /*
    Kết thúc xử lý giao diện chia chuyên ngành

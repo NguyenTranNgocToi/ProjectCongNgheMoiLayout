@@ -70,6 +70,7 @@ router.get('/chiachuyennganh/deletesvng/:svid', controllercn.xoasvkhcn);
 router.post('/chiachuyennganh/uploadfilesvcn', controllercn.uploadfilesvcn);
 router.get('/chiachuyennganh/savedata', upload.fields([]),controllercn.savedata);
 router.get('/chiachuyennganh/timsv',upload.fields([]), controllercn.timsvcn);
+router.get('/chiachuyennganh/kiemtradata',upload.fields([]), controllercn.kiemtradulieu);
 
 //nhân viên chia chương trình khung
 router.get('/xepkhung', controllerchcckh.trangxepkhung);
