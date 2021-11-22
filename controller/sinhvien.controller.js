@@ -322,13 +322,20 @@ module.exports.dangkyhocphan = function(req,res){
     var mamonhoc = req.query.monhp;
     var malophoc = req.query.lophocphan;
 
+    var manhomth =  req.query.nhomth;
+    var manhomlt =  req.query.nhomlt;
+
     console.log("học kỳ:"+hocky);
     console.log("năm học:"+namhoc);
     console.log("mã môn học"+mamonhoc);
     console.log("mã lớp học"+malophoc);
     var listmh;
     var listlh;
-
+    var listthuchanh;
+    var listlythuyet;
+    var listmonhocdadangky;
+    console.log("mã th:"+manhomth);
+    console.log("mã lt:"+manhomlt);
 
 
     
@@ -340,17 +347,43 @@ module.exports.dangkyhocphan = function(req,res){
                 database.laydanhsachlophocphanchosinhvien(mamonhoc, function (resultQuery1){ 
                      listlh = resultQuery1;
                     //console.log("listlh:"+ listlh[0].MalopHP);
-                    console.log("resultQuerylh"+ resultQuery1.length);
-                    return res.render('./bodySinhVien/GD_SV_dkhp',{
-                        layout: './layouts/layoutSinhVien' , 
-                        title: 'Đăng Ký Học Phần', 
-                        listmh, 
-                        listlh, 
-                        namhoc, 
-                        hocky,
-                        mamonhoc,
-                        malophoc 
-                    });
+                    // console.log("resultQuerylh"+ resultQuery1.length);
+                    database.laydanhsachlophodadangkychosinhvien(hocky,namhoc,mssv, function (resultQuery2){
+                        listmonhocdadangky = resultQuery2
+                        database.laydanhsachlophocphanthuchanhchosinhvien(malophoc, function (resultQuery3){ 
+                            listthuchanh = resultQuery3;
+                            
+                            database.laydanhsachlophocphanlythuyetchosinhvien(malophoc, function (resultQuery4){
+                                
+                                listlythuyet = resultQuery4;
+                               if(listthuchanh.length>0 && listlythuyet.length>0 && manhomth!= null && manhomlt != null)
+                                    console.log("thực hành lý thuyết >0 mã nhóm thực hành lý thuyết khác null");
+    
+                               if(listthuchanh.length<=0 && listlythuyet.length>0 && manhomth== null && manhomlt != null)
+                                    console.log("thực hành <=0 lý thuyết >0 mã nhóm thực hành null lý thuyết khác null");
+                                
+                                    
+                                return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                    layout: './layouts/layoutSinhVien' , 
+                                    title: 'Đăng Ký Học Phần', 
+                                    listmh, 
+                                    listlh,
+                                    listthuchanh,
+                                    listlythuyet,
+                                    listmonhocdadangky, 
+                                    namhoc, 
+                                    hocky,
+                                    mamonhoc,
+                                    malophoc
+                                });
+                             });
+                        
+                          
+    
+                        });
+                     }); 
+                   
+                   
                  });
         });
 };

@@ -116,26 +116,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <td>
-                                <input name="lhpdk" type="radio" value="lhpdk"/>
-                            </td>
-                            <td>LHP01</td>
-                            <td>70</td>
-                            <td>3</td>
-                            <td>Đợi sinh viên đăng kí</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <input name="lhpdk" type="radio" value="lhpdk"/>
-                            </td>
-                            <td>LHP02</td>
-                            <td>70</td>
-                            <td>50</td>
-                            <td>Chấp nhận mở lớp</td>
-                            
-                        </tr> -->
+
                         <%for(let i=0;i< listlh.length;i++){%>
                             <tr>
                                 <td>
@@ -173,32 +154,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%for(let i=0;i< listthuchanh.length;i++){%>
                         <tr>
+                           
                             <td>
-                                <input name="nhomth" type="radio" value="nhomth"/>
+                                <input name="nhomth" type="radio" id=<%=listthuchanh[i].MaNhom%> value=<%=listthuchanh[i].MaNhom%>>
                             </td>
-                            <td>TH1</td>
-                            <td>Nguyễn Văn Thuận</td>
-                            <td>Thứ 3</td>
-                            <td>A17</td>
-                            <td>1-3</td>
-                            <td>12/11/2021</td>
-                            
+                            <td><%=listthuchanh[i].MaNhom%></td>
+                            <td><%=listthuchanh[i].HoTen%></td>
+                         
+                            <td><%=listthuchanh[i].NgayHoc%></td>
+                                   
+                            <td><%=listthuchanh[i].PhongHoc%></td>
+                            <td><%=listthuchanh[i].TietHoc%></td>
+                         
+                            <td><%=listthuchanh[i].NgayBatDau.getDate().toString()%>
+                                /<%=(listthuchanh[i].NgayBatDau.getMonth()+1).toString()%>
+                                /<%=listthuchanh[i].NgayBatDau.getFullYear().toString()%></td>
                         </tr>
-                        <tr>
-                            <td>
-                                <input name="nhomth" type="radio" value="nhomth"/>
-                            </td>
-                            <td>TH2</td>
-                            <td>Nguyễn Thị Thu Hà</td>
-                            <td>Thứ 3</td>
-                            <td>A17</td>
-                            <td>4-6</td>
-                            <td>12/11/2021</td>
-                            
-                            
-                        </tr>
-        
+                        <%}%>
                     </tbody>
                 </table>
                 
@@ -219,22 +193,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <input name="nhomlt" type="radio" value="lhpdk"/>
-                            </td>
-                            <td>LT1</td>
-                            <td>Nguyễn Văn Thuận</td>
-                            <td>Thứ 2</td>
-                            <td>B6</td>
-                            <td>1-3</td>
-                            <td>1/11/2021</td>
-                            
-                        </tr>
-        
+                     
+                        <%for(let i=0;i< listlythuyet.length;i++){%>
+                            <tr>
+                               
+                                <td>
+                                    <input name="nhomlt" type="radio" id=<%=listlythuyet[i].MaNhom%> value=<%=listlythuyet[i].MaNhom%>>
+                                </td>
+                                <td><%=listlythuyet[i].MaNhom%></td>
+                                <td><%=listlythuyet[i].HoTen%></td>
+                             
+                                <td><%=listlythuyet[i].NgayHoc%></td>
+                                       
+                                <td><%=listlythuyet[i].PhongHoc%></td>
+                                <td><%=listlythuyet[i].TietHoc%></td>
+                             
+                                <td><%=listlythuyet[i].NgayBatDau.getDate().toString()%>
+                                    /<%=(listlythuyet[i].NgayBatDau.getMonth()+1).toString()%>
+                                    /<%=listlythuyet[i].NgayBatDau.getFullYear().toString()%></td>
+                            </tr>
+                            <%}%>
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-info">Đăng kí</button>
+                <button type="submit" class="btn btn-info">Đăng kí</button>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h4>Danh sách các lớp học phần đã đăng kí</h4>
@@ -251,33 +232,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <input name="lhpddk" type="radio" value="lhpddk"/>
-                            </td>
-                            <td>LHP03</td>
-                            <td>Lập trình phần tán</td>
-                            <td>LT1</td>
-                            <td>Nguyễn Ngọc Khánh</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input name="lhpddk" type="radio" value="lhpddk"/>
-                            </td>
-                            <td>LHP03</td>
-                            <td>Lập trình phần tán</td>
-                            <td>TH1</td>
-                            <td>Nguyễn Ngọc Khánh</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input name="lhpddk" type="radio" value="lhpddk"/>
-                            </td>
-                            <td>LHP40</td>
-                            <td>Tiếng Anh 1</td>
-                            <td>LT1</td>
-                            <td>Nguyễn Thị Nhuận</td>
-                        </tr>
+                       
+                        <%for(let i=0;i< listmonhocdadangky.length;i++){%>
+                            <tr>
+                                <td>
+                                    <input name="lhpddk" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>/>
+                                </td>
+                                <td><%=listmonhocdadangky[i].MaLopHP%></td>
+                                <td><%=listmonhocdadangky[i].TenMHHP%></td>
+                                <td><%=listmonhocdadangky[i].Nhom%></td>
+                                <td><%=listmonhocdadangky[i].HoTen%></td>
+                            </tr>
+                        <%}%>
                     </tbody>
                 </table>
                 <button type="button" class="btn btn-danger">Hủy Đăng kí</button>
