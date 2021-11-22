@@ -507,6 +507,19 @@ exports.nvloclichhoc = function(nh,hk,callbackQuery){
     }) 
 };
 
+exports.xlkiemtradulieu = function(malop,manhom,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM thoigian_phonghoc_giangvien where MaLopHP in (?) and MaNhom in (?)",[malop,manhom],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 
 /*
@@ -646,6 +659,19 @@ exports.xoamhkhcn = function(mamh,callbackQuery){
 exports.themMHCN = function(data,callbackQuery){
     connect();
     connection.query("Insert into chuongtrinhkhung Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtradulieuxepkhung = function(macn,mamhp,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?);",[macn,mamhp],
     (err,results)=>{
         if(!err){
             callbackQuery(results);

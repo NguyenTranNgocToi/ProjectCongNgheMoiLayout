@@ -92,6 +92,44 @@ module.exports.savedata = function (req, res) {
 
 };
 
+module.exports.xkkiemtradulieu = function (req, res) {
+
+    const schema = {
+        'Mã chuyên ngành': {
+            prop: 'MaChuyenNganh',
+            type: String
+        },
+        'Mã môn học phần': {
+            prop: 'MaMHP',
+            type: String
+        },
+        'Học Kì': {
+            prop: 'HocKy',
+            type: Number
+        },
+    };
+    var arrcn = new Array();
+    var arrmhp = new Array();
+    readXlsxFile('./file/datamhthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
+        for (let i = 0; i < rows.length; i++) {
+            let MaChuyenNganh = rows[i].MaChuyenNganh;
+            arrcn.push(MaChuyenNganh);
+            let MaMHP = rows[i].MaMHP
+            arrmhp.push(MaMHP);
+            
+        };
+        database.kiemtradulieuxepkhung(arrcn,arrmhp,function (results) {
+            if(results.length>0){
+                res.send({ message: 'Dữ liệu sai' });
+            }else{
+               res.send({ message: 'Dữ liệu đúng' });
+            }  
+        });
+    });
+
+};
+
 
 
 

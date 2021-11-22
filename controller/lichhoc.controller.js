@@ -67,7 +67,6 @@ module.exports.xoalichhoc = function (req, res) {
 };
 
 module.exports.savedata = function (req, res) {
-    res.send({ message: 'Đã thêm' });
     const schema = {
         'Mã nhóm': {
             prop: 'MaNhom',
@@ -112,6 +111,58 @@ module.exports.savedata = function (req, res) {
             };
             res.send({ message: 'Đã thêm' });
            
+    });
+};
+
+
+module.exports.xlkiemtraduleu = function (req, res) {
+    const schema = {
+        'Mã nhóm': {
+            prop: 'MaNhom',
+            type: String
+        },
+        'Mã lớp học phần': {
+            prop: 'MaLopHP',
+            type: String
+        },
+        'Tiết học': {
+            prop: 'TietHoc',
+            type: String
+        },
+        'Ngày học': {
+            prop: 'NgayHoc',
+            type: String
+        },
+        'Phòng học': {
+            prop: 'PhongHoc',
+            type: String
+        },
+        'Mã giáo viên': {
+            prop: 'MaGV',
+            type: String
+        },
+        'Ngày bắt đầu': {
+            prop: 'NgayBatDau',
+            type: String
+        }
+    };
+    var arrlhp = new Array();
+    var arrnhom = new Array();
+    readXlsxFile('./file/datalichhoc.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
+            for (let i = 0; i < rows.length; i++) {
+                let MaLopHP = rows[i].MaLopHP;
+                arrlhp.push(MaLopHP);
+                let MaNhom = rows[i].MaNhom;
+                arrnhom.push(MaNhom);
+            };
+           database.xlkiemtradulieu(arrlhp,arrnhom,function (results) {
+            if(results.length>0){
+                res.send({ message: 'Dữ liệu sai' });
+            }else{
+               res.send({ message: 'Dữ liệu đúng' });
+            } 
+           });
     });
 };
 

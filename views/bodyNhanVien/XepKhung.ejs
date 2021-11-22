@@ -12,7 +12,7 @@
       </ul>
       <div class="tab-content">
         <div id="tab1" class="tab-pane fade in active">
-          <div class="row"><br>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><br>
             <form class="form-inline" action="/nhanvien/xepkhung/lockq">
               <div class="form-group">
                 <label for="ChuyenNganh">Chuyên ngành:</label>
@@ -25,7 +25,11 @@
                 </select>
               </div>
               <button type="submit" class="btn btn-default">Lọc</button>
-            </form>
+            </form><br>
+          </div>
+          
+          <div class="row"><br>
+            
             <table class="table table-bordered" style="margin-top: 2%;">
               <thead>
                 <tr>
@@ -91,6 +95,10 @@
             <br />
             <span id="status"></span><br>
           </form><br>
+
+          <a id="btnxkhkiemtradl" href="#" class="btn btn-primary">Kiểm tra dữ liệu</a>
+          <span id="statusxkhktdl"></span><br><br><br>
+
           <a id="btnsavekhung" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
           <span id="statusupdatekhung"></span><br><br>
           <br /><br><br>
@@ -123,13 +131,22 @@
     });
 
     $(document).ready(function () {
+            $('#btnxkhkiemtradl').click(function () {
+                $.ajax({url: "/nhanvien/xepkhung/kiemtradl", success: function(result){
+                    $("#statusxkhktdl").text(result.message);
+                }});
+               
+            });
+            
+        });
+
+    $(document).ready(function () {
             $('#btnsavekhung').click(function () {
                 $.ajax({url: "/nhanvien/xepkhung/savedata", success: function(result){
                     $("#statusupdatekhung").text(result.message);
                 }});
                
-            });
-            
+            });          
         });
   </script>
 
