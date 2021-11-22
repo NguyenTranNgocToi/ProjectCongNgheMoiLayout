@@ -144,36 +144,36 @@ module.exports.savedata = function (req, res) {
             type: String
         }
     }
+    var arr = new Array();
     const passdefaut = "123456";
-    bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
         readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
-            // if(errors) res.send('Loi file');
-            errors.length === 0;
-            var mssv = rows[0].MSSV;
-            database.kiemtradl(mssv, function (results) {
-                if (results.length > 0) {
-                    res.send({ message: 'Dữ liệu bị trùng từ mã số:' + results[0].MSSV });
-                } else {
-                    for (let i = 0; i < rows.length; i++) {
-                        let data = {
-                            MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-                            HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT, KhoaHoc: rows[i].KhoaHoc
-                        };
-                        let tk = { MaTaiKhoan: rows[i].MSSV, Pass: hash };
-
-
-                        database.themSV(data, function (results) {
-                            database.themtaikhoansv(tk, function (resultss) {
-
-                            });
-                        });
-
-                    };
-                    res.send({ message: 'Thành công' });
+            errors.length == 0;
+            for (let i = 0; i < rows.length; i++) {
+                let MSSV = rows[i].MSSV;
+                arr.push(MSSV);
+            };
+            database.kiemtradl(arr,function (results) {
+                if(results.length>0){
+                    res.send({ message: 'Dữ liệu sai' });
+                }else{
+                    bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
+                             for (let a = 0; a < rows.length; a++) {
+                                let data = {
+                                    MSSV: rows[a].MSSV, DiaChi: rows[a].DiaChi, GioiTinh: rows[a].GioiTinh,
+                                    HoTen: rows[a].HoTen, NgaySinh: rows[a].NgaySinh, SoDT: rows[a].SoDT, KhoaHoc: rows[a].KhoaHoc
+                                };
+                                let tk = { MaTaiKhoan: rows[a].MSSV, Pass: hash };
+                                database.themSV(data, function (resultssss) {
+                                    database.themtaikhoansv(tk, function (resultsssss) {
+        
+                                    });
+                                });
+                            }
+                            res.send({ message: 'Thành công' });
+                    });
                 }
             });
         });
-    });
 };
 
 module.exports.timkiemsv = function (req, res) {

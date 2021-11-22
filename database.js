@@ -195,7 +195,7 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
 
 exports.kiemtradl = function(masv,callbackQuery){
     connect();
-    connection.query("SELECT * FROM sinhvien where MSSV = ?",[masv],
+    connection.query("SELECT * FROM sinhvien where MSSV in (?)",[masv],
     (err,results)=>{
         if(!err){
             callbackQuery(results);
