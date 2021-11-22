@@ -708,7 +708,7 @@ exports.themMHCN = function(data,callbackQuery){
 
 exports.kiemtradulieuxepkhung = function(macn,mamhp,callbackQuery){
     connect();
-    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?);",[macn,mamhp],
+    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?)",[macn,mamhp],
     (err,results)=>{
         if(!err){
             callbackQuery(results);

@@ -132,8 +132,6 @@
                                 <span id="status"></span><br>
                             </form>
 
-                            <a id="btnxlkiemtra" href="/nhanvien/xeplichhoc/xlkiemtradl" class="btn btn-primary">Kiểm tra dữ liệu</a>
-                            <span id="statuskiemtradulieu"></span><br><br><br>
 
                             <a id="btnsavedatalh" href="#" class="btn btn-primary">Lưu dữ liệu từ
                                 file</a>
@@ -170,14 +168,6 @@
             });
         });
 
-        $(document).ready(function () {
-            $('#btnxlkiemtra').click(function () {
-                $.ajax({url: "/nhanvien/xeplichhoc/xlkiemtradl", success: function(result){
-                    $("#statuskiemtradulieu").text(result.message);
-                }});
-                return false;
-            });
-        });
 
         $(document).ready(function () {
             $('#btnsavedatalh').click(function () {

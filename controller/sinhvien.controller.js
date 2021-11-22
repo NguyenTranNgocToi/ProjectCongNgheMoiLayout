@@ -154,7 +154,7 @@ module.exports.savedata = function (req, res) {
             };
             database.kiemtradl(arr,function (results) {
                 if(results.length>0){
-                    res.send({ message: 'Dữ liệu sai' });
+                    res.send({ message: 'Mã số sinh viên'+'\t' + results[0].MSSV +'\t'+ 'đã tồn tại' });
                 }else{
                     bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
                              for (let a = 0; a < rows.length; a++) {

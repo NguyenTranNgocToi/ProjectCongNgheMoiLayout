@@ -96,9 +96,6 @@
             <span id="status"></span><br>
           </form><br>
 
-          <a id="btnxkhkiemtradl" href="#" class="btn btn-primary">Kiểm tra dữ liệu</a>
-          <span id="statusxkhktdl"></span><br><br><br>
-
           <a id="btnsavekhung" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
           <span id="statusupdatekhung"></span><br><br>
           <br /><br><br>
@@ -129,16 +126,6 @@
         return false;
       });
     });
-
-    $(document).ready(function () {
-            $('#btnxkhkiemtradl').click(function () {
-                $.ajax({url: "/nhanvien/xepkhung/kiemtradl", success: function(result){
-                    $("#statusxkhktdl").text(result.message);
-                }});
-               
-            });
-            
-        });
 
     $(document).ready(function () {
             $('#btnsavekhung').click(function () {
