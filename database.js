@@ -263,43 +263,6 @@ exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
     })  
     //closeDB();
 }
-//lấy danh sách lớp thực hành cho sinh viên
-exports.laydanhsachlophocphanthuchanhchosinhvien = function(MaLopHP,callbackQuery){
-    connect();// order by MSSV DESC limit 5
-    connection.query("select thoigian_phonghoc_giangvien.*, giangvien.HoTen from thoigian_phonghoc_giangvien inner join giangvien on giangvien.MaGV = thoigian_phonghoc_giangvien.MaGV where thoigian_phonghoc_giangvien.MaLopHP = ?  and thoigian_phonghoc_giangvien.MaNhom !='LT'",[MaLopHP], function(err, results,fields){
-        if(!err){
-            callbackQuery(results);
-        }else{
-            console.log(err);
-        }
-    })  
-    //closeDB();
-}
-//lấy danh sách lớp lý thuyết cho sinh viên
-exports.laydanhsachlophocphanlythuyetchosinhvien = function(MaLopHP,callbackQuery){
-    connect();// order by MSSV DESC limit 5
-    connection.query("select thoigian_phonghoc_giangvien.*, giangvien.HoTen from thoigian_phonghoc_giangvien inner join giangvien on giangvien.MaGV = thoigian_phonghoc_giangvien.MaGV where thoigian_phonghoc_giangvien.MaLopHP = ?  and thoigian_phonghoc_giangvien.MaNhom ='LT'",[MaLopHP], function(err, results,fields){
-        if(!err){
-            callbackQuery(results);
-        }else{
-            console.log(err);
-        }
-    })  
-    //closeDB();
-}
-// lấy danh sách môn học đã đăng ký cho sinh viên
-exports.laydanhsachlophodadangkychosinhvien = function(HocKy, Nam, MSSV,callbackQuery){
-    connect();// order by MSSV DESC limit 5
-    connection.query("select DISTINCT lophocphan.MaLopHP, monhocphan.TenMHHP, phieudangkylhp.Nhom, giangvien.HoTen from phieudangkylhp inner join lophocphan on lophocphan.MalopHP = phieudangkylhp.MaLopHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP inner join thoigian_phonghoc_giangvien on thoigian_phonghoc_giangvien.MaLopHP = lophocphan.MaLopHP inner join giangvien on thoigian_phonghoc_giangvien.MaGV = giangvien.MaGV where phieudangkylhp.MSSV = ? and lophocphan.HocKy = ? and lophocphan.Nam=?;",[MSSV,HocKy,Nam], function(err, results,fields){
-        if(!err){
-            callbackQuery(results);
-        }else{
-            console.log(err);
-        }
-    })  
-    //closeDB();
-}
-
 
 
 /*
