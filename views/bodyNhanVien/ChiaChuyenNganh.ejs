@@ -15,7 +15,9 @@
 
         <div class="tab-content">
           <div id="tab1" class="tab-pane fade in active"><br>
+            
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              
               <form class="form-inline" action="/nhanvien/chiachuyennganh/lockq">
                 <div class="form-group">
                   <label for="ChuyenNganh">Chuyên ngành:</label>
@@ -118,6 +120,10 @@
               <br />
               <span id="status"></span><br>
             </form>
+
+            <a id="btnccnkiemtra" href="#" class="btn btn-primary">Kiểm tra dữ liệu</a>
+            <span id="statuskiemtradulieu"></span><br><br><br>
+
             <a id="btnchiachuyennganh" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
             <span id="statuschiachuyennganh"></span><br><br>
             <br />
@@ -150,6 +156,15 @@
         return false;
       });
     });
+
+    $(document).ready(function () {
+            $('#btnccnkiemtra').click(function () {
+                $.ajax({url: "/nhanvien/chiachuyennganh/kiemtradata", success: function(result){
+                    $("#statuskiemtradulieu").text(result.message);
+                }});
+                return false;
+            });
+        });
 
     $(document).ready(function () {
             $('#btnchiachuyennganh').click(function () {

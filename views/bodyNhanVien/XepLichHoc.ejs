@@ -14,8 +14,7 @@
                     <li><a data-toggle="tab" href="#tab2">Xếp lịch học</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="tab1" class="tab-pane fade in active">
-                        <h3>Danh sách lịch học phần</h3><br>
+                    <div id="tab1" class="tab-pane fade in active"><br>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <form class="form-inline" action="/nhanvien/xeplichhoc/lockq">
                                 <div class="form-group">
@@ -132,6 +131,10 @@
                                 <br />
                                 <span id="status"></span><br>
                             </form>
+
+                            <a id="btnxlkiemtra" href="/nhanvien/xeplichhoc/xlkiemtradl" class="btn btn-primary">Kiểm tra dữ liệu</a>
+                            <span id="statuskiemtradulieu"></span><br><br><br>
+
                             <a id="btnsavedatalh" href="#" class="btn btn-primary">Lưu dữ liệu từ
                                 file</a>
                             <span id="statusupdatelh"></span><br><br>
@@ -163,6 +166,15 @@
                         $("#status").empty().text(response);
                     }
                 });
+                return false;
+            });
+        });
+
+        $(document).ready(function () {
+            $('#btnxlkiemtra').click(function () {
+                $.ajax({url: "/nhanvien/xeplichhoc/xlkiemtradl", success: function(result){
+                    $("#statuskiemtradulieu").text(result.message);
+                }});
                 return false;
             });
         });

@@ -544,6 +544,19 @@ exports.nvloclichhoc = function(nh,hk,callbackQuery){
     }) 
 };
 
+exports.xlkiemtradulieu = function(malop,manhom,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM thoigian_phonghoc_giangvien where MaLopHP in (?) and MaNhom in (?)",[malop,manhom],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 
 /*
@@ -619,6 +632,32 @@ exports.timsvtrongcn = function(masv,callbackQuery){
     }) 
 };
 
+exports.kiemtradulieusvcn = function(masv,macn,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV = ? and MaChuyenNganh = ?",[masv,macn],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtradulieubangmang = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV in (?)",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 /*
    Kết thúc xử lý giao diện chia chuyên ngành
@@ -657,6 +696,19 @@ exports.xoamhkhcn = function(mamh,callbackQuery){
 exports.themMHCN = function(data,callbackQuery){
     connect();
     connection.query("Insert into chuongtrinhkhung Set ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtradulieuxepkhung = function(macn,mamhp,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?);",[macn,mamhp],
     (err,results)=>{
         if(!err){
             callbackQuery(results);
