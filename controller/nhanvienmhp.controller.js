@@ -120,21 +120,31 @@ module.exports.savedatamonhp = function (req, res) {
             type: String
         },
     };
-
+    var arr = new Array();
     readXlsxFile('./file/datamonhocphan.xlsx', { schema }).then(({ rows, errors }) => {
-        errors.length === 0;
-        //console.log(rows);
+        
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaMHP: rows[i].MaMHP, TenMHHP: rows[i].TenMHHP, SoTinChi: rows[i].SoTinChi, HinhThucThi: rows[i].HinhThucThi, BatBuoc: rows[i].BatBuoc, MaKhoa: rows[i].MaKhoa, HocPhanYeuCau: rows[i].HocPhanYeuCau
-            };
-            database.themMHP(data, function (results) {
-                
-            });
+            let monhoc = rows[i].MaMHP;
+            arr.push(monhoc);
 
         };
-         res.redirect('/nhanvien/cnmonhp');
+        database.monhocphankiemtradulieu(arr,function (results) {
+            if(results.length > 0){
+                res.send({ message: 'Môn phần có mã'+ '\t' + results[0].MaMHP + '\t' + 'đã tồn tại'});
+            }else{
+                for (let a = 0; a < rows.length; a++) {  
+                    let data = {
+                        MaMHP: rows[a].MaMHP, TenMHHP: rows[a].TenMHHP, SoTinChi: rows[a].SoTinChi, HinhThucThi: rows[a].HinhThucThi, BatBuoc: rows[a].BatBuoc, MaKhoa: rows[a].MaKhoa, HocPhanYeuCau: rows[a].HocPhanYeuCau
+                    };
+                    database.themMHP(data, function (results) {
+                        
+                    });
+        
+                };
+                res.send({ message: 'Đã thêm' });
+            }
+        });
+        
     });
 
 };

@@ -480,7 +480,7 @@ exports.updateChuyenNganh = function(tenchuyennganh,machuyennganh,callbackQuery)
             results = null;
         }
     }) 
-}
+};
 
 exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
     connect();
@@ -493,7 +493,20 @@ exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+
+exports.chuyennganhkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh in (?)",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện chuyên ngành
 */
@@ -815,7 +828,7 @@ exports.updateLHP = function(siso,mamhp,nam,hocky,dadangky,malophp,callbackQuery
             results = null;
         }
     }) 
-}
+};
 
 exports.timkiemlhp = function(tukhoalhp,callbackQuery){
     connect();
@@ -828,7 +841,20 @@ exports.timkiemlhp = function(tukhoalhp,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+
+exports.lhpkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP in (?) ",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện Lớp học phần
 */
@@ -912,7 +938,19 @@ exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+exports.monhocphankiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where mamhp in (?) ",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện Môn học phần
 */
@@ -997,6 +1035,18 @@ exports.timkiemGV = function(tukhoagv,callbackQuery){
         }
     }) 
 };
+
+exports.giangvienkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM giangvien where MaGV in (?)",[data],function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
 /*
     Kết thúc xử lý cho giao diện giảng viên
 */

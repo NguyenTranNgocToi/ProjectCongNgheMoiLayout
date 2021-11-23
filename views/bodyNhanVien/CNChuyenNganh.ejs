@@ -77,7 +77,8 @@
                                     <br />
                                     <span id="status"></span><br>
                                 </form>
-                                <a href="/nhanvien/cnchuyennganh/savedatachuyennganh" class="btn btn-primary">Lưu dữ liệu từ file</a><br /><br><br>
+                                <a id="btncapnhatcn" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
+                                <span id="statuscncn"></span><br><br><br /><br><br>
                             </div>
                         </div>
                     </div>
@@ -102,5 +103,15 @@
                     return false;
                 });
             });
+
+            $(document).ready(function () {
+            $('#btncapnhatcn').click(function () {
+                $.ajax({url: "/nhanvien/cnchuyennganh/savedatachuyennganh", success: function(result){
+                    $("#statuscncn").text(result.message);
+                }});
+                
+                return false;
+            });
+        });
         </script>
     </header>

@@ -101,20 +101,32 @@ module.exports.savedataChuyenNganh = function (req, res) {
         },
     };
 
+    var arr = new Array();
     readXlsxFile('./file/datachuyennganh.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaChuyenNganh: rows[i].MaChuyenNganh, TenChuyenNganh: rows[i].TenChuyenNganh, MaKhoa: rows[i].MaKhoa, 
-            };
-            database.themChuyenNganh(data, function (results) {
-                
-            });
+            let chuyennganh = rows[i].MaChuyenNganh;
+            arr.push(chuyennganh);
 
         };
-         res.redirect('/nhanvien/cnchuyennganh');
+         database.chuyennganhkiemtradulieu(arr,function (results) {
+             if(results.length > 0){
+                res.send({ message: 'Chuyên ngành có mã'+ '\t' + results[0].MaChuyenNganh + '\t' + 'đã tồn tại' });
+             }else{
+                for (let a = 0; a < rows.length; a++) {
+                    let data = {
+                        MaChuyenNganh: rows[a].MaChuyenNganh, TenChuyenNganh: rows[a].TenChuyenNganh, MaKhoa: rows[a].MaKhoa, 
+                    };
+                    database.themChuyenNganh(data, function (results) {
+                        
+                    });
+        
+                };
+                 
+                res.send({ message: 'Đã thêm' });
+             }
+             
+         });
     });
 
 };

@@ -82,9 +82,9 @@
                                     <br />
                                     <span id="status"></span><br>
                                 </form>
-                                <a id="btnsavedatagv" href="/nhanvien/cngiangvien/savedatagv" class="btn btn-primary">Lưu dữ
+                                <a id="btnsavedatagv" href="#" class="btn btn-primary">Lưu dữ
                                     liệu từ file</a>
-                                <span id="statusupdatek"></span><br><br>
+                                <span id="statusupdategv"></span><br><br>
     
                             </div>
                         </div>
@@ -108,6 +108,15 @@
                             $("#status").empty().text(response);
                         }
                     });
+                    return false;
+                });
+            });
+            $(document).ready(function () {
+                $('#btnsavedatagv').click(function () {
+                    $.ajax({url: "/nhanvien/cngiangvien/savedatagv", success: function(result){
+                        $("#statusupdategv").text(result.message);
+                    }});
+                
                     return false;
                 });
             });

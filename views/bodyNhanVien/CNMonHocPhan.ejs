@@ -78,7 +78,7 @@
                                     <br />
                                     <span id="status"></span><br>
                                 </form>
-                                <a id="btnsavedatalophp" href="/nhanvien/cnmonhp/savedatamonhp" class="btn btn-primary">Lưu dữ
+                                <a id="btnsavedatalophp" href="#" class="btn btn-primary">Lưu dữ
                                     liệu từ file</a>
                                 <span id="statusupdatemhp"></span><br><br>
     
@@ -104,6 +104,15 @@
                             $("#status").empty().text(response);
                         }
                     });
+                    return false;
+                });
+            });
+            $(document).ready(function () {
+                $('#btnsavedatalophp').click(function () {
+                    $.ajax({url: "/nhanvien/cnmonhp/savedatamonhp", success: function(result){
+                        $("#statusupdatemhp").text(result.message);
+                    }});
+                
                     return false;
                 });
             });
