@@ -87,9 +87,9 @@ router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
 router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
-<<<<<<< HEAD
+//<<<<<<< HEAD
 router.get('/cnsinhvien/lockq',controllersv.lockqkh );
-=======
+
 
 //Nhân viên cập nhật giảng viên
 router.get('/cngiangvien',controllergv.trangcapnhatgv );
@@ -125,7 +125,7 @@ router.get('/cnhocky/add-hocky', controllerhocky.chuyennhapHocKy);
 router.get('/cnhocky/deletehocky/:hocky', controllerhocky.xoaHocKy);
 
 router.post('/cnhocky/save_hocky', upload.fields([]), controllerhocky.luuHocKy);
->>>>>>> TienBranch
+//>>>>>>> TienBranch
 
 //Nhân viên xếp lịch học
 router.get('/xeplichhoc', controllerlh.trangxeplich);
