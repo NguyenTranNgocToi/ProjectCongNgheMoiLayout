@@ -53,7 +53,7 @@ module.exports.chuyeneditlophp = function (req, res) {
 module.exports.capnhatlophp = function(req,res){
     const malophp = req.body.malophp;
     const siso = req.body.siso;
-    const mamhp = req.body.sotinchi;
+    const mamhp = req.body.mamhp;
     const nam = req.body.nam;
     const hocky = req.body.hocky;
     const dadangky = req.body.dadangky;
@@ -61,6 +61,7 @@ module.exports.capnhatlophp = function(req,res){
     database.updateLHP(siso,mamhp,nam,hocky,dadangky,malophp,function (results){
         res.redirect('/nhanvien/cnlophp');
     });
+    // console.log(siso,mamhp,nam,hocky,dadangky,malophp);
 };
 
 module.exports.timkiemlophp = function (req, res) {

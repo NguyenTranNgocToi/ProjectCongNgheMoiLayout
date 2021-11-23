@@ -62,6 +62,8 @@ module.exports.capnhatkhoa = function(req,res){
     const makhoa = req.body.makhoa;
     const tenkhoa = req.body.tenkhoa;
 
+    console.log(makhoa,tenkhoa);
+
     database.updateKhoa(makhoa,tenkhoa,function (results){
         res.redirect('/nhanvien/cnkhoa');
     });

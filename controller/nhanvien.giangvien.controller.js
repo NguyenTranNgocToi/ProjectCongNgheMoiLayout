@@ -61,6 +61,7 @@ module.exports.capnhatgv = function(req,res){
     database.updateGV(hoten,diachi,gioitinh,ngaysinh,sodt,magv,function (results){
         res.redirect('/nhanvien/cngiangvien');
     });
+    console.log(hoten,diachi,gioitinh,ngaysinh,sodt,magv);
 };
 
 module.exports.timkiemgv = function (req, res) {

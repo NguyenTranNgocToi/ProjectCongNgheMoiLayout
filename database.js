@@ -863,10 +863,11 @@ exports.chuyenDenUpdateMHP = function(MaMHP,callbackQuery){
     })  
 };
 
-exports.updateMHP = function(mamhp,tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,callbackQuery){
+exports.updateMHP = function(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,tenmhhp,mamhp,callbackQuery){
     connect();
     connection.query("update monhocphan set tenmhhp = ?,sotinchi = ?,hinhthucthi = ?,batbuoc = ?,makhoa = ?,hocphanyeucau = ? where mamhp = ?",
-    [tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau, mamhp],(err,results)=>{
+    [tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,mamhp],(err,results)=>{
+        // console.log(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,tenmhhp,mamhp);
         if(!err){
             callbackQuery(results);
         }else{
@@ -946,10 +947,11 @@ exports.chuyenDenUpdateGV = function(MaGV,callbackQuery){
     })  
 };
 
-exports.updateGV = function(magv,hoten,gioitinh,ngaysinh,diachi,dienthoai,callbackQuery){
+exports.updateGV = function(hoten,diachi,gioitinh,ngaysinh,dienthoai,magv,callbackQuery){
     connect();
     connection.query("update giangvien set HoTen = ?, DiaChi = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ? where MaGV = ?",
     [hoten,diachi,gioitinh,ngaysinh,dienthoai,magv],(err,results)=>{
+        console.log(hoten,diachi,gioitinh,ngaysinh,dienthoai,magv)
         if(!err){
             callbackQuery(results);
         }else{

@@ -3,8 +3,7 @@
         <a href="/nhanvien/cngiangvien"><h1>Trở về danh sách</h1></a>
         <form action="/nhanvien/cngiangvien/update_giangvien" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="MaGV">Mã giảng viên:</label>
-                <input type="text" class="form-control" id="magv"  name="magv" value="<%=giangvien.MaGV%>" disabled required>
+                <input type="hidden" class="form-control" id="magv"  name="magv" value="<%=giangvien.MaGV%>" required>
             </div>
             <div class="form-group">
                 <label for="HoTen">Họ tên:</label>

@@ -3,23 +3,22 @@
         <a href="/nhanvien/cnmonhp"><h1>Trở về danh sách</h1></a>
         <form action="/nhanvien/cnmonhp/update_mhp" method="post" enctype="multipart/form-data" >
             <div class="form-group">
-                <label for="MaMHP">Mã môn học phần:</label>
-                <input type="text" class="form-control" id="mamhp" name="mamhp" value="<%=monhp.MaMHP%>" disabled required>
+                <input type="hidden" class="form-control" id="mamhp" name="mamhp" value="<%=monhp.MaMHP%>"  required>
             </div>
             <div class="form-group">
-                <label for="TenMHHP">Tên môn học phần:</label>
+                <label >Tên môn học phần:</label>
                 <input type="text" class="form-control" id="tenmhhp"  name="tenmhhp" value="<%=monhp.TenMHHP%>" required>
             </div>
             <div class="form-group">
-                <label for="SoTinChi">Số tín chỉ:</label>
+                <label >Số tín chỉ:</label>
                 <input type="text" class="form-control" id="sotinchi" name="sotinchi" value="<%=monhp.SoTinChi%>" required>
             </div>
             <div class="form-group">
-                <label for="HinhThucThi">Hình thức thi:</label>
+                <label >Hình thức thi:</label>
                 <input type="text" class="form-control" id="hinhthucthi" name="hinhthucthi" value="<%=monhp.HinhThucThi%>" required>
             </div>
             <div class="form-group">
-                <label for="BatBuoc">Bắt buộc:</label>
+                <label >Bắt buộc:</label>
                 <input type="text" class="form-control" id="batbuoc" name="batbuoc" value="<%=monhp.BatBuoc%>" required>
             </div>
             <div class="form-group">
@@ -27,7 +26,7 @@
                 <input type="text" class="form-control" id="makhoa" name="makhoa" value="<%=monhp.MaKhoa%>" required>
             </div>
             <div class="form-group">
-                <label for="HocPhanYeuCau">Học phần yêu cầu:</label>
+                <label >Học phần yêu cầu:</label>
                 <input type="text" class="form-control" id="hocphanyeucau" name="hocphanyeucau" value="<%=monhp.HocPhanYeuCau%>" required>
             </div>
             <button type="submit" class="btn btn-default">Lưu</button>

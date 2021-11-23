@@ -59,9 +59,10 @@ module.exports.capnhatmhp = function(req,res){
     const makhoa = req.body.makhoa;
     const hocphanyeucau = req.body.hocphanyeucau;
 
-    database.updateMHP(tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau, mamhp,function (results){
+    database.updateMHP(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,tenmhhp,mamhp,function (results){
         res.redirect('/nhanvien/cnmonhp');
     });
+    // console.log(mamhp,tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau);
 };
 
 module.exports.timkiemmhp = function (req, res) {
