@@ -50,6 +50,18 @@ exports.getdsNam = function(callbackQuery){
         }
     })  
 };
+
+exports.getdshocky = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM hocky", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+           
+        }
+    })  
+};
 // lấy mật khẩu sv ntnt
 exports.getPassSV = function(MSSV,callbackQuery){
     connect();

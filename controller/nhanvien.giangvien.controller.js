@@ -106,7 +106,7 @@ module.exports.savedataGV = function (req, res) {
             prop: 'GioiTinh',
             type: String
         },
-        'Ngày Sinh': {
+        'Ngày sinh': {
             prop: 'NgaySinh',
             type: String
         },
