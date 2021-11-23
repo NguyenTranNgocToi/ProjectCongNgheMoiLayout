@@ -132,11 +132,11 @@ module.exports.timkiemkhoa = function (req, res) {
     console.log(query);
     database.timkiemkhoa(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: results });
+            res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: results,sotrang: 0});
         } else {
-            database.getAllKhoa(function (result) {
-                res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: result });
-            });
+            // database.getAllKhoa(function (result) {
+                res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: 0,sotrang: 0 });
+            // });
         }
 
     });
