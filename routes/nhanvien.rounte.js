@@ -11,6 +11,12 @@ const controllerchuyennganh = require('../controller/NhanVienChuyenNganh.control
 const controllerlh = require('../controller/lichhoc.controller');
 const controllercn = require('../controller/chiachuyennganh.controller');
 const controllerchcckh = require('../controller/chuongtrkh.controller');
+const controllerlhp = require('../controller/NhanVienLHP.controller');
+const controllermhp = require('../controller/nhanvienmhp.controller');
+const controllergv = require('../controller/nhanvien.giangvien.controller');
+const controllernamhoc = require('../controller/NhanVienNamHoc.controller');
+const controllerphonghoc = require('../controller/NhanVienPhongHoc.controller');
+const controllerhocky = require('../controller/NhanVienHocKy.controller');
 
 
 var database = require("../database");
@@ -29,8 +35,11 @@ router.get('/cnchuyennganh/add-chuyennganh',controllerchuyennganh.chuyenaddchuye
 router.get('/cnchuyennganh/deletechuyennganh/:chuyennganhid',controllerchuyennganh.xoachuyennganh);
 router.get('/cnchuyennganh/editchuyennganh/:chuyennganhid', controllerchuyennganh.chuyeneditchuyennganh);
 router.get('/cnchuyennganh/timchuyennganh',upload.fields([]), controllerchuyennganh.timkiemchuyennganh);
+router.get('/cnchuyennganh/savedatachuyennganh', upload.fields([]),controllerchuyennganh.savedataChuyenNganh);
+
 router.post('/cnchuyennganh/save_chuyennganh', upload.fields([]),controllerchuyennganh.luuchuyennganh);
 router.post('/cnchuyennganh/update_chuyennganh', upload.fields([]), controllerchuyennganh.capnhatchuyennganh);
+router.post('/cnchuyennganh/uploadfileChuyenNganh', controllerchuyennganh.uploadfileChuyenNganh);
 
 //Nhân viên cập nhật khoa
 router.get('/cnkhoa',controllerkhoa.trangcapnhatkhoa);
@@ -38,10 +47,35 @@ router.get('/cnkhoa/add-khoa', controllerkhoa.chuyennhapkhoa);
 router.get('/cnkhoa/deletekhoa/:khoaid',controllerkhoa.xoakhoa);
 router.get('/cnkhoa/editkhoa/:khoaid', controllerkhoa.chuyeneditkhoa);
 router.get('/cnkhoa/timkhoa',upload.fields([]), controllerkhoa.timkiemkhoa);
+router.get('/cnkhoa/savedatakhoa', upload.fields([]),controllerkhoa.savedatakhoa);
+
 router.post('/cnkhoa/save_khoa', upload.fields([]),controllerkhoa.luukhoa);
 router.post('/cnkhoa/update_khoa', upload.fields([]), controllerkhoa.capnhatkhoa);
 router.post('/cnkhoa/uploadfileKhoa', controllerkhoa.uploadfilekhoa);
-router.get('/cnkhoa/savedataKhoa', upload.fields([]),controllerkhoa.savedatakhoa);
+
+//Nhân viên cập nhật môn học phần
+router.get('/cnmonhp',controllermhp.trangcapnhatmhp);
+router.get('/cnmonhp/add-monhp', controllermhp.chuyennhapkhoa);
+router.get('/cnmonhp/deletemonhp/:monhpid', controllermhp.xoamonhp);
+router.get('/cnmonhp/editmonhp/:monhpid', controllermhp.chuyeneditmonhp);
+router.get('/cnmonhp/timmonhp', upload.fields([]),controllermhp.timkiemmhp);
+router.get('/cnmonhp/savedatamonhp', upload.fields([]),controllermhp.savedatamonhp);
+
+router.post('/cnmonhp/save_mhp', upload.fields([]),controllermhp.luumhp);
+router.post('/cnmonhp/update_mhp', upload.fields([]), controllermhp.capnhatmhp);
+router.post('/cnmonhp/uploadfileMonHP', controllermhp.uploadfilemonhp);
+
+//Nhân viên cập nhật lớp học phần
+router.get('/cnlophp',controllerlhp.trangcapnhatlhp);
+router.get('/cnlophp/add-lhp', controllerlhp.chuyennhaplhp);
+router.get('/cnlophp/deletelophp/:lophpid', controllerlhp.xoalophp);
+router.get('/cnlophp/editlophp/:lophpid', controllerlhp.chuyeneditlophp);
+router.get('/cnlophp/timlophp', upload.fields([]),controllerlhp.timkiemlophp);
+router.get('/cnlophp/savedatalophp', upload.fields([]),controllerlhp.savedataLopHP);
+
+router.post('/cnlophp/save_lophp', upload.fields([]),controllerlhp.luulhp);
+router.post('/cnlophp/update_lhp', upload.fields([]), controllerlhp.capnhatlophp);
+router.post('/cnlophp/uploadfileLopHP', controllerlhp.uploadfileLopHP);
 
 //Nhân viên cập nhật sinh viên
 router.get('/cnsinhvien',controllersv.trangcapnhatsv );
@@ -53,7 +87,45 @@ router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
 router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
+<<<<<<< HEAD
 router.get('/cnsinhvien/lockq',controllersv.lockqkh );
+=======
+
+//Nhân viên cập nhật giảng viên
+router.get('/cngiangvien',controllergv.trangcapnhatgv );
+router.get('/cngiangvien/add-gv', controllergv.chuyennhapgv);
+router.get('/cngiangvien/editgv/:gvid', controllergv.chuyeneditgv);
+router.get('/cngiangvien/deletegv/:gvid', controllergv.xoagv);
+router.get('/cngiangvien/timgv', upload.fields([]),controllergv.timkiemgv);
+router.get('/cngiangvien/savedatagv', upload.fields([]),controllergv.savedataGV);
+
+router.post('/cngiangvien/save_giangvien', upload.fields([]), controllergv.luugv);
+router.post('/cngiangvien/update_giangvien', upload.fields([]), controllergv.capnhatgv);
+router.post('/cngiangvien/uploadfileGV', controllergv.uploadfileGV);
+
+//Nhân viên cập nhật năm học
+router.get('/cnnamhoc', controllernamhoc.trangcapnhatNamHoc);
+router.get('/cnnamhoc/add-namhoc', controllernamhoc.chuyennhapNamHoc);
+router.get('/cnnamhoc/deletenamhoc/:nam', controllernamhoc.xoaNamHoc);
+router.get('/cnnamhoc/timnamhoc', upload.fields([]),controllernamhoc.timkiemNamHoc)
+
+router.post('/cnnamhoc/save_namhoc', upload.fields([]), controllernamhoc.luuNamHoc);
+
+//Nhân viên cập nhật phòng học
+router.get('/cnphonghoc', controllerphonghoc.trangcapnhatPhongHoc);
+router.get('/cnphonghoc/add-phonghoc', controllerphonghoc.chuyennhapPhongHoc);
+router.get('/cnphonghoc/deletephonghoc/:phonghoc', controllerphonghoc.xoaPhongHoc);
+router.get('/cnphonghoc/timphonghoc', upload.fields([]),controllerphonghoc.timkiemPhongHoc)
+
+router.post('/cnphonghoc/save_phonghoc', upload.fields([]), controllerphonghoc.luuPhongHoc);
+
+//Nhân viên cập nhật học kỳ
+router.get('/cnhocky', controllerhocky.trangcapnhatHocKy);
+router.get('/cnhocky/add-hocky', controllerhocky.chuyennhapHocKy);
+router.get('/cnhocky/deletehocky/:hocky', controllerhocky.xoaHocKy);
+
+router.post('/cnhocky/save_hocky', upload.fields([]), controllerhocky.luuHocKy);
+>>>>>>> TienBranch
 
 //Nhân viên xếp lịch học
 router.get('/xeplichhoc', controllerlh.trangxeplich);

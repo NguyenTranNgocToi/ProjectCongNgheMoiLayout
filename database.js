@@ -394,7 +394,7 @@ exports.timkiemkhoa = function(tukhoakhoa,callbackQuery){
     Bắt đầu xử lý cho giao diện chuyên ngành
 */
 
-// Lấy dữ liệu từ bảng khoa
+// Lấy dữ liệu từ bảng chuyên ngành
 exports.getAllChuyenNganh = function(callbackQuery){
     connect();
     connection.query("SELECT * FROM chuyennganh order by MaChuyenNganh", function(err, results,fields){
@@ -723,4 +723,418 @@ exports.kiemtradulieuxepkhung = function(macn,mamhp,callbackQuery){
 
 /*
    Kết thúc xử lý giao diện xếp chương trình khung
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện Lớp học phần
+*/
+
+// Lấy dữ liệu từ bảng Lớp học phần
+exports.getAllLHP = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM lophocphan order by MaLopHP", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm Lớp học phần
+exports.themLHP = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into lophocphan Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa Lớp học phần
+exports.xoaLHP = function(MaLopHP,callbackQuery){
+    connect();
+    connection.query("Delete from lophocphan where MaLopHP = ?",[MaLopHP],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+//Cập nhật lại Lớp học phần
+exports.chuyenDenUpdateLHP = function(MaLopHP,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP = ?",[MaLopHP],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.updateLHP = function(siso,mamhp,nam,hocky,dadangky,malophp,callbackQuery){
+    connect();
+    connection.query("update lophocphan set SiSo = ?,MaMHP = ?,Nam = ?,HocKy = ?,DaDangKy = ? where MaLopHP = ?",
+    [siso,mamhp,nam,hocky,dadangky,malophp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+
+exports.timkiemlhp = function(tukhoalhp,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP like N'%"+tukhoalhp+"%' or SiSo like N'%"+tukhoalhp+"%'or MaMHP like N'%"+tukhoalhp+"%'or Nam like N'%"+tukhoalhp+"%'or HocKy like N'%"+tukhoalhp+"%'or DaDangKy like N'%"+tukhoalhp+"%' limit 10",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện Lớp học phần
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện Môn học phần
+*/
+
+// Lấy dữ liệu từ bảng Môn học phần
+exports.getAllMHP = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM monhocphan order by MaMHP", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm Môn học phần
+exports.themMHP = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into monhocphan Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa Môn học phần
+exports.xoaMHP = function(MaMHP,callbackQuery){
+    connect();
+    connection.query("Delete from monhocphan where MaMHP = ?",[MaMHP],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.chuyenDenUpdateMHP = function(MaMHP,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where MaMHP = ?",[MaMHP],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.updateMHP = function(mamhp,tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,callbackQuery){
+    connect();
+    connection.query("update monhocphan set tenmhhp = ?,sotinchi = ?,hinhthucthi = ?,batbuoc = ?,makhoa = ?,hocphanyeucau = ? where mamhp = ?",
+    [tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau, mamhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+
+exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where mamhp like N'%"+tukhoamonhp+"%' or tenmhhp like N'%"+tukhoamonhp+"%'or sotinchi like N'%"+tukhoamonhp+"%'or hinhthucthi like N'%"+tukhoamonhp+"%'or batbuoc like N'%"+tukhoamonhp+"%'or makhoa like N'%"+tukhoamonhp+"%'or hocphanyeucau like N'%"+tukhoamonhp+"%'",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện Môn học phần
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện giảng viên
+*/
+
+// Lấy dữ liệu từ bảng giảng viên
+exports.getGiangVien = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM giangvien order by MaGV", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm giảng viên
+exports.themGV = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into giangvien Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa giảng viên
+exports.xoaGV = function(MaGV,callbackQuery){
+    connect();
+    connection.query("Delete from giangvien where MaGV = ?",[MaGV],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.chuyenDenUpdateGV = function(MaGV,callbackQuery){
+    connect();
+    connection.query("Select * from giangvien where MaGV = ?",[MaGV],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.updateGV = function(magv,hoten,gioitinh,ngaysinh,diachi,dienthoai,callbackQuery){
+    connect();
+    connection.query("update giangvien set HoTen = ?, DiaChi = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ? where MaGV = ?",
+    [hoten,diachi,gioitinh,ngaysinh,dienthoai,magv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.timkiemGV = function(tukhoagv,callbackQuery){
+    connect();//or DiaChi like N'%"+tukhoa+"%'
+    connection.query("Select * from giangvien where Hoten like N'%"+tukhoagv+"%' or MaGV like N'%"+tukhoagv+"%' limit 10",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+/*
+    Kết thúc xử lý cho giao diện giảng viên
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện năm học
+*/
+
+// Lấy dữ liệu từ bảng năm học
+exports.getAllNamHoc = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM nam order by Nam", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm năm học
+exports.themNamHoc = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into nam Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa năm học
+exports.xoaNamHoc = function(Nam,callbackQuery){
+    connect();
+    connection.query("Delete from nam where Nam = ?",[Nam],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+// Tìm kiếm năm học
+exports.timkiemNamHoc = function(tukhoanamhoc,callbackQuery){
+    connect();
+    connection.query("Select * from nam where Nam like N'%"+tukhoanamhoc+"%'",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện năm học
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện phòng học
+*/
+
+// Lấy dữ liệu từ bảng phòng học
+exports.getAllPhongHoc = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM phonghoc order by PhongHoc", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm phòng học
+exports.themPhongHoc = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into phonghoc Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa phòng học
+exports.xoaPhongHoc = function(PhongHoc,callbackQuery){
+    connect();
+    connection.query("Delete from phonghoc where PhongHoc = ?",[PhongHoc],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+// Tìm kiếm phòng học
+exports.timkiemPhongHoc = function(tukhoaphonghoc,callbackQuery){
+    connect();
+    connection.query("Select * from phonghoc where PhongHoc like N'%"+tukhoaphonghoc+"%'",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+}
+/*
+    Kết thúc xử lý cho giao diện phòng học
+*/
+
+/*
+    Bắt đầu xử lý cho giao diện học kỳ
+*/
+
+// Lấy dữ liệu từ bảng học kỳ
+exports.getAllHocKy = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM hocky order by HocKy", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//Thêm học kỳ
+exports.themHocKy = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into hocky Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+
+//Xóa học kỳ
+exports.xoaHocKy = function(HocKy,callbackQuery){
+    connect();
+    connection.query("Delete from hocky where HocKy = ?",[HocKy],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+/*
+    Kết thúc xử lý cho giao diện học kỳ
 */
