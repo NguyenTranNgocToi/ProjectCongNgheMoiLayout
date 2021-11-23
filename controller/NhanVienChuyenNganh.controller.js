@@ -76,3 +76,45 @@ module.exports.timkiemchuyennganh = function (req, res) {
 
     });
 };
+module.exports.uploadfileChuyenNganh = function (req, res) {
+    upload1(req, res, function (err) {
+        if (err) {
+            return res.end('Error uploading file');
+        }
+        res.end('File is uploaded successfully');
+    });
+};
+
+module.exports.savedataChuyenNganh = function (req, res) {
+    const schema = {
+        'Mã chuyên ngành': {
+            prop: 'MaChuyenNganh',
+            type: String
+        },
+        'Tên chuyên ngành': {
+            prop: 'TenChuyenNganh',
+            type: String
+        },
+        'Mã khoa': {
+            prop: 'MaKhoa',
+            type: String
+        },
+    };
+
+    readXlsxFile('./file/datachuyennganh.xlsx', { schema }).then(({ rows, errors }) => {
+        errors.length === 0;
+        //console.log(rows);
+        for (let i = 0; i < rows.length; i++) {
+            // console.log(rows);   
+            let data = {
+                MaChuyenNganh: rows[i].MaChuyenNganh, TenChuyenNganh: rows[i].TenChuyenNganh, MaKhoa: rows[i].MaKhoa, 
+            };
+            database.themChuyenNganh(data, function (results) {
+                
+            });
+
+        };
+         res.redirect('/nhanvien/cnchuyennganh');
+    });
+
+};
