@@ -53,21 +53,23 @@ router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
 router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
-
+router.get('/cnsinhvien/lockq',controllersv.lockqkh );
 
 //Nhân viên xếp lịch học
 router.get('/xeplichhoc', controllerlh.trangxeplich);
 router.get('/xeplichhoc/timlhp',upload.fields([]), controllerlh.timlhp);
-router.get('/xeplichhoc/xoalich/:malop&:manhom', controllerlh.xoalichhoc);
+router.get('/xeplichhoc/xoalich/:manhom&:malop', controllerlh.xoalichhoc);
 router.post('/xeplichhoc/uploadfilelh', controllerlh.uploadfile);
 router.get('/xeplichhoc/savedata', upload.fields([]),controllerlh.savedata);
-
+router.get('/xeplichhoc/lockq', controllerlh.lockqlh);
+// router.get('/xeplichhoc/xlkiemtradl', upload.fields([]),controllerlh.xlkiemtraduleu);
 //Nhân viên chia chuyên ngành
 router.get('/chiachuyennganh', controllercn.trangchiacn);
 router.get('/chiachuyennganh/lockq', controllercn.lockqcn);
 router.get('/chiachuyennganh/deletesvng/:svid', controllercn.xoasvkhcn);
 router.post('/chiachuyennganh/uploadfilesvcn', controllercn.uploadfilesvcn);
 router.get('/chiachuyennganh/savedata', upload.fields([]),controllercn.savedata);
+router.get('/chiachuyennganh/timsv',upload.fields([]), controllercn.timsvcn);
 
 
 //nhân viên chia chương trình khung
@@ -76,8 +78,6 @@ router.get('/xepkhung/lockq', controllerchcckh.lockq);
 router.get('/xepkhung/deletemhp/:mhid', controllerchcckh.xoamhkhcn);
 router.post('/xepkhung/uploadfilemhcn', controllerchcckh.uploadfilemhcn);
 router.get('/xepkhung/savedata', upload.fields([]),controllerchcckh.savedata);
-
-
 
 
 
