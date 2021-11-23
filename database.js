@@ -398,6 +398,18 @@ exports.timkiemkhoa = function(tukhoakhoa,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtradulieukhoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa in (?)",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện khoa
 */

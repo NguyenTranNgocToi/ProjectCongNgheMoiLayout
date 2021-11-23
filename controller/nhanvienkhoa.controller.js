@@ -16,9 +16,17 @@ var upload1 = multer({ storage: storage }).single('myfilekhoa');
 
 
 module.exports.trangcapnhatkhoa = function (req, res) {
-    
+
+    var page = parseInt(req.query.page) || 1;
+    //console.log(page);
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
     database.getAllKhoa(function (result) {
-        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa : result});
+        let sotrang = (result.length) / perPage;
+        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa : result.slice(start,end),sotrang: sotrang+1});
     })
 };
 
@@ -89,22 +97,33 @@ module.exports.savedatakhoa = function (req, res) {
             type: String
         },
     };
-
+    var arr = new Array();
     readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
-            };
-            database.themKhoa(data, function (results) {
-                
-            });
-
+            let makhoa = rows[i].MaKhoa;
+            arr.push(makhoa);
         };
-         res.redirect('/nhanvien/cnKhoa');
+        database.kiemtradulieukhoa(arr,function (result) {
+            if(result.length>0){
+                res.send({ message: 'Khoa có mã số' +'\t'+ result[0].MaKhoa +'\t'+ 'đã tồn tại' });
+            }else{   
+                for (let a = 0; a < rows.length; a++) {
+                    
+                    let data = {
+                        MaKhoa: rows[a].MaKhoa, TenKhoa: rows[a].TenKhoa
+                    };
+                    database.themKhoa(data, function (results) {
+                        
+                    });
+        
+                };
+                res.send({ message: 'thành công' });
+            } 
+        });
     });
+    
+    
 
 };
 

@@ -47,6 +47,15 @@
                                 </tbody>
                               </table>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            
+                                <%for(let i = 0;i< sotrang;i++){%>
+                                    <ul class="pagination">
+                                        <li><a href="/nhanvien/cnkhoa/?page=<%=i%>"><%=i%></a></li>
+                                    </ul>
+                                <%}%>
+                            
+                        </div>
                     </div>
                 </div>
                 <div id="tab2" class="tab-pane fade">
@@ -66,7 +75,7 @@
                                 <br />
                                 <span id="status"></span><br>
                             </form>
-                            <a id="btnsavedatakhoa" href="/nhanvien/cnkhoa/savedatakhoa" class="btn btn-primary">Lưu dữ
+                            <a id="btnsavedatakhoa" href="#" class="btn btn-primary">Lưu dữ
                                 liệu từ file</a>
                             <span id="statusupdatek"></span><br><br>
 
@@ -107,5 +116,17 @@
             return false;
         });
     });
+
+    $(document).ready(function () {
+            $('#btnsavedatakhoa').click(function () {
+                $.ajax({url: "/nhanvien/cnkhoa/savedatakhoa", success: function(result){
+                    $("#statusupdatek").text(result.message);
+                    // alert('thanhcong')
+                }});
+                return false;
+               
+            });
+            
+        });
 </script>
 </header>
