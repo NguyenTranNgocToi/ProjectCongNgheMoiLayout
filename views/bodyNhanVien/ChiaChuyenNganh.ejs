@@ -121,8 +121,6 @@
               <span id="status"></span><br>
             </form>
 
-            <a id="btnccnkiemtra" href="#" class="btn btn-primary">Kiểm tra dữ liệu</a>
-            <span id="statuskiemtradulieu"></span><br><br><br>
 
             <a id="btnchiachuyennganh" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
             <span id="statuschiachuyennganh"></span><br><br>
@@ -157,14 +155,6 @@
       });
     });
 
-    $(document).ready(function () {
-            $('#btnccnkiemtra').click(function () {
-                $.ajax({url: "/nhanvien/chiachuyennganh/kiemtradata", success: function(result){
-                    $("#statuskiemtradulieu").text(result.message);
-                }});
-                return false;
-            });
-        });
 
     $(document).ready(function () {
             $('#btnchiachuyennganh').click(function () {

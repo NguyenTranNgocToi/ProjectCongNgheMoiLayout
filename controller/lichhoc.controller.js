@@ -63,59 +63,11 @@ module.exports.xoalichhoc = function (req, res) {
     const manhom = req.params.manhom;
     database.xoalichhoc(malhp,manhom,function(results){
         res.redirect('/nhanvien/xeplichhoc');
-    })   
+    })
 };
+
 
 module.exports.savedata = function (req, res) {
-    const schema = {
-        'Mã nhóm': {
-            prop: 'MaNhom',
-            type: String
-        },
-        'Mã lớp học phần': {
-            prop: 'MaLopHP',
-            type: String
-        },
-        'Tiết học': {
-            prop: 'TietHoc',
-            type: String
-        },
-        'Ngày học': {
-            prop: 'NgayHoc',
-            type: String
-        },
-        'Phòng học': {
-            prop: 'PhongHoc',
-            type: String
-        },
-        'Mã giáo viên': {
-            prop: 'MaGV',
-            type: String
-        },
-        'Ngày bắt đầu': {
-            prop: 'NgayBatDau',
-            type: String
-        }
-    };
-    readXlsxFile('./file/datalichhoc.xlsx', { schema }).then(({ rows, errors }) => {
-        errors.length === 0;
-            for (let i = 0; i < rows.length; i++) {
-                // console.log(rows);   
-                let data = {
-                    MaNhom: rows[i].MaNhom, MaLopHP: rows[i].MaLopHP, TietHoc: rows[i].TietHoc,
-                    NgayHoc: rows[i].NgayHoc, PhongHoc: rows[i].PhongHoc, MaGV: rows[i].MaGV, NgayBatDau: rows[i].NgayBatDau
-                };
-                database.themlichhoc(data, function (results) {
-                });
-
-            };
-            res.send({ message: 'Đã thêm' });
-           
-    });
-};
-
-
-module.exports.xlkiemtraduleu = function (req, res) {
     const schema = {
         'Mã nhóm': {
             prop: 'MaNhom',
@@ -158,9 +110,18 @@ module.exports.xlkiemtraduleu = function (req, res) {
             };
            database.xlkiemtradulieu(arrlhp,arrnhom,function (results) {
             if(results.length>0){
-                res.send({ message: 'Dữ liệu sai' });
+                res.send({ message: 'Lớp học phần có mã'+'\t' + results[0].MaLopHP +'\t' + 'và nhóm' + '\t' + results[0].MaNhom + '\t' + 'đã tồn tại' });
             }else{
-               res.send({ message: 'Dữ liệu đúng' });
+                for (let a = 0; a < rows.length; a++) { 
+                    let data = {
+                        MaNhom: rows[a].MaNhom, MaLopHP: rows[a].MaLopHP, TietHoc: rows[a].TietHoc,
+                        NgayHoc: rows[a].NgayHoc, PhongHoc: rows[a].PhongHoc, MaGV: rows[a].MaGV, NgayBatDau: rows[a].NgayBatDau
+                    };
+                    database.themlichhoc(data, function (results) {
+                    });
+
+                };
+                res.send({ message: 'Đã thêm' });
             } 
            });
     });

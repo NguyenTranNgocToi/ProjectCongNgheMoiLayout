@@ -195,7 +195,7 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
 
 exports.kiemtradl = function(masv,callbackQuery){
     connect();
-    connection.query("SELECT * FROM sinhvien where MSSV = ?",[masv],
+    connection.query("SELECT * FROM sinhvien where MSSV in (?)",[masv],
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -708,7 +708,7 @@ exports.themMHCN = function(data,callbackQuery){
 
 exports.kiemtradulieuxepkhung = function(macn,mamhp,callbackQuery){
     connect();
-    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?);",[macn,mamhp],
+    connection.query("SELECT * FROM chuongtrinhkhung where MachuyenNganh in (?) and MaMHP in (?)",[macn,mamhp],
     (err,results)=>{
         if(!err){
             callbackQuery(results);

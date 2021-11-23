@@ -168,7 +168,7 @@
         $(document).ready(function () {
             $('#btnsavedatasv').click(function () {
                 $.ajax({url: "/nhanvien/cnsinhvien/savedata", success: function(result){
-                    $("#statusupdate").text(result);
+                    $("#statusupdate").text(result.message);
                 }});
                 return false;
             });

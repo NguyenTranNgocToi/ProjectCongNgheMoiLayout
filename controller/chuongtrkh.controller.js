@@ -58,41 +58,8 @@ module.exports.xoamhkhcn = function (req, res) {
 
 
 
+
 module.exports.savedata = function (req, res) {
-
-    const schema = {
-        'Mã chuyên ngành': {
-            prop: 'MaChuyenNganh',
-            type: String
-        },
-        'Mã môn học phần': {
-            prop: 'MaMHP',
-            type: String
-        },
-        'Học Kì': {
-            prop: 'HocKy',
-            type: Number
-        },
-    };
-    readXlsxFile('./file/datamhthuocnganh.xlsx', { schema }).then(({ rows, errors }) => {
-        errors.length === 0;
-        for (let i = 0; i < rows.length; i++) {
-            
-                let data = {
-                    MaChuyenNganh: rows[i].MaChuyenNganh, MaMHP: rows[i].MaMHP, HocKy: rows[i].HocKy
-                };
-                database.themMHCN(data, function (results) {
-
-                });
-            
-        };
-        res.send({ message: 'Thành công' });
-
-    });
-
-};
-
-module.exports.xkkiemtradulieu = function (req, res) {
 
     const schema = {
         'Mã chuyên ngành': {
@@ -121,9 +88,20 @@ module.exports.xkkiemtradulieu = function (req, res) {
         };
         database.kiemtradulieuxepkhung(arrcn,arrmhp,function (results) {
             if(results.length>0){
-                res.send({ message: 'Dữ liệu sai' });
+                res.send({ message: 'Môn học có mã' + '\t' + results[0].MaMHP + '\t' + 'thuộc chuyên ngành' + '\t' + results[0].MachuyenNganh + '\t' + 'đã tồn tại'});
             }else{
-               res.send({ message: 'Dữ liệu đúng' });
+            
+                for (let i = 0; i < rows.length; i++) {
+                
+                        let data = {
+                            MaChuyenNganh: rows[i].MaChuyenNganh, MaMHP: rows[i].MaMHP, HocKy: rows[i].HocKy
+                        };
+                        database.themMHCN(data, function (results) {
+
+                        });
+                
+                    };
+                res.send({ message: 'Thành công' });
             }  
         });
     });
