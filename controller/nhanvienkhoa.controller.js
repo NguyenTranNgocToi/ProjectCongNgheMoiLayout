@@ -85,40 +85,25 @@ module.exports.savedatakhoa = function (req, res) {
         'Tên khoa': {
             prop: 'TenKhoa',
             type: String
-        }
-    }
+        },
+    };
+
     readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-            for (let i = 0; i < rows.length; i++) {
-                let data = {
-                    MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
-                };
+        //console.log(rows);
+        for (let i = 0; i < rows.length; i++) {
+            // console.log(rows);   
+            let data = {
+                MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
             };
-            res.redirect('/nhanvien/cnkhoa');
+            database.themKhoa(data, function (results) {
+                
+            });
+
+        };
+         res.redirect('/nhanvien/cnKhoa');
     });
 
-    // const passdefaut = "123456";
-    // bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
-    //     
-    // });
-    // readXlsxFile('./file/datasv.xlsx', { schema }).then(({ rows, errors }) => {
-    //     errors.length === 0;
-    //     for (let i = 0; i < rows.length; i++) {
-    //         // console.log(rows);   
-    //         let data = {
-    //             MSSV: rows[i].MSSV, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-    //             HoTen: rows[i].HoTen, NgaySinh: rows[i].NgaySinh, SoDT: rows[i].SoDT
-    //         };
-    //         console.log(data);
-    //         database.themSV(data, function (results) {
-
-    //         });
-
-    //     };
-    //     res.redirect('/nhanvien/cnsinhvien');
-    // });
-
-    
 };
 
 module.exports.timkiemkhoa = function (req, res) {
