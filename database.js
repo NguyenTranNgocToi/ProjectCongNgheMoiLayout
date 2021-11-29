@@ -129,7 +129,7 @@ exports.themtaikhoansv = function(tk,callbackQuery){
             results = null;
         }
     });
-}
+};
 // Xóa sinh viên
 exports.xoaSV = function(masv,callbackQuery){
     connect();
@@ -171,6 +171,18 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,khoahoc,call
     connect();
     connection.query("update sinhvien set DiaChi = ?, GioiTinh = ?, HoTen = ?, NgaySinh = ?, SoDT = ?, KhoaHoc = ? where MSSV = ?",
     [diachi,gioitinh,hoten,ns,dienthoai,khoahoc,masv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+//cap nhat lại mật khẩu
+exports.svupdatemk = function(mk,masv,callbackQuery){
+    connect();
+    connection.query("update taikhoansv set Pass = ? where MaTaiKhoan = ?",[mk,masv],(err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{
@@ -695,6 +707,20 @@ exports.kiemtradulieubangmang = function(masv,callbackQuery){
     }) 
 };
 
+exports.svkiemtratruocxoa = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV = ?",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
 
 /*
    Kết thúc xử lý giao diện chia chuyên ngành
@@ -1214,3 +1240,124 @@ exports.xoaHocKy = function(HocKy,callbackQuery){
 /*
     Kết thúc xử lý cho giao diện học kỳ
 */
+
+/*
+    Bắt đầu giao diện cập nhật nhân viên
+*/
+
+//lấy danh sách nhân viên
+exports.cnnvlayds = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM nhanvienphongdaotao",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.themnhanvien = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into nhanvienphongdaotao Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+exports.themtaikhoannv = function(tk,callbackQuery){
+    connect();
+    connection.query("Insert into taikhoannv Set ?",[tk],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });
+};
+
+exports.nvchuyendentrangcapnhat = function(masv,callbackQuery){
+    connect();
+    connection.query("Select * from nhanvienphongdaotao where MaNV = ?",[masv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.capnhatnhanvien = function(manv,hoten,diachi,sodt,ngaysinh,gioitinh,makhoa,callbackQuery){
+    connect();
+    connection.query("update nhanvienphongdaotao set HoTen = ?, DiaChi = ?, SoDT = ?, NgaySinh = ?, GioiTinh = ?, MaKhoa = ? where MaNV = ?",
+    [hoten,diachi,sodt,ngaysinh,gioitinh,makhoa,manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+// Xóa nhân viên
+exports.xoanhanvien = function(manv,callbackQuery){
+    connect();
+    connection.query("Delete from nhanvienphongdaotao where MaNV = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+//Xóa tài khoản nhân viên
+exports.xoataikhoanhanvien = function(manv,callbackQuery){
+    connect();
+    connection.query("Delete from taikhoannv where MaTaiKhoan = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+//cap nhat lại mật khẩu
+exports.nvdatlaimatkhau = function(mk,manv,callbackQuery){
+    connect();
+    connection.query("update taikhoannv set Pass = ? where MaTaiKhoan = ?",[mk,manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+//lấy mã tự động
+exports.nvlaymatudong = function(callbackQuery){
+    connect();
+    connection.query("SELECT Count(MaNV) FROM nhanvienphongdaotao",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+/*
+    Kết thúc giao diện cập nhật nhân viên
+*/
+
