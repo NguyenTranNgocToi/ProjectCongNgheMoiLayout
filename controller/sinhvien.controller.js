@@ -192,8 +192,6 @@ module.exports.timkiemsv = function (req, res) {
     });
 };
 
-
-
 //đổi mật khẩu sv ntnt
 module.exports.doiMatKhauSV = function (req, res) {
     const { cookies } = req;
@@ -334,11 +332,13 @@ module.exports.dangkyhocphan = function(req,res){
     var listthuchanh;
     var listlythuyet;
     var listmonhocdadangky;
+    var lophoc;
+    var monhoctienquyet;
+    var dahocmontienquyet;
+    var mess="";
+    var mess1="";
     console.log("mã th:"+manhomth);
     console.log("mã lt:"+manhomlt);
-
-
-    
         database.laydanhsachmonhocphanchosinhvien(mssv,hocky,namhoc, function (resultQuery){
              listmh = resultQuery;
             console.log("listmh:"+ listmh[0]);
@@ -356,13 +356,153 @@ module.exports.dangkyhocphan = function(req,res){
                             database.laydanhsachlophocphanlythuyetchosinhvien(malophoc, function (resultQuery4){
                                 
                                 listlythuyet = resultQuery4;
-                               if(listthuchanh.length>0 && listlythuyet.length>0 && manhomth!= null && manhomlt != null)
-                                    console.log("thực hành lý thuyết >0 mã nhóm thực hành lý thuyết khác null");
-    
-                               if(listthuchanh.length<=0 && listlythuyet.length>0 && manhomth== null && manhomlt != null)
+
+                               //kiểm tra trường hợp đăng ký lý thuyết mà không đăng ký thực hành 
+                               if(listthuchanh.length>0 && listlythuyet.length>0 && manhomth!= null && manhomlt != null){
+                                console.log("thực hành lý thuyết >0 mã nhóm thực hành lý thuyết khác null");
+
+                                //kiểm tra xem lớp đầy chưa
+                                database.laymotlophocphanchosinhvien(malophoc, function (resultQuery5) {
+                                    lophoc = resultQuery5;
+                                    console.log("lophoc"+ lophoc[0].DaDangKy);
+                                    console.log("lophoc"+ lophoc[0].SiSo);
+                                    if(lophoc[0].DaDangKy == lophoc[0].SiSo){
+                                        mess ="lớp học đã đủ người";
+                                        console.log("mess"+mess);  
+                                    }
+
+                                    //kiểm tra lớp học phần có môn học tiên quyết hay không
+                                    database.laymonhocphantienquyetchosinhvien(malophoc,function (resultQuery7) {
+                                        monhoctienquyet = resultQuery7;
+                                        if(monhoctienquyet.length>0){
+                                            console.log("mon hoc phan tien quyet:"+monhoctienquyet[0].TenMHHP);
+                                            database.sinhviendahocphantienquyetchua(malophoc,mssv, function (resultQuery8) {
+                                                dahocmontienquyet= resultQuery8;
+                                                if(dahocmontienquyet.length<=0){
+                                                   mess1="chưa học môn tiên quyết";     
+                                                   //console.log("đã học môn tiên quyết <=0"+ dahocmontienquyet[0].TenMHHP);
+                                                   
+                                                }else{
+                                                    mess1="đã học học môn tiên quyết"; 
+                                                    console.log("đã học môn tiên quyết"+ dahocmontienquyet[0].TenMHHP);
+                                                }
+                                              
+                                                console.log("mess11"+mess1);
+                                                return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                    layout: './layouts/layoutSinhVien' , 
+                                                    title: 'Đăng Ký Học Phần', 
+                                                    listmh, 
+                                                    listlh,
+                                                    listthuchanh,
+                                                    listlythuyet,
+                                                    listmonhocdadangky, 
+                                                    namhoc, 
+                                                    hocky,
+                                                    mamonhoc,
+                                                    malophoc,
+                                                    mess,
+                                                    mess1
+                                                });
+
+                                            })
+                                        }else{
+                                            return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                layout: './layouts/layoutSinhVien' , 
+                                                title: 'Đăng Ký Học Phần', 
+                                                listmh, 
+                                                listlh,
+                                                listthuchanh,
+                                                listlythuyet,
+                                                listmonhocdadangky, 
+                                                namhoc, 
+                                                hocky,
+                                                mamonhoc,
+                                                malophoc,
+                                                mess,
+                                                mess1
+                                            });
+                                        }
+                                        
+
+                                    })
+                                });
+
+                               }
+                               //kiểm tra trường hợp không có thực hành, có lý thuyết nhưng không chọn lý thuyết    
+                               else if(listthuchanh.length<=0 && listlythuyet.length>0 && manhomth== null && manhomlt != null){
                                     console.log("thực hành <=0 lý thuyết >0 mã nhóm thực hành null lý thuyết khác null");
-                                
-                                    
+
+                                    //kiểm tra xem lớp đầy chưa
+                                    database.laymotlophocphanchosinhvien(malophoc, function (resultQuery5) {
+                                        lophoc = resultQuery5;
+                                        console.log("lophoc"+ lophoc[0].DaDangKy);
+                                        console.log("lophoc"+ lophoc[0].SiSo);
+                                        if(lophoc[0].DaDangKy == lophoc[0].SiSo){
+                                            mess ="lớp học đã đủ người";
+                                            console.log("mess"+mess);
+                                            //res.send(mess);
+                                            
+                                        }
+
+                                          //kiểm tra lớp học phần có môn học tiên quyết hay không
+                                    database.laymonhocphantienquyetchosinhvien(malophoc,function (resultQuery7) {
+                                        monhoctienquyet = resultQuery7;
+                                        if(monhoctienquyet.length>0){
+                                            console.log("mon hoc phan tien quyet:"+monhoctienquyet[0].TenMHHP);
+                                            database.sinhviendahocphantienquyetchua(malophoc,mssv, function (resultQuery8) {
+                                                dahocmontienquyet= resultQuery8;
+                                                if(dahocmontienquyet.length<=0){
+                                                   mess1="chưa học môn tiên quyết";     
+                                                   //console.log("đã học môn tiên quyết <=0"+ dahocmontienquyet[0].TenMHHP);
+                                                   
+                                                }else{
+                                                    mess1="đã học học môn tiên quyết"; 
+                                                    console.log("đã học môn tiên quyết"+ dahocmontienquyet[0].TenMHHP);
+                                                }
+                                               
+                                                console.log("mess11"+mess1);
+                                                return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                    layout: './layouts/layoutSinhVien' , 
+                                                    title: 'Đăng Ký Học Phần', 
+                                                    listmh, 
+                                                    listlh,
+                                                    listthuchanh,
+                                                    listlythuyet,
+                                                    listmonhocdadangky, 
+                                                    namhoc, 
+                                                    hocky,
+                                                    mamonhoc,
+                                                    malophoc,
+                                                    mess,
+                                                    mess1
+                                                });
+
+                                            })
+                                        }else{
+                                            return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                layout: './layouts/layoutSinhVien' , 
+                                                title: 'Đăng Ký Học Phần', 
+                                                listmh, 
+                                                listlh,
+                                                listthuchanh,
+                                                listlythuyet,
+                                                listmonhocdadangky, 
+                                                namhoc, 
+                                                hocky,
+                                                mamonhoc,
+                                                malophoc,
+                                                mess,
+                                                mess1
+                                            });
+                                        }
+                                        
+
+                                    })
+                                        
+                                        
+                                    });
+                               }
+                               else{
                                 return res.render('./bodySinhVien/GD_SV_dkhp',{
                                     layout: './layouts/layoutSinhVien' , 
                                     title: 'Đăng Ký Học Phần', 
@@ -374,8 +514,12 @@ module.exports.dangkyhocphan = function(req,res){
                                     namhoc, 
                                     hocky,
                                     mamonhoc,
-                                    malophoc
+                                    malophoc,
+                                    mess,
+                                    mess1
                                 });
+                               }
+                                    
                              });
                         
                           

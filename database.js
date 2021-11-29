@@ -252,9 +252,9 @@ exports.laydanhsachmonhocphanchosinhvien = function(MSSV,HocKy,Nam,callbackQuery
     //closeDB();
 }
 //lấy danh sách lớp học phần cho sinh viên
-exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
+exports.laydanhsachlophocphanchosinhvien = function(MaMonHP,callbackQuery){
     connect();// order by MSSV DESC limit 5
-    connection.query(" select lophocphan.* from lophocphan where lophocphan.MaMHP =?",[MaLopHP], function(err, results,fields){
+    connection.query(" select lophocphan.* from lophocphan where lophocphan.MaMHP =?",[MaMonHP], function(err, results,fields){
         if(!err){
             callbackQuery(results);
         }else{
@@ -263,6 +263,47 @@ exports.laydanhsachlophocphanchosinhvien = function(MaLopHP,callbackQuery){
     })  
     //closeDB();
 }
+//lấy 1 lớp học phần để xem tỷ số đã đăng ký so sánh với sỉ số
+exports.laymotlophocphanchosinhvien = function(MaLopHP,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query(" select lophocphan.* from lophocphan where lophocphan.MaLopHP =?",[MaLopHP], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
+//từ mã lớp học xem cái môn đó có học phần tiên quyết hay không
+exports.laymonhocphantienquyetchosinhvien = function(MaLopHP,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select monhocphan.TenMHHP from monhocphan where monhocphan.MaMHP =( select monhocphan.HocPhanYeuCau from lophocphan inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP where lophocphan.MaLopHP =?)",[MaLopHP], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
+//kiểm tra sinh viên đã học môn học tiên quyết chưa
+exports.sinhviendahocphantienquyetchua = function(MaLopHP, MSSV,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select  DISTINCT  monhocphan.TenMHHP from phieudangkylhp inner join lophocphan on lophocphan.MalopHP = phieudangkylhp.MaLopHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP inner join thoigian_phonghoc_giangvien on thoigian_phonghoc_giangvien.MaLopHP = lophocphan.MaLopHP inner join giangvien on thoigian_phonghoc_giangvien.MaGV = giangvien.MaGV where phieudangkylhp.MSSV = ? and monhocphan.TenMHHP In ( select monhocphan.TenMHHP from monhocphan where monhocphan.MaMHP =( select monhocphan.HocPhanYeuCau from lophocphan inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP where lophocphan.MaLopHP =?));",[ MSSV,MaLopHP], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
+
+
 //lấy danh sách lớp thực hành cho sinh viên
 exports.laydanhsachlophocphanthuchanhchosinhvien = function(MaLopHP,callbackQuery){
     connect();// order by MSSV DESC limit 5
