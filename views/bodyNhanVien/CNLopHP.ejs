@@ -127,5 +127,14 @@
                     return false;
                 });
             });
+            $(document).ready(function () {
+                $('#btnsavedatalophp').click(function () {
+                    $.ajax({url: "/nhanvien/cnlophp/savedatalophp", success: function(result){
+                        $("#statusupdatelhp").text(result.message);
+                    }});
+                
+                    return false;
+                });
+            });
         </script>
     </header>
