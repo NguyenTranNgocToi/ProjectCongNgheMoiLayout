@@ -217,6 +217,19 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
     }) 
 };
 
+exports.timkiemsvtongthe = function(tukhoa,callbackQuery){
+    connect();
+    connection.query("Select * from sinhvien where MSSV like N'%"+tukhoa+"' or MSSV like N'"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"' or DiaChi like N'"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"%' or HoTen like N'%"+tukhoa+"' or HoTen like N'"+tukhoa+"%' or HoTen like N'%"+tukhoa+"%'",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });
+};
+
 exports.kiemtradl = function(masv,callbackQuery){
     connect();
     connection.query("SELECT * FROM sinhvien where MSSV in (?)",[masv],

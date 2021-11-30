@@ -19,6 +19,7 @@ const controllerphonghoc = require('../controller/NhanVienPhongHoc.controller');
 const controllerhocky = require('../controller/NhanVienHocKy.controller');
 const controllercnnhanvien = require('../controller/capnhatnhanvien.contronler');
 const controllernvdoimk = require('../controller/nhanviendoimk.contronller');
+const controllertimkiemsv = require('../controller/nhanvientimsinhvien.controller');
 
 
 var database = require("../database");
@@ -167,6 +168,11 @@ router.get('/cnnhanvien/datlaimksv/:nvid', controllercnnhanvien.datlaimatkhaunv)
 router.get('/nvdoimk',controllernvdoimk.trangdoimatkhaunv);
 router.post('/nvdoimk/doimk',upload.fields([]),controllernvdoimk.doimatkhau);
 
+//nhân viên tìm kiếm sinh viên
+router.get('/timsv', controllertimkiemsv.trangtimsv);
+router.get('/timsv/lockq', controllertimkiemsv.timsvlockq);
+
+
 router.get('/cngiangvien', (req, res) => {
    // return res.render('CNGiangVien');
     return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên'});
@@ -204,9 +210,7 @@ router.get('/trangchuNV', (req, res) => {
 
 
 
-router.get('/timsv', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemSV',{layout: './layouts/layoutNhanVien' , title:'Tìm Kiếm Sinh Viên'});
-});
+
 
 router.get('/timgv', (req, res) => {
     return res.render('./bodyNhanVien/TimKiemGV',{layout: './layouts/layoutNhanVien' , title: 'Tìm Kiếm Giảng Viên'});
