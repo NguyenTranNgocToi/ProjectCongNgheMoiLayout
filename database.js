@@ -1347,7 +1347,7 @@ exports.nvdatlaimatkhau = function(mk,manv,callbackQuery){
 //lấy mã tự động
 exports.nvlaymatudong = function(callbackQuery){
     connect();
-    connection.query("SELECT Count(MaNV) FROM nhanvienphongdaotao",(err,results)=>{
+    connection.query("SELECT nhanvienphongdaotao.MaNV FROM nhanvienphongdaotao order by nhanvienphongdaotao.MaNV desc;",(err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{

@@ -10,9 +10,16 @@ module.exports.trangcapnhapnv = function (req, res) {
 };
 
 module.exports.chuyentrangnhap = function (req, res) {
-    database.getAllKhoa(function (results) {
-        return res.render('./bodyKhongMenu/GD_NV_From_Add_NV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Nhân Viên',listkhoa:results });
-    });     
+    var matudong;
+    database.nvlaymatudong(function (result) {
+        database.getAllKhoa(function (results) {
+            matudong = parseInt(result[0].MaNV);
+            matudong = matudong +1;
+            matudong = "0" + matudong;
+            return res.render('./bodyKhongMenu/GD_NV_From_Add_NV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Nhân Viên',listkhoa:results,matd:matudong });
+        }); 
+    });
+        
 };
 
 module.exports.chuyentrangcapnhat = function (req, res) {
