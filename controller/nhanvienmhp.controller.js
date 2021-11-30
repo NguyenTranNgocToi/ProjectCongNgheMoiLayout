@@ -72,9 +72,15 @@ module.exports.luumhp = function(req,res){
 
 module.exports.xoamonhp = function (req, res) {
     const monhpid = req.params.monhpid;
-        database.xoaMHP(monhpid, function(results){
-            res.redirect('/nhanvien/cnmonhp');
-        });
+    database.kiemtramhptruocxoa(monhpid, function(ketqua){
+        if(ketqua.length > 0){
+            res.send({message:'Môn học phần đã được phân lớp, cần xoá lớp học phần chứa môn'+" " +ketqua[0].MaMHP+" "+'trước'});
+        }else{
+            database.xoaMHP(monhpid, function(results){
+                res.redirect('/nhanvien/cnmonhp');
+            });
+        }
+    })  
 };
 
 module.exports.chuyeneditmonhp = function (req, res) {

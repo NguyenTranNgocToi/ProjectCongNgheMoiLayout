@@ -582,6 +582,18 @@ exports.chuyennganhkiemtradulieu = function(data,callbackQuery){
         }
     }) 
 };
+
+exports.kiemtracntrung = function(machuyennganh,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh = ?",[machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện chuyên ngành
 */
@@ -1093,6 +1105,19 @@ exports.kiemtramhtrung = function(mamhp,callbackQuery){
 exports.layMHtheoKhoa = function(data,callbackQuery){
     connect();
     connection.query("SELECT mh.* FROM khoa kh join monhocphan mh on kh.MaKhoa = mh.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtramhptruocxoa = function(mamhp,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM lophocphan where MaMHP = ?",[mamhp],
     (err,results)=>{
         if(!err){
             callbackQuery(results);
