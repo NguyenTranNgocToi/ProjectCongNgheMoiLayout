@@ -34,7 +34,7 @@ module.exports.lockhoa = function (req, res) {
     database.laymakhoa(function(dsmak){
         database.layCNtheoKhoa(makhoa,function(listchuyennganh){
             let sotrang = (listchuyennganh.length) / perPage;
-            return res.render('./bodyNhanVien/CNChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành',dsmakhoa : dsmak,listchuyennganh:listchuyennganh.slice(start,end),sotrang: sotrang+1 });
+            return res.render('./bodyNhanVien/CNChuyenNganh',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành',dsmakhoa : dsmak,listchuyennganh:listchuyennganh.slice(start,end),sotrang: sotrang+1, mk:makhoa });
         });
     });  
 };

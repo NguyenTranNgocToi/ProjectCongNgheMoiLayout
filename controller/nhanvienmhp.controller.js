@@ -42,7 +42,7 @@ module.exports.lockhoamh = function (req, res) {
     database.laymakhoa(function(dsmak){
         database.layMHtheoKhoa(makhoa,function(listmhp){
             let sotrang = (listmhp.length) / perPage;
-            return res.render('./bodyNhanVien/CNMonHocPhan',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Môn Học Phần',dsmakhoa : dsmak,listmhp:listmhp.slice(start,end),sotrang:sotrang+1});
+            return res.render('./bodyNhanVien/CNMonHocPhan',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Môn Học Phần',dsmakhoa : dsmak,listmhp:listmhp.slice(start,end),sotrang:sotrang+1, mk:makhoa});
         });
     });  
 };

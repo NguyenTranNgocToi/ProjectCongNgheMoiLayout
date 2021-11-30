@@ -42,7 +42,7 @@ module.exports.locmhp = function (req, res) {
     database.laymamhp(function(dsmamon){
         database.layLHPtheoMH(mamhp,function(listlophp){
             let sotrang = (listlophp.length) / perPage;
-            return res.render('./bodyNhanVien/CNLopHP',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành',dsmamon : dsmamon,listlophp:listlophp,sotrang:sotrang+1});
+            return res.render('./bodyNhanVien/CNLopHP',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành',dsmamon : dsmamon,listlophp:listlophp.slice(start,end),sotrang:sotrang+1,mhp: mamhp});
         });
     });  
 };

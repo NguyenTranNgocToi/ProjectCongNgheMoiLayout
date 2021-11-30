@@ -37,7 +37,7 @@ module.exports.lockhoagv = function (req, res) {
     database.laymakhoa(function(dsmak){
         database.layGVtheoKhoa(makhoa,function(listgv){
             let sotrang = (listgv.length) / perPage;
-            return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên',dsmakhoa : dsmak,listgv:listgv.slice(start,end), sotrang : sotrang+1});
+            return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên',dsmakhoa : dsmak,listgv:listgv.slice(start,end), sotrang : sotrang+1,mk:makhoa});
         });
     });  
 };
