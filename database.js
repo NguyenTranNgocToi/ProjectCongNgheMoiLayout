@@ -944,6 +944,31 @@ exports.lhpkiemtradulieu = function(data,callbackQuery){
         }
     }) 
 };
+
+exports.layLHPtheoMH = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT lhp.* FROM monhocphan mhp join lophocphan lhp on mhp.MaMHP = lhp.MaMHP where mhp.MaMHP = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtralhptrung = function(malhp,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP = ?",[malhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện Lớp học phần
 */
@@ -1031,6 +1056,43 @@ exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
 exports.monhocphankiemtradulieu = function(data,callbackQuery){
     connect();
     connection.query("Select * from monhocphan where mamhp in (?) ",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+exports.laymamhp = function(callbackQuery){
+    connect();
+    connection.query("Select MaMHP from monhocphan",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtramhtrung = function(mamhp,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where MaMHP = ?",[mamhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layMHtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT mh.* FROM khoa kh join monhocphan mh on kh.MaKhoa = mh.MaKhoa where kh.MaKhoa = ?",[data],
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -1135,7 +1197,32 @@ exports.giangvienkiemtradulieu = function(data,callbackQuery){
         }
     })  
     //closeDB();
-}
+};
+exports.kiemtragvtrung = function(magv,callbackQuery){
+    connect();
+    connection.query("Select * from giangvien where MaGV = ?",[magv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layGVtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT gv.* FROM khoa kh join giangvien gv on kh.MaKhoa = gv.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 /*
     Kết thúc xử lý cho giao diện giảng viên
 */

@@ -61,10 +61,10 @@ module.exports.timkiemPhongHoc = function (req, res) {
     console.log(query);
     database.timkiemPhongHoc(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNPhongHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Phòng Học', listphong: results });
+            res.render('./bodyNhanVien/CNPhongHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Phòng Học', listphong: results,sotrang:0 });
         } else {
             database.getAllPhongHoc(function (result) {
-                res.render('./bodyNhanVien/CNPhongHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Phòng Học', listphong: result });
+                res.render('./bodyNhanVien/CNPhongHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Phòng Học', listphong: result,sotrang:0 });
             });
         }
 
