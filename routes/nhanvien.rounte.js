@@ -18,6 +18,7 @@ const controllernamhoc = require('../controller/NhanVienNamHoc.controller');
 const controllerphonghoc = require('../controller/NhanVienPhongHoc.controller');
 const controllerhocky = require('../controller/NhanVienHocKy.controller');
 const controllercnnhanvien = require('../controller/capnhatnhanvien.contronler');
+const controllernvdoimk = require('../controller/nhanviendoimk.contronller');
 
 
 var database = require("../database");
@@ -161,6 +162,10 @@ router.post('/cnnhanvien/update_nhanvien',upload.fields([]), controllercnnhanvie
 router.get('/cnnhanvien/editnv/:nvid', controllercnnhanvien.chuyentrangcapnhat);
 router.get('/cnnhanvien/xoanv/:nvid', controllercnnhanvien.xoanhanvien);
 router.get('/cnnhanvien/datlaimksv/:nvid', controllercnnhanvien.datlaimatkhaunv);
+
+//nhân viên đổi mật khẩu
+router.get('/nvdoimk',controllernvdoimk.trangdoimatkhaunv);
+router.post('/nvdoimk/doimk',upload.fields([]),controllernvdoimk.doimatkhau);
 
 router.get('/cngiangvien', (req, res) => {
    // return res.render('CNGiangVien');

@@ -1357,6 +1357,19 @@ exports.nvlaymatudong = function(callbackQuery){
     }) 
 };
 
+exports.nvlaymkduoicsdl = function(manv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM taikhoannv where MaTaiKhoan = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
 /*
     Kết thúc giao diện cập nhật nhân viên
 */
