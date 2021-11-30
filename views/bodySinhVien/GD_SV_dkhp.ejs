@@ -218,6 +218,7 @@
                 <button type="submit" class="btn btn-info">Đăng kí</button>
                 <label> <%=mess%></label>
                 <label> <%=mess1%></label>
+                <label> <%=mess2%></label>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h4>Danh sách các lớp học phần đã đăng kí</h4>
@@ -238,7 +239,7 @@
                         <%for(let i=0;i< listmonhocdadangky.length;i++){%>
                             <tr>
                                 <td>
-                                    <input name="lhpddk" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>/>
+                                    <input name="lhpddk" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
                                 </td>
                                 <td><%=listmonhocdadangky[i].MaLopHP%></td>
                                 <td><%=listmonhocdadangky[i].TenMHHP%></td>
@@ -248,7 +249,7 @@
                         <%}%>
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-danger">Hủy Đăng kí</button>
+                <button type="submit" class="btn btn-danger">Hủy Đăng kí</button>
             </div>
 
         </form>   

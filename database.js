@@ -331,7 +331,7 @@ exports.laydanhsachlophocphanlythuyetchosinhvien = function(MaLopHP,callbackQuer
 // lấy danh sách môn học đã đăng ký cho sinh viên
 exports.laydanhsachlophodadangkychosinhvien = function(HocKy, Nam, MSSV,callbackQuery){
     connect();// order by MSSV DESC limit 5
-    connection.query("select DISTINCT lophocphan.MaLopHP, monhocphan.TenMHHP, phieudangkylhp.Nhom, giangvien.HoTen from phieudangkylhp inner join lophocphan on lophocphan.MalopHP = phieudangkylhp.MaLopHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP inner join thoigian_phonghoc_giangvien on thoigian_phonghoc_giangvien.MaLopHP = lophocphan.MaLopHP inner join giangvien on thoigian_phonghoc_giangvien.MaGV = giangvien.MaGV where phieudangkylhp.MSSV = ? and lophocphan.HocKy = ? and lophocphan.Nam=?;",[MSSV,HocKy,Nam], function(err, results,fields){
+    connection.query("select DISTINCT lophocphan.MaLopHP, monhocphan.TenMHHP, phieudangkylhp.Nhom, giangvien.HoTen from phieudangkylhp inner join lophocphan on lophocphan.MalopHP = phieudangkylhp.MaLopHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP inner join thoigian_phonghoc_giangvien on thoigian_phonghoc_giangvien.MaLopHP = lophocphan.MaLopHP and thoigian_phonghoc_giangvien.MaNhom = phieudangkylhp.Nhom inner join giangvien on thoigian_phonghoc_giangvien.MaGV = giangvien.MaGV where phieudangkylhp.MSSV = ? and lophocphan.HocKy = ? and lophocphan.Nam=?;",[MSSV,HocKy,Nam], function(err, results,fields){
         if(!err){
             callbackQuery(results);
         }else{
@@ -340,6 +340,44 @@ exports.laydanhsachlophodadangkychosinhvien = function(HocKy, Nam, MSSV,callback
     })  
     //closeDB();
 }
+//kiểm tra trùng thời gian cho sinh viên
+exports.kiemtralichtrungthoigianchosinhvien = function(HocKy, Nam, MSSV,MaLopHP,MaNhom,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select DISTINCT lophocphan.MaLopHP , thoigian_phonghoc_giangvien.MaNhom, thoigian_phonghoc_giangvien.NgayHoc, thoigian_phonghoc_giangvien.TietHoc from phieudangkylhp  inner join lophocphan on lophocphan.MalopHP = phieudangkylhp.MaLopHP inner join thoigian_phonghoc_giangvien on thoigian_phonghoc_giangvien.MaLopHP = lophocphan.MaLopHP and thoigian_phonghoc_giangvien.MaNhom = phieudangkylhp.Nhom where phieudangkylhp.MSSV = ? and lophocphan.HocKy = ? and lophocphan.Nam=? and thoigian_phonghoc_giangvien.NgayHoc = (select thoigian_phonghoc_giangvien.NgayHoc from thoigian_phonghoc_giangvien where thoigian_phonghoc_giangvien.MaLopHP=? and thoigian_phonghoc_giangvien.MaNhom=?) and thoigian_phonghoc_giangvien.TietHoc = (select thoigian_phonghoc_giangvien.TietHoc from thoigian_phonghoc_giangvien where thoigian_phonghoc_giangvien.MaLopHP=? and thoigian_phonghoc_giangvien.MaNhom=?)",[MSSV, HocKy,Nam, MaLopHP,MaNhom, MaLopHP,MaNhom], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+//đăng ký học phần
+exports.dangkyhocphanchosinhvien = function(masv,malophp,nhom,callbackQuery){
+    connect();
+    connection.query("INSERT INTO `sqlquanlyhocphan`.`phieudangkylhp` (`MSSV`, `MaLopHP`, `Nhom`) VALUES (?, ?, ?)",
+    [masv,malophp,nhom],(err,results)=>{
+        if(!err){
+            //callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+//hủy đăng ký học phần
+exports.huydangkyhocphanchosinhvien = function(masv,malophp,callbackQuery){
+    connect();
+    connection.query("DELETE FROM `sqlquanlyhocphan`.`phieudangkylhp` WHERE (`MSSV` = ?) and (`MaLopHP` = ?) ",
+    [masv,malophp],(err,results)=>{
+        if(!err){
+            //callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 
 
 
