@@ -11,8 +11,17 @@
                 <input type="text" class="form-control" id="siso"  name="siso" required>
             </div>
             <div class="form-group">
+                <!-- <label for="MaMHP">Mã MHP:</label>
+                <input type="text" class="form-control" id="mamhp" name="mamhp" required> -->
+
                 <label for="MaMHP">Mã MHP:</label>
-                <input type="text" class="form-control" id="mamhp" name="mamhp" required>
+                <select class="form-control" id="mamhp" name="mamhp" required>
+                  <%for(let i=0;i < dsmamon.length;i++){%>
+                    <option value="<%=dsmamon[i].MaMHP%>">
+                      <%=dsmamon[i].MaMHP%>
+                    </option>
+                    <%}%>
+                </select>
             </div>
             <div class="form-group">
                 <label for="Nam">Năm:</label>
@@ -20,11 +29,11 @@
             </div>
             <div class="form-group">
                 <label for="HocKy">Học kỳ:</label>
-                <input type="text" class="form-control" id="hocky" name="hocky" required>
+                <input type="text" class="form-control" id="hocky" name="hocky" value="1" required>
             </div>
             <div class="form-group">
                 <label for="DaDangKy">Đã đăng ký:</label>
-                <input type="text" class="form-control" id="dadangky" name="dadangky"  required>
+                <input type="text" class="form-control" id="dadangky" name="dadangky" value="0"  required>
             </div>
             <button type="submit" class="btn btn-default">Lưu</button>
             <div>

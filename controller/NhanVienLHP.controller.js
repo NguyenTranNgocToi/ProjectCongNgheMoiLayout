@@ -16,23 +16,60 @@ var upload1 = multer({ storage: storage }).single('myfilelophp');
 
 module.exports.trangcapnhatlhp = function (req, res) {
     
-    database.getAllLHP(function (result) {
-        res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', listlophp : result});
+    database.laymamhp(function (dsmamon) {
+        res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần',dsmamon:dsmamon, listlophp : 0,sotrang:0});
     })
 };
 
 module.exports.chuyennhaplhp = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_Form_Add_LHP', { layout: './layouts/layoutKhongMenu', title: 'Thêm Lớp Học Phần' });
+    database.laymamhp(function (dsmamon) {
+        return res.render('./bodyKhongMenu/GD_NV_Form_Add_LHP', { layout: './layouts/layoutKhongMenu', title: 'Thêm Lớp Học Phần',dsmamon: dsmamon });
+    })
+    
+};
+
+module.exports.locmhp = function (req, res) {
+
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
+    var mamhp = req.query.mamhp;
+    console.log(mamhp);
+    
+    database.laymamhp(function(dsmamon){
+        database.layLHPtheoMH(mamhp,function(listlophp){
+            let sotrang = (listlophp.length) / perPage;
+            return res.render('./bodyNhanVien/CNLopHP',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Chuyên Ngành',dsmamon : dsmamon,listlophp:listlophp,sotrang:sotrang+1});
+        });
+    });  
 };
 
 module.exports.luulhp = function(req,res){
     console.log(req.body);
-        let data = {
-            MaLopHP: req.body.malophp, SiSo: req.body.siso,MaMHP: req.body.mamhp, Nam: req.body.nam, HocKy: req.body.hocky, DaDangKy: req.body.dadangky
-        };
-        database.themLHP(data, function(results){
-            res.redirect('/nhanvien/cnlophp');
-        });
+    const malophp = req.body.malophp;
+
+    database.kiemtralhptrung(malophp,function(result){
+        if(result.length>0){
+            res.send({ message: 'Lớp học phần'+" "+ result[0].MaLopHP+" "+ 'đã tồn tại' });
+        }else{
+            let data = {
+                MaLopHP: req.body.malophp, SiSo: req.body.siso,MaMHP: req.body.mamhp, Nam: req.body.nam, HocKy: req.body.hocky, DaDangKy: req.body.dadangky
+            };
+            database.themLHP(data, function(results){
+                res.redirect('/nhanvien/cnlophp');
+            });  
+        } 
+    })
+   
+        // let data = {
+        //     MaLopHP: req.body.malophp, SiSo: req.body.siso,MaMHP: req.body.mamhp, Nam: req.body.nam, HocKy: req.body.hocky, DaDangKy: req.body.dadangky
+        // };
+        // database.themLHP(data, function(results){
+        //     res.redirect('/nhanvien/cnlophp');
+        // });
 };
 
 module.exports.xoalophp = function (req, res) {
@@ -69,10 +106,15 @@ module.exports.timkiemlophp = function (req, res) {
     console.log(query);
     database.timkiemlhp(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', listlophp: results });
+            // res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', listlophp: results });
+            database.laymamhp(function (dsmamon) {
+                res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', dsmamon: dsmamon, listlophp: results,sotrang:0 });
+            });
         } else {
             database.getAllLHP(function (result) {
-                res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', listlophp: result });
+                database.laymamhp(function (dsmamon) {
+                    res.render('./bodyNhanVien/CNLopHP', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Lớp Học Phần', dsmamon: dsmamon, listlophp: 0,sotrang:0 });
+                });
             });
         }
 

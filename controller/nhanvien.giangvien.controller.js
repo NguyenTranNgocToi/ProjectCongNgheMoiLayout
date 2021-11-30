@@ -15,25 +15,53 @@ var storage = multer.diskStorage({
 var upload1 = multer({ storage: storage }).single('myfilegv');
 
 module.exports.trangcapnhatgv = function (req, res) {
-    database.getGiangVien(function (result) {
-        res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên', listgv : result});
+    database.laymakhoa(function (dsmak) {
+        res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên', dsmakhoa : dsmak, listgv: 0, sotrang:0});
     })
 };
 
 module.exports.chuyennhapgv = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_Form_Add_GiangVien', { layout: './layouts/layoutKhongMenu', title: 'Thêm Giảng Viên' });
+    database.laymakhoa(function(result){
+        return res.render('./bodyKhongMenu/GD_NV_Form_Add_GiangVien', { layout: './layouts/layoutKhongMenu', title: 'Thêm Giảng Viên', dsmakhoa : result });
+    })
 };
 
-module.exports.luugv = function(req,res){
-    console.log(req.body);
-        let data = {
-            MaGV: req.body.magv, HoTen: req.body.hotengv ,DiaChi: req.body.diachigv, GioiTinh: req.body.gioitinhgv,
-             NgaySinh: req.body.ngaysinhsv, SoDt: req.body.sodt, MaKhoa: req.body.makhoa
-        };
-        database.themGV(data, function(results){
-            res.redirect('/nhanvien/cngiangvien');
+module.exports.lockhoagv = function (req, res) {
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
+    var makhoa = req.query.makhoa;
+    database.laymakhoa(function(dsmak){
+        database.layGVtheoKhoa(makhoa,function(listgv){
+            let sotrang = (listgv.length) / perPage;
+            return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên',dsmakhoa : dsmak,listgv:listgv.slice(start,end), sotrang : sotrang+1});
         });
+    });  
 };
+
+module.exports.luugv = function(req,res){  
+    console.log(req.body);
+    const MaGV = req.body.magv;
+    database.kiemtragvtrung(MaGV,function(result){
+        if(result.length>0){
+            res.send({ message: 'Giảng viên mã số'+" "+ result[0].MaGV+" "+ 'đã tồn tại' });
+        }else{  
+            let data = {
+                MaGV: req.body.magv, HoTen: req.body.hotengv ,DiaChi: req.body.diachigv, GioiTinh: req.body.gioitinhgv,
+                NgaySinh: req.body.ngaysinhsv, SoDt: req.body.sodt, MaKhoa: req.body.makhoa
+            };
+            database.themGV(data, function(results){
+                res.redirect('/nhanvien/cngiangvien');
+            });
+        }
+    })
+};
+
+
+
 
 module.exports.xoagv = function (req, res) {
     const gvid = req.params.gvid;
@@ -69,10 +97,12 @@ module.exports.timkiemgv = function (req, res) {
     console.log(query);
     database.timkiemGV(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên', listgv: results });
+            database.laymakhoa(function (dsmak) {
+                res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên',dsmakhoa:dsmak, listgv: results,sotrang:0 });
+            });    
         } else {
-            database.getGiangVien(function (result) {
-                res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên', listgv: result });
+            database.laymakhoa(function (dsmak) {
+                res.render('./bodyNhanVien/CNGiangVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Giảng Viên', dsmakhoa:dsmak, listgv: 0, sotrang:0 });
             });
         }
 

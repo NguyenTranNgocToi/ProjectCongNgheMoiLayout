@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <%if(sotrang>0){%>
-                                <%for(let i = 0;i< sotrang;i++){%>
+                                <%for(let i = 1;i< sotrang;i++){%>
                                     <ul class="pagination">
                                         <li><a href="/nhanvien/cnkhoa/?page=<%=i%>"><%=i%></a></li>
                                     </ul>
@@ -84,8 +84,7 @@
                                 <br />
                                 <span id="status"></span><br>
                             </form>
-                            <a id="btnsavedatakhoa" href="#" class="btn btn-primary">Lưu dữ
-                                liệu từ file</a>
+                            <a id="btnsavedatakhoa" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
                             <span id="statusupdatek"></span><br><br>
 
                         </div>

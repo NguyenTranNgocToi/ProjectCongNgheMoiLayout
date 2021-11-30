@@ -41,12 +41,31 @@ module.exports.chuyennhapkhoa = function (req, res) {
 
 module.exports.luukhoa = function(req,res){
     console.log(req.body);
-        let data = {
-            MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
-        };
-        database.themKhoa(data, function(results){
-            res.redirect('/nhanvien/cnkhoa');
-        });
+        
+    const makhoa = req.body.makhoa;
+        database.kiemtrakhoatrung(makhoa,function(result){
+            if(result.length>0){
+                // res.redirect('/nhanvien/cnkhoa');
+                res.send({ message: 'Khoa có mã số'+" "+ result[0].MaKhoa+" "+ 'đã tồn tại' });
+                // console.log('Khoa có mã số' +'\t'+ result[0].MaKhoa +'\t'+ 'đã tồn tại');
+            }else{     
+                    let data = {
+                        MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
+                    };
+                    console.log(data);               
+                    database.themKhoa(data, function (results) {   
+                    });
+                    res.redirect('/nhanvien/cnkhoa');
+                // res.send({ message: 'thành công' });
+                
+            } 
+        })
+    // let data = {
+    //     MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
+    // };               
+    // database.themKhoa(data, function (results) {   
+    //     res.redirect('/nhanvien/cnkhoa');
+    // });
 };
 
 

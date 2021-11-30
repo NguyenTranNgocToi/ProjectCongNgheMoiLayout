@@ -16,23 +16,58 @@ var upload1 = multer({ storage: storage }).single('myfilemonhp');
 
 module.exports.trangcapnhatmhp = function (req, res) {
     
-    database.getAllMHP(function (result) {
-        res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn Học Phần', listmhp : result});
+    database.laymakhoa(function (dsmak) {
+        res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn Học Phần',dsmakhoa: dsmak, listmhp : 0,sotrang:0});
     })
 };
 
 module.exports.chuyennhapkhoa = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_Form_Add_MHP', { layout: './layouts/layoutKhongMenu', title: 'Thêm Môn học phần' });
+    database.laymakhoa(function (dsmak) {
+        database.laymamhp(function (dsmamon) {
+            return res.render('./bodyKhongMenu/GD_NV_Form_Add_MHP', { layout: './layouts/layoutKhongMenu', title: 'Thêm Môn học phần', dsmakhoa: dsmak, dshocphan: dsmamon });
+        });
+    });
+    
+};
+
+
+module.exports.lockhoamh = function (req, res) {
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
+    var makhoa = req.query.makhoa;
+    database.laymakhoa(function(dsmak){
+        database.layMHtheoKhoa(makhoa,function(listmhp){
+            let sotrang = (listmhp.length) / perPage;
+            return res.render('./bodyNhanVien/CNMonHocPhan',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Môn Học Phần',dsmakhoa : dsmak,listmhp:listmhp.slice(start,end),sotrang:sotrang+1});
+        });
+    });  
 };
 
 module.exports.luumhp = function(req,res){
     console.log(req.body);
-        let data = {
-            MaMHP: req.body.mamhp, TenMHHP: req.body.tenmhhp,SoTinChi: req.body.sotinchi, HinhThucThi: req.body.hinhthucthi, BatBuoc: req.body.batbuoc, MaKhoa: req.body.makhoa, HocPhanYeuCau: req.body.hocphanyeucau
-        };
-        database.themMHP(data, function(results){
-            res.redirect('/nhanvien/cnmonhp');
-        });
+    const mamhp = req.body.mamhp;
+    database.kiemtramhtrung(mamhp,function(result){
+        if(result.length>0){
+            res.send({ message: 'Môn học phần mã số'+" "+ result[0].MaMHP+" "+ 'đã tồn tại' });
+        }else{     
+            let data = {
+                MaMHP: req.body.mamhp, TenMHHP: req.body.tenmhhp,SoTinChi: req.body.sotinchi, HinhThucThi: req.body.hinhthucthi, BatBuoc: req.body.batbuoc, MaKhoa: req.body.makhoa, HocPhanYeuCau: req.body.hocphanyeucau
+            };
+            database.themMHP(data, function(results){
+                res.redirect('/nhanvien/cnmonhp');
+            });   
+        } 
+    })
+        // let data = {
+        //     MaMHP: req.body.mamhp, TenMHHP: req.body.tenmhhp,SoTinChi: req.body.sotinchi, HinhThucThi: req.body.hinhthucthi, BatBuoc: req.body.batbuoc, MaKhoa: req.body.makhoa, HocPhanYeuCau: req.body.hocphanyeucau
+        // };
+        // database.themMHP(data, function(results){
+        //     res.redirect('/nhanvien/cnmonhp');
+        // });
 };
 
 module.exports.xoamonhp = function (req, res) {
@@ -46,7 +81,11 @@ module.exports.chuyeneditmonhp = function (req, res) {
     const monhpid = req.params.monhpid;
     database.chuyenDenUpdateMHP(monhpid, function (results) {
         console.log(results[0]);
-        return res.render('./bodyKhongMenu/GD_NV_Form_UpdateMHP', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật Môn học phần', monhp: results[0] });
+        database.laymakhoa(function (dsmak) {
+            database.laymamhp(function (dsmamon) {
+                return res.render('./bodyKhongMenu/GD_NV_Form_UpdateMHP', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật Môn học phần',dsmakhoa:dsmak,dshocphan: dsmamon , monhp: results[0] });
+            });
+        });
     });
 };
 
@@ -67,13 +106,18 @@ module.exports.capnhatmhp = function(req,res){
 
 module.exports.timkiemmhp = function (req, res) {
     var query = req.query.tukhoamonhp;
+
     console.log(query);
     database.timkiemmhp(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn học phần', listmhp: results });
+            database.laymakhoa(function (dsmak) {
+                res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn học phần',dsmakhoa: dsmak, listmhp: results,sotrang:0 });
+            });
         } else {
             database.getAllMHP(function (result) {
-                res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn học phần', listmhp: result });
+                database.laymakhoa(function (dsmak) {
+                    res.render('./bodyNhanVien/CNMonHocPhan', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Môn học phần',dsmakhoa: dsmak, listmhp: 0, sotrang:0 });
+                });
             });
         }
 

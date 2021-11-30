@@ -8,7 +8,13 @@
             </div>
             <div class="form-group">
                 <label for="MaKhoa">Mã khoa:</label>
-                <input type="text" class="form-control" id="makhoa" placeholder="Mã khoa" name="makhoa" required>
+                <select class="form-control" id="makhoa" name="makhoa" required>
+                  <%for(let i=0;i < dsmakhoa.length;i++){%>
+                    <option value="<%=dsmakhoa[i].MaKhoa%>">
+                      <%=dsmakhoa[i].MaKhoa%>
+                    </option>
+                    <%}%>
+                </select>
             </div>
             <div class="form-group">
                 <label for="TenChuyenNganh">Tên chuyên ngành:</label>

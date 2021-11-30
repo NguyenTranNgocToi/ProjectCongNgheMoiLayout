@@ -24,10 +24,28 @@
             <div class="form-group">
                 <label for="MaKhoa">Mã khoa:</label>
                 <input type="text" class="form-control" id="makhoa" name="makhoa" value="<%=monhp.MaKhoa%>" required>
+
+                <!-- <label for="MaKhoa">Mã khoa:</label>
+                <select class="form-control" id="makhoa" name="makhoa" required>
+                  <%for(let i=0;i < dsmakhoa.length;i++){%>
+                    <option value="<%=monhp.MaKhoa%>">
+                      <%=dsmakhoa[i].MaKhoa%>
+                    </option>
+                    <%}%>
+                </select> -->
             </div>
             <div class="form-group">
                 <label >Học phần yêu cầu:</label>
                 <input type="text" class="form-control" id="hocphanyeucau" name="hocphanyeucau" value="<%=monhp.HocPhanYeuCau%>" required>
+                
+                <!-- <label for="HocPhanYeuCau">Học phần yêu cầu:</label>
+                <select class="form-control" id="hocphanyeucau" name="hocphanyeucau" required>
+                  <%for(let i=0;i < dshocphan.length;i++){%>
+                    <option value="<%=monhp.HocPhanYeuCau%>">
+                      <%=dshocphan[i].MaMHP%>
+                    </option>
+                    <%}%>
+                </select> -->
             </div>
             <button type="submit" class="btn btn-default">Lưu</button>
             <div>

@@ -16,6 +16,20 @@
                         <br>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <form class="form-inline" action="/nhanvien/cnchuyennganh/lockhoa">
+                                    <div class="form-inline">
+                                        <label for="MaKhoa">Mã khoa:</label>&ensp;&ensp;
+                                        <select class="form-control" id="makhoa" name="makhoa" required>
+                                            <%for(let i=0;i < dsmakhoa.length;i++){%>
+                                                <option value="<%=dsmakhoa[i].MaKhoa%>">
+                                                <%=dsmakhoa[i].MaKhoa%>
+                                                </option>
+                                                <%}%>
+                                        </select>
+                                        <button class="btn btn-default">Lọc</button>
+                                    </div>
+                                </form>
+                                  <br>
                                 <form class="form-inline" action="/nhanvien/cnchuyennganh/timchuyennganh" method="get">
                                     <div class="form-group">
                                         <label for="tukhoachuyennganh">Từ khóa:</label>&ensp;&ensp;
@@ -35,29 +49,44 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <%for(let i=0;i< listchuyennganh.length;i++){%>
-                                      <tr>
-                                          <!-- <td><input type="radio"></td> -->
-                                          <td>
-                                              <%=listchuyennganh[i].MaChuyenNganh%>
-                                          </td>
-                                          <td>
-                                              <%=listchuyennganh[i].MaKhoa %>
-                                          </td>
-                                          <td>
-                                              <%=listchuyennganh[i].TenChuyenNganh%>
-                                          </td>
-                                          <td>
-                                              <a href="/nhanvien/cnchuyennganh/editchuyennganh/<%=listchuyennganh[i].MaChuyenNganh%>"
-                                                  class="btn btn-warning">Sửa</a>
-                                              <a href="/nhanvien/cnchuyennganh/deletechuyennganh/<%=listchuyennganh[i].MaChuyenNganh%>"
-                                                  class="btn btn-danger ">Xóa</a>
-                                          </td>
-                                      </tr>
+                                    <%if(listchuyennganh.length>0){%>
+                                        <%for(let i=0;i< listchuyennganh.length;i++){%>
+                                        <tr>
+                                            <!-- <td><input type="radio"></td> -->
+                                            <td>
+                                                <%=listchuyennganh[i].MaChuyenNganh%>
+                                            </td>
+                                            <td>
+                                                <%=listchuyennganh[i].MaKhoa %>
+                                            </td>
+                                            <td>
+                                                <%=listchuyennganh[i].TenChuyenNganh%>
+                                            </td>
+                                            <td>
+                                                <a href="/nhanvien/cnchuyennganh/editchuyennganh/<%=listchuyennganh[i].MaChuyenNganh%>"
+                                                    class="btn btn-warning">Sửa</a>
+                                                <a href="/nhanvien/cnchuyennganh/deletechuyennganh/<%=listchuyennganh[i].MaChuyenNganh%>"
+                                                    class="btn btn-danger ">Xóa</a>
+                                            </td>
+                                        </tr>
                                       <%}%>
+                                      <%}else{%>
+                                        <tr>
+                                          <td>Chưa lọc</td>
+                                        </tr>
+                                        <%}%>
                                   </tbody>
                                 </table>
                           </div> 
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <%if(sotrang>0){%>
+                                <%for(let i = 1;i< sotrang;i++){%>
+                                    <ul class="pagination">
+                                        <li><a href="/nhanvien/cnchuyennganh/?page=<%=i%>"><%=i%></a></li>
+                                    </ul>
+                                <%}%>
+                            <%}%>
+                          </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane fade">

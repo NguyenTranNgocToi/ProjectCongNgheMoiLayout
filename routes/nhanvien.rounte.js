@@ -36,6 +36,7 @@ router.get('/cnchuyennganh/deletechuyennganh/:chuyennganhid',controllerchuyennga
 router.get('/cnchuyennganh/editchuyennganh/:chuyennganhid', controllerchuyennganh.chuyeneditchuyennganh);
 router.get('/cnchuyennganh/timchuyennganh',upload.fields([]), controllerchuyennganh.timkiemchuyennganh);
 router.get('/cnchuyennganh/savedatachuyennganh', upload.fields([]),controllerchuyennganh.savedataChuyenNganh);
+router.get('/cnchuyennganh/lockhoa', controllerchuyennganh.lockhoa);
 
 router.post('/cnchuyennganh/save_chuyennganh', upload.fields([]),controllerchuyennganh.luuchuyennganh);
 router.post('/cnchuyennganh/update_chuyennganh', upload.fields([]), controllerchuyennganh.capnhatchuyennganh);
@@ -60,6 +61,7 @@ router.get('/cnmonhp/deletemonhp/:monhpid', controllermhp.xoamonhp);
 router.get('/cnmonhp/editmonhp/:monhpid', controllermhp.chuyeneditmonhp);
 router.get('/cnmonhp/timmonhp', upload.fields([]),controllermhp.timkiemmhp);
 router.get('/cnmonhp/savedatamonhp', upload.fields([]),controllermhp.savedatamonhp);
+router.get('/cnmonhp/lockhoa', controllermhp.lockhoamh);
 
 router.post('/cnmonhp/save_mhp', upload.fields([]),controllermhp.luumhp);
 router.post('/cnmonhp/update_mhp', upload.fields([]), controllermhp.capnhatmhp);
@@ -72,6 +74,7 @@ router.get('/cnlophp/deletelophp/:lophpid', controllerlhp.xoalophp);
 router.get('/cnlophp/editlophp/:lophpid', controllerlhp.chuyeneditlophp);
 router.get('/cnlophp/timlophp', upload.fields([]),controllerlhp.timkiemlophp);
 router.get('/cnlophp/savedatalophp', upload.fields([]),controllerlhp.savedataLopHP);
+router.get('/cnlophp/locmhp', controllerlhp.locmhp);
 
 router.post('/cnlophp/save_lophp', upload.fields([]),controllerlhp.luulhp);
 router.post('/cnlophp/update_lhp', upload.fields([]), controllerlhp.capnhatlophp);
@@ -98,6 +101,7 @@ router.get('/cngiangvien/editgv/:gvid', controllergv.chuyeneditgv);
 router.get('/cngiangvien/deletegv/:gvid', controllergv.xoagv);
 router.get('/cngiangvien/timgv', upload.fields([]),controllergv.timkiemgv);
 router.get('/cngiangvien/savedatagv', upload.fields([]),controllergv.savedataGV);
+router.get('/cngiangvien/lockhoa', controllergv.lockhoagv);
 
 router.post('/cngiangvien/save_giangvien', upload.fields([]), controllergv.luugv);
 router.post('/cngiangvien/update_giangvien', upload.fields([]), controllergv.capnhatgv);

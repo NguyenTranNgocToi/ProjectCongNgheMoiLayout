@@ -410,6 +410,56 @@ exports.kiemtradulieukhoa = function(makhoa,callbackQuery){
         }
     })  
 };
+
+exports.kiemtrakhoatrung = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa = ?",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+// exports.laysvtheocn = function(data,callbackQuery){
+//     connect();
+//     connection.query("SELECT sv.* FROM sinhvien sv join sinhvien_thuoc_nganh svn on sv.MSSV = svn.MSSV where svn.MaChuyenNganh = ?",[data],
+//     (err,results)=>{
+//         if(!err){
+//             callbackQuery(results);
+//         }else{
+//             console.log(err);
+//             results = null;
+//         }
+//     }) 
+// };
+exports.layCNtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT cn.* FROM khoa kh join chuyennganh cn on kh.MaKhoa = cn.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+//Lấy mã khoa
+exports.laymakhoa = function(callbackQuery){
+    connect();
+    connection.query("Select MaKhoa from khoa",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện khoa
 */
@@ -494,6 +544,18 @@ exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtracntrung = function(machuyennganh,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh = ?",[machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện chuyên ngành
 */
@@ -829,6 +891,32 @@ exports.timkiemlhp = function(tukhoalhp,callbackQuery){
         }
     }) 
 }
+
+exports.layLHPtheoMH = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT lhp.* FROM monhocphan mhp join lophocphan lhp on mhp.MaMHP = lhp.MaMHP where mhp.MaMHP = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtralhptrung = function(malhp,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP = ?",[malhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
 /*
     Kết thúc xử lý cho giao diện Lớp học phần
 */
@@ -903,7 +991,7 @@ exports.updateMHP = function(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,t
 
 exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
     connect();
-    connection.query("Select * from monhocphan where mamhp like N'%"+tukhoamonhp+"%' or tenmhhp like N'%"+tukhoamonhp+"%'or sotinchi like N'%"+tukhoamonhp+"%'or hinhthucthi like N'%"+tukhoamonhp+"%'or batbuoc like N'%"+tukhoamonhp+"%'or makhoa like N'%"+tukhoamonhp+"%'or hocphanyeucau like N'%"+tukhoamonhp+"%'",
+    connection.query("Select * from monhocphan where mamhp like N'%"+tukhoamonhp+"%' or tenmhhp like N'%"+tukhoamonhp+"%'or sotinchi like N'%"+tukhoamonhp+"%'or hinhthucthi like N'%"+tukhoamonhp+"%'or batbuoc like N'%"+tukhoamonhp+"%'or makhoa like N'%"+tukhoamonhp+"%'or hocphanyeucau like N'%"+tukhoamonhp+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -913,6 +1001,44 @@ exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
         }
     }) 
 }
+
+exports.laymamhp = function(callbackQuery){
+    connect();
+    connection.query("Select MaMHP from monhocphan",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtramhtrung = function(mamhp,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where MaMHP = ?",[mamhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layMHtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT mh.* FROM khoa kh join monhocphan mh on kh.MaKhoa = mh.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện Môn học phần
 */
@@ -997,6 +1123,43 @@ exports.timkiemGV = function(tukhoagv,callbackQuery){
         }
     }) 
 };
+
+exports.kiemtradulieugv = function(magv,callbackQuery){
+    connect();
+    connection.query("Select * from giangvien where MaGV in (?)",[magv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.kiemtragvtrung = function(magv,callbackQuery){
+    connect();
+    connection.query("Select * from giangvien where MaGV = ?",[magv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layGVtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT gv.* FROM khoa kh join giangvien gv on kh.MaKhoa = gv.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện giảng viên
 */
@@ -1046,7 +1209,7 @@ exports.xoaNamHoc = function(Nam,callbackQuery){
 // Tìm kiếm năm học
 exports.timkiemNamHoc = function(tukhoanamhoc,callbackQuery){
     connect();
-    connection.query("Select * from nam where Nam like N'%"+tukhoanamhoc+"%'",
+    connection.query("Select * from nam where Nam like N'%"+tukhoanamhoc+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -1056,6 +1219,19 @@ exports.timkiemNamHoc = function(tukhoanamhoc,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtranamtrung = function(nam,callbackQuery){
+    connect();
+    connection.query("Select * from nam where Nam = ?",[nam],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
 /*
     Kết thúc xử lý cho giao diện năm học
 */
@@ -1105,7 +1281,7 @@ exports.xoaPhongHoc = function(PhongHoc,callbackQuery){
 // Tìm kiếm phòng học
 exports.timkiemPhongHoc = function(tukhoaphonghoc,callbackQuery){
     connect();
-    connection.query("Select * from phonghoc where PhongHoc like N'%"+tukhoaphonghoc+"%'",
+    connection.query("Select * from phonghoc where PhongHoc like N'%"+tukhoaphonghoc+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -1115,6 +1291,18 @@ exports.timkiemPhongHoc = function(tukhoaphonghoc,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtraphonghoctrung = function(ph,callbackQuery){
+    connect();
+    connection.query("Select * from phonghoc where PhongHoc = ?",[ph],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện phòng học
 */
@@ -1152,6 +1340,18 @@ exports.themHocKy = function(data,callbackQuery){
 exports.xoaHocKy = function(HocKy,callbackQuery){
     connect();
     connection.query("Delete from hocky where HocKy = ?",[HocKy],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.kiemtrahockytrung = function(hocky,callbackQuery){
+    connect();
+    connection.query("Select * from hocky where HocKy = ?",[hocky],(err,results)=>{
         if(!err){
             callbackQuery(results);
         }else{
