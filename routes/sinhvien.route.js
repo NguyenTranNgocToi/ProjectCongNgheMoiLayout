@@ -34,10 +34,7 @@ router.get('/xemcongno',controllerSV.xemcongno)
 router.get('/xemctk',controllerSV.xemchuongtrinhkhung);
 
 
-router.get('/xemlh', (req, res) => {
-
-    return res.render('./bodySinhVien/GD_SV_xemlh',{layout: './layouts/layoutSinhVien' , title: 'Xem Lịch Học'});
-});
+router.get('/xemlh', controllerSV.xemlichhoc);
 
 router.get('/dangxuat', (req, res) => {
     res.clearCookie('mssv');
