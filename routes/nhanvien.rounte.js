@@ -176,52 +176,11 @@ router.post('/nvdoimk/doimk',upload.fields([]),controllernvdoimk.doimatkhau);
 router.get('/timsv', controllertimkiemsv.trangtimsv);
 router.get('/timsv/lockq', controllertimkiemsv.timsvlockq);
 
-
-router.get('/cngiangvien', (req, res) => {
-   // return res.render('CNGiangVien');
-    return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên'});
-});
-
-router.get('/cnmonhp', (req, res) => {
-   // return res.render('CNMonHocPhan');
-    return res.render('./bodyNhanVien/CNMonHocPhan',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Môn Học Phần'});
-});
-
-router.get('/cnlophp', (req, res) => {
-    //return res.render('CNLopHP');
-    return res.render('./bodyNhanVien/CNLopHP',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Lớp Học Phần'});
-});
-
-router.get('/cnnamhoc', (req, res) => {
-    return res.render('./bodyNhanVien/CNNamHoc',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Năm Học'});
-});
-
-router.get('/cnhocky', (req, res) => {
-    return res.render('./bodyNhanVien/CNHocKi',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Học Kì'});
-});
-
-router.get('/cnphonghoc', (req, res) => {
-    return res.render('./bodyNhanVien/CNPhongHoc',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Phòng Học'});
-});
-
-
-
-
-
 router.get('/trangchuNV', (req, res) => {
     return res.render('./bodyNhanVien/GD_NV_TrangChu',{layout: './layouts/layoutNhanVien' , title: 'Trang Chủ Nhân Viên'});
 });
 
 
-
-
-
-router.get('/timgv', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemGV',{layout: './layouts/layoutNhanVien' , title: 'Tìm Kiếm Giảng Viên'});
-});
-router.get('/timmonhp', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemMHP',{layout: './layouts/layoutNhanVien' , title: 'Tìm Kiếm Môn Học Phần'});
-});
 
 
 
