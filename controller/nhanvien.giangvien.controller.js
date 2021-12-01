@@ -149,22 +149,31 @@ module.exports.savedataGV = function (req, res) {
             type: String
         },
     };
-
+    var arr = new Array();
     readXlsxFile('./file/datagv.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
-        for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaGV: rows[i].MaGV, HoTen: rows[i].HoTen, DiaChi: rows[i].DiaChi, GioiTinh: rows[i].GioiTinh,
-                NgaySinh: rows[i].NgaySinh, SoDt: rows[i].SoDt, MaKhoa: rows[i].MaKhoa
-            };
-            database.themGV(data, function (results) {
-                
-            });
+        for (let i = 0; i < rows.length; i++) {   
+            let giangvien = rows[i].MaGV;
+            arr.push(giangvien);
 
         };
-         res.redirect('/nhanvien/cngiangvien');
+        database.giangvienkiemtradulieu(arr,function (results) {
+            if(results.length>0){
+                res.send({message: 'Giảng viên có mã'+ '\t' + results[0].MaGV + '\t' + 'đã tồn tại' });
+            }else{
+                for (let a = 0; a < rows.length; a++) {   
+                    let data = {
+                        MaGV: rows[a].MaGV, HoTen: rows[a].HoTen, DiaChi: rows[a].DiaChi, GioiTinh: rows[a].GioiTinh,
+                        NgaySinh: rows[a].NgaySinh, SoDt: rows[a].SoDt, MaKhoa: rows[a].MaKhoa
+                    };
+                    database.themGV(data, function (results) {
+                        
+                    });
+                };
+                res.send({ message: 'Đã thêm' });
+            }
+        });
+        
     });
 
 };

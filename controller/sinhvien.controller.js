@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const readXlsxFile = require('read-excel-file/node');
 var multer = require('multer');
+const { savedataLopHP } = require("./NhanVienLHP.controller");
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './file');
@@ -19,14 +20,6 @@ var upload1 = multer({ storage: storage }).single('myfilesv');
 
 
 module.exports.trangcapnhatsv = function (req, res) {
-    // var page = parseInt( req.query.page) || 1;//n
-    // var perPage = 10;
-    // var start = (page - 1) *perPage;
-    // var end = page * perPage;
-    // database.getAllSV(function (result) {
-    //     let sotrang = (result.length)/perPage;
-    //     res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: result.slice(start,end), trang:sotrang+1 });
-    // })
     res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: 0, trang: 0,kh:0 });
 };
 
@@ -51,25 +44,36 @@ module.exports.trangchunv = function (req, res) {
 };
 
 module.exports.chuyennhapsv = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_From_Add_SV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Sinh Viên' });
+    var matudong;
+    database.laymaSVtudong(function(result){
+        matudong = parseInt(result[0].MSSV);
+        matudong = matudong +1;
+        matudong = "00" + matudong;
+        return res.render('./bodyKhongMenu/GD_NV_From_Add_SV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Sinh Viên', matdsv: matudong });
+    })
+    
 };
 
 module.exports.chuyenedit = function (req, res) {
     const svid = req.params.svid;
     database.chuyenDenUpdate(svid, function (results) {
-        console.log(results[0]);
-        // res.render('GD_NV_From_Update_SV', { sv: results[0] });
         return res.render('./bodyKhongMenu/GD_NV_From_Update_SV', { layout: './layouts/layoutKhongMenu', title: 'Cập nhật sinh viên', sv: results[0] });
     });
 };
 
 module.exports.xoasv = function (req, res) {
     const svid = req.params.svid;
-    database.xoatksv(svid, function (resultss) {
-        database.xoaSV(svid, function (results) {
-            res.redirect('/nhanvien/cnsinhvien');
-        });
-    });
+    database.svkiemtratruocxoa(svid,function (resultsss) {
+        if(resultsss.length > 0){
+            res.send('Sinh viên đã có ngành nên xóa bên chia ngành trước');
+        }else{
+            database.xoatksv(svid, function (resultss) {
+                database.xoaSV(svid, function (results) {
+                    res.redirect('/nhanvien/cnsinhvien');
+                });
+            });
+        }
+    });  
 };
 
 module.exports.luusv = function (req, res) {
@@ -191,6 +195,17 @@ module.exports.timkiemsv = function (req, res) {
 
     });
 };
+
+module.exports.svdatlaimk = function (req, res) {
+    var masv = req.params.svid;
+    var passdefaut = "123456";
+    bcrypt.hash(passdefaut, saltRounds, function (err, hash) {
+        database.svupdatemk(hash,masv,function (results) {
+            res.send('Thành công');
+        });
+    });
+};
+
 
 
 

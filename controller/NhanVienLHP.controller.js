@@ -98,7 +98,6 @@ module.exports.capnhatlophp = function(req,res){
     database.updateLHP(siso,mamhp,nam,hocky,dadangky,malophp,function (results){
         res.redirect('/nhanvien/cnlophp');
     });
-    // console.log(siso,mamhp,nam,hocky,dadangky,malophp);
 };
 
 module.exports.timkiemlophp = function (req, res) {
@@ -157,21 +156,31 @@ module.exports.savedataLopHP = function (req, res) {
             type: String
         },
     };
-
+    var arr = new Array();
     readXlsxFile('./file/datalophocphan.xlsx', { schema }).then(({ rows, errors }) => {
-        errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaLopHP: rows[i].MaLopHP, SiSo: rows[i].SiSo, MaMHP: rows[i].MaMHP, Nam: rows[i].Nam, HocKy: rows[i].HocKy, DaDangKy: rows[i].DaDangKy
-            };
-            database.themLHP(data, function (results) {
-                
-            });
+            let lhp = rows[i].MaLopHP;
+            arr.push(lhp);
 
         };
-         res.redirect('/nhanvien/cnlophp');
+        database.lhpkiemtradulieu(arr,function (results) {
+            if(results.length > 0)
+            {
+                res.send({ message: 'Lớp học phần có mã'+ '\t' + results[0].MaLopHP + '\t' + 'đã tồn tại'});
+            }else{
+                for (let a = 0; a < rows.length; a++) {
+                    let data = {
+                        MaLopHP: rows[a].MaLopHP, SiSo: rows[a].SiSo, MaMHP: rows[a].MaMHP, Nam: rows[a].Nam, HocKy: rows[a].HocKy, DaDangKy: rows[a].DaDangKy
+                    };
+                    database.themLHP(data, function (results) {
+                        
+                    });
+        
+                };
+                res.send({ message: 'Đã thêm' });
+            }
+        });
+       
     });
 
 };
