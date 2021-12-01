@@ -217,6 +217,19 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
     }) 
 };
 
+//lấy mã sinh viên tự động
+exports.laymaSVtudong = function(callbackQuery){
+    connect();
+    connection.query("SELECT sinhvien.MSSV FROM sinhvien order by sinhvien.MSSV desc;",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 exports.timkiemsvtongthe = function(tukhoa,callbackQuery){
     connect();
     connection.query("Select * from sinhvien where MSSV like N'%"+tukhoa+"' or MSSV like N'"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"' or DiaChi like N'"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"%' or HoTen like N'%"+tukhoa+"' or HoTen like N'"+tukhoa+"%' or HoTen like N'%"+tukhoa+"%'",
@@ -1247,6 +1260,8 @@ exports.layGVtheoKhoa = function(data,callbackQuery){
         }
     }) 
 };
+
+
 
 /*
     Kết thúc xử lý cho giao diện giảng viên

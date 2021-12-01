@@ -44,7 +44,14 @@ module.exports.trangchunv = function (req, res) {
 };
 
 module.exports.chuyennhapsv = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_From_Add_SV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Sinh Viên' });
+    var matudong;
+    database.laymaSVtudong(function(result){
+        matudong = parseInt(result[0].MSSV);
+        matudong = matudong +1;
+        matudong = "00" + matudong;
+        return res.render('./bodyKhongMenu/GD_NV_From_Add_SV', { layout: './layouts/layoutKhongMenu', title: 'Thêm Sinh Viên', matdsv: matudong });
+    })
+    
 };
 
 module.exports.chuyenedit = function (req, res) {
