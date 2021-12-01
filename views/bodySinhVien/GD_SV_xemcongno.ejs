@@ -10,17 +10,27 @@
             <th>Học kì</th>
             <th>Năm Học</th>
             <th>Tiền học</th>
-            <th>Tổng tiền</th>
+        
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Lập trình phân tán</td>
-            <td>4</td>
-            <td>2</td>
-            <td>2021-2022</td>
-            <td>1.880.000 VNĐ</td>
-          </tr>
+          <%for(let i=0;i< list.length;i++){%>
+            <tr>
+        
+              <td> <%=list[i].TenMHHP%></td>
+              <td> <%=list[i].SoTinChi%></td>
+              <td> <%=list[i].Nam%></td>
+              <td> <%=list[i].HocKy%></td>
+              <td> <%=list[i].SoTinChi * 790000%>đ</td>
+            </tr>
+            <%}%>
+            <tr>
+              <td> <h3>Tổng tiền học</h3> </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td> <h3><%= tong%>đ</h3>  </td>
+            </tr>
         </tbody>
     </table>
     

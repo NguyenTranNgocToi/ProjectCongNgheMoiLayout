@@ -551,7 +551,7 @@ module.exports.dangkyhocphan = function(req,res){
                                                                     mess2
                                                                 });
                                                             }else{
-                                                                mess2="không trùng lịch học"
+                                                                mess2="Đăng ký thành công"
                                                                 //thêm đăng ký 3
                                                                 database.dangkyhocphanchosinhvien(mssv,malophoc,manhomlt);
                                                                 database.dangkyhocphanchosinhvien(mssv,malophoc,manhomth);
@@ -658,28 +658,46 @@ module.exports.dangkyhocphan = function(req,res){
                                                             //sinh viên bị trùng thời gian 
                                                             if(ktthoigian.length> 0){
                                                                     mess2="trùng lịch học"
+                                                                    return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                                        layout: './layouts/layoutSinhVien' , 
+                                                                        title: 'Đăng Ký Học Phần', 
+                                                                        listmh, 
+                                                                        listlh,
+                                                                        listthuchanh,
+                                                                        listlythuyet,
+                                                                        listmonhocdadangky, 
+                                                                        namhoc, 
+                                                                        hocky,
+                                                                        mamonhoc,
+                                                                        malophoc,
+                                                                        mess,
+                                                                        mess1,
+                                                                        mess2
+                                                                    });
                                                             //sinh viên không bị trùng lịch học     
                                                             }else{
-                                                                mess2="không trùng lịch học"
+                                                                mess2="Đăng ký thành công"
                                                                 database.dangkyhocphanchosinhvien(mssv,malophoc,manhomlt);
+                                                                return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                                    layout: './layouts/layoutSinhVien' , 
+                                                                    title: 'Đăng Ký Học Phần', 
+                                                                    listmh, 
+                                                                    listlh,
+                                                                    listthuchanh,
+                                                                    listlythuyet,
+                                                                    listmonhocdadangky, 
+                                                                    namhoc, 
+                                                                    hocky,
+                                                                    mamonhoc,
+                                                                    malophoc,
+                                                                    mess,
+                                                                    mess1,
+                                                                    mess2
+                                                                });
+                                                                
                                                             } 
                                                             console.log("mess21"+mess2);
-                                                            return res.render('./bodySinhVien/GD_SV_dkhp',{
-                                                                layout: './layouts/layoutSinhVien' , 
-                                                                title: 'Đăng Ký Học Phần', 
-                                                                listmh, 
-                                                                listlh,
-                                                                listthuchanh,
-                                                                listlythuyet,
-                                                                listmonhocdadangky, 
-                                                                namhoc, 
-                                                                hocky,
-                                                                mamonhoc,
-                                                                malophoc,
-                                                                mess,
-                                                                mess1,
-                                                                mess2
-                                                            });
+                                                           
                                                             });
                                                             console.log("mess22"+mess2);
                                                         }
@@ -693,7 +711,7 @@ module.exports.dangkyhocphan = function(req,res){
                                                             mess2="trùng lịch học"
                                                         //sinh viên không bị trùng lịch học     
                                                         }else{
-                                                            mess2="không trùng lịch học"
+                                                            mess2="Đăng ký thành công"
                                                             database.dangkyhocphanchosinhvien(mssv,malophoc,manhomlt);
                                                         } 
                                                         console.log("mess21"+mess2);
@@ -720,10 +738,6 @@ module.exports.dangkyhocphan = function(req,res){
 
                                             })
                                         }
-
-                                    
-                                        
-                                        
                                     });
                                }
                                else{
@@ -755,6 +769,28 @@ module.exports.dangkyhocphan = function(req,res){
                    
                  });
         });
+};
+
+//xem công nợ
+module.exports.xemcongno = function(req, res){
+    const { cookies } = req;
+   // console.log(cookies.mssv);
+    var mssv = cookies.mssv
+    var list;
+    var tong = 0;
+    database.laycongnochosinhvien(mssv, function (resultQuery) {
+        list = resultQuery;
+        //console.log("list:"+ list);
+        
+        for(let i=0;i< list.length;i++){
+            tong = tong +list[i].SoTinChi*790000 ;
+        }
+        console.log("tong:"+tong);
+        return res.render('./bodySinhVien/GD_SV_xemcongno',{layout: './layouts/layoutSinhVien' , title: 'Xem Công Nợ', list:resultQuery, tong});
+
+    });
+   
+
 };
 
 

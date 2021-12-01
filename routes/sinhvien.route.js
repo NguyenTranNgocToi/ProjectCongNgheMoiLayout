@@ -28,10 +28,7 @@ router.get('/doimk', controllerSV.doiMatKhauSV);
 //đổi mật khẩu post ntnt
 router.post('/doimatkhau',upload.fields([]), controllerSV.postDoiMatKhauSV);
 
-router.get('/xemcongno', (req, res) => {
-
-    return res.render('./bodySinhVien/GD_SV_xemcongno',{layout: './layouts/layoutSinhVien' , title: 'Xem Công Nợ'});
-});
+router.get('/xemcongno',controllerSV.xemcongno)
 
 //xem chương trình khung ntnt
 router.get('/xemctk',controllerSV.xemchuongtrinhkhung);
