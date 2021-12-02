@@ -187,4 +187,11 @@ router.get('/nhapdiem/loclop',controllernhapdiem.locdssv);
 router.get('/nhapdiem/suadiem/:masv&:malop',controllernhapdiem.chuyendentrangsuadiem);
 router.post('/nhapdiem/luudiem',upload.fields([]),controllernhapdiem.luudiem);
 
+//đăng xuất
+router.get('/dangxuat', (req, res) => {
+    res.clearCookie('msnv');
+    res.clearCookie('msnv');
+    return res.redirect('/');
+});
+
 module.exports = router;
