@@ -398,6 +398,31 @@ exports.laylichhocchosinhvien = function(HocKy, Nam, MSSV,callbackQuery){
     //closeDB();
 }
 
+//update số lượng sinh viên đăng ký trong 1 lớp
+exports.updatesisosinhviendadangkytrongmotlop = function(siso,malophp,callbackQuery){
+    connect();
+    connection.query("UPDATE `sqlquanlyhocphan`.`lophocphan` SET `DaDangKy` = ? WHERE (`MaLopHP` = ?);",[siso,malophp],(err,results)=>{
+        if(!err){
+            //callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+//lấy kết quả học tập cho sinh viên
+exports.layketquahoctapchosinhvien = function(MSSV,callbackQuery){
+    connect();// order by MSSV DESC limit 5
+    connection.query("select lophocphan.Nam, lophocphan.hocky, monhocphan.TenMHHP,monhocphan.SoTinChi, phieudangkylhp.DiemTK, phieudangkylhp.DiemGK, phieudangkylhp.DiemTH ,phieudangkylhp.DiemCK from phieudangkylhp inner join lophocphan on lophocphan.MaLopHP = phieudangkylhp.MaLopHP inner join monhocphan on monhocphan.MaMHP = lophocphan.MaMHP where phieudangkylhp.MSSV = ? and phieudangkylhp.Nhom ='LT' order by lophocphan.Nam asc , lophocphan.HocKy asc;",[MSSV], function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+}
+
 /*
     Kết thúc xử lý cho giao diện sinh viên
 */
