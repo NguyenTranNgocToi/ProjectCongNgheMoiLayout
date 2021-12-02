@@ -1601,3 +1601,58 @@ exports.nvlaymkduoicsdl = function(manv,callbackQuery){
     Kết thúc giao diện cập nhật nhân viên
 */
 
+/*
+    Bắt đầu xử lý giao diện nhập điểm
+*/
+
+exports.nvnhapdiemlaymalop = function(callbackQuery){
+    connect();
+    connection.query("SELECT phieudangkylhp.MaLopHP FROM phieudangkylhp group by phieudangkylhp.MaLopHP",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemlaydssv = function(malop,callbackQuery){
+    connect();
+    connection.query("SELECT ph.MSSV,sv.HoTen,ph.MaLopHP,ph.DiemTK,ph.DiemGK,ph.DiemTH,ph.DiemCK FROM sqlquanlyhocphan.phieudangkylhp ph join sqlquanlyhocphan.sinhvien sv on ph.MSSV = sv.MSSV where MaLopHP = ? and Nhom = 'LT'",[malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemlaysv = function(mssv,malop,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sqlquanlyhocphan.phieudangkylhp where MSSV = ? and MaLopHP = ? and Nhom = 'LT'",[mssv,malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemcapnhatdiem = function(diemtk,diemgk,diemth,diemck,masv,malop,callbackQuery){
+    connect();
+    connection.query("update sqlquanlyhocphan.phieudangkylhp set DiemTK = ?, DiemGK = ? , DiemTH = ? , DiemCK = ? where MSSV = ? and MaLopHP = ? and Nhom = 'LT'",[diemtk,diemgk,diemth,diemck,masv,malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+/*
+   Kết thúc xử lý giao diện nhập điểm
+*/

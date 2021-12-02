@@ -20,6 +20,7 @@ const controllerhocky = require('../controller/NhanVienHocKy.controller');
 const controllercnnhanvien = require('../controller/capnhatnhanvien.contronler');
 const controllernvdoimk = require('../controller/nhanviendoimk.contronller');
 const controllertimkiemsv = require('../controller/nhanvientimsinhvien.controller');
+const controllernhapdiem = require('../controller/nhanviennhapdiem.controller');
 
 
 var database = require("../database");
@@ -180,8 +181,10 @@ router.get('/trangchuNV', (req, res) => {
     return res.render('./bodyNhanVien/GD_NV_TrangChu',{layout: './layouts/layoutNhanVien' , title: 'Trang Chủ Nhân Viên'});
 });
 
-
-
-
+//Nhập điểm
+router.get('/nhapdiem', controllernhapdiem.trangnhapdiem);
+router.get('/nhapdiem/loclop',controllernhapdiem.locdssv);
+router.get('/nhapdiem/suadiem/:masv&:malop',controllernhapdiem.chuyendentrangsuadiem);
+router.post('/nhapdiem/luudiem',upload.fields([]),controllernhapdiem.luudiem);
 
 module.exports = router;
