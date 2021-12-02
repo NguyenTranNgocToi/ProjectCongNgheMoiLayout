@@ -16,6 +16,7 @@
                 <th>Thực hành</th>
                 <th>Cuối kỳ</th>
                 <th>Điểm tổng kết</th>
+                <th>Xếp loại</th>
             </tr>
         </thead>
         <tbody>
@@ -33,7 +34,30 @@
                     <td><%=(((list[i].DiemTK+list[i].DiemTH)/2)*2 
                         +(list[i].DiemGK*3)
                         +(list[i].DiemCK*5))/10%></td>
-               
+                    <td>
+                        <% var x =  (((list[i].DiemTK+list[i].DiemTH)/2)*2  
+                                    +(list[i].DiemGK*3) 
+                                    +(list[i].DiemCK*5))/10%>
+                        <% if( x>=8 ){ %>
+                            Giỏi
+                         <% } %>
+                         <% if( x<8 && x>=6.5 ){ %>
+                            Khá
+                         <% } %>
+                         <% if( x<6.5 && x>=5 ){ %>
+                            Trung bình
+                         <% } %>
+                         <% if(x<5 && x >= 4){ %>
+                            Kém
+                         <% } %>
+                         <% if( x<4 ){ %>
+                            Học lại
+                         <% } %>
+                         
+
+
+                    </td>    
+
                 </tr>
             <%}%>
 
