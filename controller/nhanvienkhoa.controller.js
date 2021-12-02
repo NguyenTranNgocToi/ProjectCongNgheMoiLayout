@@ -71,9 +71,27 @@ module.exports.luukhoa = function(req,res){
 
 module.exports.xoakhoa = function (req, res) {
     const khoaid = req.params.khoaid;
-        database.xoaKhoa(khoaid, function(results){
-            res.redirect('/nhanvien/cnkhoa');
-        });
+    database.kiemtrakhoaocntruocxoa(khoaid, function(ketqua){
+        if(ketqua.length > 0){
+            res.send({message:'Khoa đã được phân chuyên ngành, cần xoá chuyên ngành chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+        }else{
+        database.kiemtrakhoaogvtruocxoa(khoaid,function(ketqua){
+            if(ketqua.length > 0){
+                res.send({message:'Đã có giảng viên được phân vào khoa, cần xoá giảng viên chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+            }else{
+                database.kiemtrakhoaomhptruocxoa(khoaid,function(ketqua){
+                    if(ketqua.length > 0){
+                        res.send({message:'Đã có môn học phần được phân vào khoa, cần xoá môn học phần chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+                    }else{
+                        database.xoaKhoa(khoaid, function(results){
+                            res.redirect('/nhanvien/cnkhoa');
+                        });
+                    }
+                })
+            }
+        })
+        }
+    })
 };
 
 module.exports.chuyeneditkhoa = function (req, res) {

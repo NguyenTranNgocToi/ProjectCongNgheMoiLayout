@@ -1275,7 +1275,44 @@ exports.layGVtheoKhoa = function(data,callbackQuery){
     }) 
 };
 
+exports.kiemtrakhoaocntruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM chuyennganh where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 
+exports.kiemtrakhoaogvtruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM giangvien where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtrakhoaomhptruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM monhocphan where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 
 /*
     Kết thúc xử lý cho giao diện giảng viên
