@@ -694,6 +694,20 @@ exports.xlkiemtradulieu = function(malop,manhom,callbackQuery){
     }) 
 };
 
+exports.xlkiemtradulieutruocxoa = function(malop,manhom,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM phieudangkylhp where MaLopHP = ? and Nhom = ? ",[malop,manhom],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
 
 
 /*

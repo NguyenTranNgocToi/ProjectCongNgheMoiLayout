@@ -70,9 +70,16 @@ module.exports.timlhp = function (req, res) {
 module.exports.xoalichhoc = function (req, res) {
     const malhp = req.params.malop;
     const manhom = req.params.manhom;
-    database.xoalichhoc(malhp,manhom,function(results){
-        res.redirect('/nhanvien/xeplichhoc');
-    })
+    database.xlkiemtradulieutruocxoa(malhp,manhom,function (kq) {
+        if(kq.length > 0){
+            res.send('Lịch học đã có sinh viên đăng kí không xóa được')
+        }else{
+            database.xoalichhoc(malhp,manhom,function(results){
+                res.redirect('/nhanvien/xeplichhoc');
+            });
+        }  
+    });
+    
 };
 
 
