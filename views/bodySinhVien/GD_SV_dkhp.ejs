@@ -237,7 +237,7 @@
                         <%for(let i=0;i< listmonhocdadangky.length;i++){%>
                             <tr>
                                 <td>
-                                    <input name="lhpddk" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
+                                    <input name="lhpddk" id="Huy" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
                                 </td>
                                 <td><%=listmonhocdadangky[i].MaLopHP%></td>
                                 <td><%=listmonhocdadangky[i].TenMHHP%></td>
@@ -247,7 +247,8 @@
                         <%}%>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-danger">Hủy Đăng kí</button>
+               
+                <button type="button" class="btn btn-danger" name="" onclick="myfun()" value="Click metho">Hủy Đăng kí</button>
             </div>
 
         </form>   
@@ -313,5 +314,22 @@
                
             });
             </script>
-            <% } %>   
+            <% } %> 
+            
+       <script type="text/javascript">
+           function myfun(){
+                var xacnhanhuy = confirm("Bạn có chắc muốn hủy?");
+                var x = document.getElementById("Huy").value;
+                var y = document.getElementById("namhochtml").value;
+                var z = document.getElementById("hockyhtml").value;
+                
+                if(xacnhanhuy==true)
+                {
+                    window.open("/sinhvien/dangkyhp?lhpddk="+x+"&namhoc="+y+"&hocky="+z);
+                    return true;
+                }else
+                    return false; 
+           }
+          
+       </script>     
     </div>
