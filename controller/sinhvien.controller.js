@@ -361,7 +361,7 @@ module.exports.dangkyhocphan = function(req,res){
          });   
     }
 
-        database.laydanhsachmonhocphanchosinhvien(mssv,hocky,namhoc, function (resultQuery){
+    database.laydanhsachmonhocphanchosinhvien(mssv,hocky,namhoc, function (resultQuery){
              listmh = resultQuery;
             console.log("listmh:"+ listmh[0]);
             //console.log("listmh mã 0 :"+ listmh[0].MaMHP);
@@ -840,7 +840,7 @@ module.exports.dangkyhocphan = function(req,res){
                    
                    
                  });
-        });
+    });
 };
 
 //xem công nợ
@@ -1249,7 +1249,7 @@ module.exports.xemlichhoc = function(req, res){
    
 
 };
-
+//xem kết quả học tập
 module.exports.xemketquahoctap = function(req, res){
     const { cookies } = req;
    // console.log(cookies.mssv);

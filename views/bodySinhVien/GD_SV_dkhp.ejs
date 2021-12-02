@@ -232,12 +232,13 @@
                             <th>Giảng viên</th>
                         </tr>
                     </thead>
+                 
                     <tbody>
                        
                         <%for(let i=0;i< listmonhocdadangky.length;i++){%>
                             <tr>
                                 <td>
-                                    <input name="lhpddk" id="Huy" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
+                                    <input name="lhpddk" id=<%=listmonhocdadangky[i].MaLopHP%> type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
                                 </td>
                                 <td><%=listmonhocdadangky[i].MaLopHP%></td>
                                 <td><%=listmonhocdadangky[i].TenMHHP%></td>
@@ -245,9 +246,11 @@
                                 <td><%=listmonhocdadangky[i].HoTen%></td>
                             </tr>
                         <%}%>
+
                     </tbody>
                 </table>
-               
+                        
+                <button type="submit" class="btn btn-danger" name="" id="btnhuy" style="display: none;" >Hủy Đăng kí</button>
                 <button type="button" class="btn btn-danger" name="" onclick="myfun()" value="Click metho">Hủy Đăng kí</button>
             </div>
 
@@ -315,17 +318,30 @@
             });
             </script>
             <% } %> 
-            
+
+
+
+
+          
+        
+              
+          
        <script type="text/javascript">
+           
            function myfun(){
-                var xacnhanhuy = confirm("Bạn có chắc muốn hủy?");
-                var x = document.getElementById("Huy").value;
-                var y = document.getElementById("namhochtml").value;
-                var z = document.getElementById("hockyhtml").value;
                 
+
+               var xacnhanhuy = confirm("bạn có chắc muốn hủy?") ;
+               var namhoc = document.getElementById("namhochtml").value;
+               var hocky = document.getElementById("hockyhtml").value;
+               var huy =document.getElementById("btnhuy");
+               
                 if(xacnhanhuy==true)
                 {
-                    location.replace("/sinhvien/dangkyhp?lhpddk="+x+"&namhoc="+y+"&hocky="+z);
+                    huy.click() ;
+                    // location.replace("/sinhvien/dangkyhp?namhoc="+namhoc+"&hocky="+hocky+"&lhpddk="+huy);
+                    //location.replace("/sinhvien/dangkyhp?namhoc="+namhoc+"&hocky="+hocky);
+                   
                     return true;
                 }else
                     return false; 
