@@ -2,17 +2,22 @@ var database = require("../database");
 
 module.exports.trangnhapdiem = function (req, res) {
     database.nvnhapdiemlaymalop(function (listma) {
-        return res.render('./bodyNhanVien/GV_NV_Nhapdiem',{layout: './layouts/layoutNhanVien' , title: 'Giao Dien Nhập Điểm',listma:listma,dssv:0});
+        return res.render('./bodyNhanVien/GV_NV_Nhapdiem',{layout: './layouts/layoutNhanVien' , title: 'Giao Dien Nhập Điểm',listma:listma,dssv:0,trang:0,lhp:0});
     });
 };
 
 
 module.exports.locdssv = function (req, res) {
     var lhp = req.query.lhpsv;
-    // console.log(lhp);
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
     database.nvnhapdiemlaymalop(function (listma) {
         database.nvnhapdiemlaydssv(lhp,function (dssv) {
-            return res.render('./bodyNhanVien/GV_NV_Nhapdiem',{layout: './layouts/layoutNhanVien' , title: 'Giao Dien Nhập Điểm',listma:listma,dssv:dssv});
+            let sotrang = (dssv.length) / perPage;
+            return res.render('./bodyNhanVien/GV_NV_Nhapdiem',{layout: './layouts/layoutNhanVien' , title: 'Giao Dien Nhập Điểm',listma:listma.slice(start,end),dssv:dssv, trang: sotrang+1,lhp:lhp});
         });
     });
     
