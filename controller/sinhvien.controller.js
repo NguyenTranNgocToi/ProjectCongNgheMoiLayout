@@ -3,11 +3,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const readXlsxFile = require('read-excel-file/node');
 var multer = require('multer');
-<<<<<<< HEAD
 const { savedataLopHP } = require("./NhanVienLHP.controller");
-=======
-// const { param } = require("../routes/sinhvien.route");
->>>>>>> NTNT
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './file');
