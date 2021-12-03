@@ -216,6 +216,9 @@
                     </tbody>
                 </table>
                 <button type="submit" class="btn btn-info">Đăng kí</button>
+                <label> <%=mess%></label>
+                <label> <%=mess1%></label>
+                <label> <%=mess2%></label>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h4>Danh sách các lớp học phần đã đăng kí</h4>
@@ -227,16 +230,15 @@
                             <th>Tên môn</th>
                             <th>Nhóm</th>
                             <th>Giảng viên</th>
-                            
-                            
                         </tr>
                     </thead>
+                 
                     <tbody>
                        
                         <%for(let i=0;i< listmonhocdadangky.length;i++){%>
                             <tr>
                                 <td>
-                                    <input name="lhpddk" type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>/>
+                                    <input name="lhpddk" id=<%=listmonhocdadangky[i].MaLopHP%> type="radio" value=<%=listmonhocdadangky[i].MaLopHP%>>
                                 </td>
                                 <td><%=listmonhocdadangky[i].MaLopHP%></td>
                                 <td><%=listmonhocdadangky[i].TenMHHP%></td>
@@ -244,9 +246,12 @@
                                 <td><%=listmonhocdadangky[i].HoTen%></td>
                             </tr>
                         <%}%>
+
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-danger">Hủy Đăng kí</button>
+                        
+                <button type="submit" class="btn btn-danger" name="" id="btnhuy" style="display: none;" >Hủy Đăng kí</button>
+                <button type="button" class="btn btn-danger" name="" onclick="myfun()" value="Click metho">Hủy Đăng kí</button>
             </div>
 
         </form>   
@@ -301,7 +306,7 @@
            
         });
         </script>
-        <% } %>
+    <% } %>
 
         <% if(malophoc !=""){ %>
             <script>
@@ -312,5 +317,35 @@
                
             });
             </script>
-            <% } %>   
+            <% } %> 
+
+
+
+
+          
+        
+              
+          
+       <script type="text/javascript">
+           
+           function myfun(){
+                
+
+               var xacnhanhuy = confirm("bạn có chắc muốn hủy?") ;
+               var namhoc = document.getElementById("namhochtml").value;
+               var hocky = document.getElementById("hockyhtml").value;
+               var huy =document.getElementById("btnhuy");
+               
+                if(xacnhanhuy==true)
+                {
+                    huy.click() ;
+                    // location.replace("/sinhvien/dangkyhp?namhoc="+namhoc+"&hocky="+hocky+"&lhpddk="+huy);
+                    //location.replace("/sinhvien/dangkyhp?namhoc="+namhoc+"&hocky="+hocky);
+                   
+                    return true;
+                }else
+                    return false; 
+           }
+          
+       </script>     
     </div>
