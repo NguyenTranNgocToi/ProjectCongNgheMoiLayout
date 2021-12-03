@@ -19,6 +19,7 @@ var sinhvienRoute = require('./routes/sinhvien.route');
 var authmiddlenv = require('./middlewares/auth.middlewarenv');
 var authmiddlesv = require('./middlewares/auth.middlewaresv');
 
+const controllerDN = require('./controller/DN_Ctr.controller');
 
 app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
@@ -43,59 +44,7 @@ app.use('/sinhvien',authmiddlesv.requireAuth, sinhvienRoute);
 
 // không menu
 // đăng nhập post ntnt
-app.post('/dangnhaptong', upload.fields([]), (req, res) => {
-    var username = req.body.tendn;
-    var pass = req.body.matkhau;
-
-    console.log("tendn" + username);
-    let encryptedPass = '';
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-        bcrypt.hash(pass, salt, function (err, hash) {
-            encryptedPass = hash;
-            console.log("hash pass" + hash);
-            database.getPassNV(username, function (resultQuery1) {
-                if (resultQuery1.length > 0) {
- 
-                    bcrypt.compare(pass, resultQuery1[0].Pass.toString(), function (err, result) {
-                       
-                        if (result) {
-                            res.cookie('msnv', username);
-                            return res.redirect('/nhanvien/trangchu');
-                        } else {
-                            
-                            res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass nv sai' });
-                        }
-                    });
-                } else {
-                    database.getPassSV(username, function (resultQuery) {
-                        if (resultQuery.length > 0) {
-
-                            bcrypt.compare(pass, resultQuery[0].Pass, function (err, result) {
-                                console.log("reult:" + result);
-                                if (result) {
-                                    res.cookie('mssv', username);
-                                    return res.redirect('sinhvien/trangchu');
-                                } else {
-                                   
-                                    res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass sv sai' });
-                                }
-
-                            });
-
-                        }else{
-                           
-                            res.render('./bodyChung/TrangChu',{layout: './layouts/layoutChung' , title: 'Trang Chủ', mess:'pass sv sai' });
-                        }
-                    });
-                }
-              
-            });
-
-        });
-    });
-  
-    //return res.redirect('/trangchu');   
-})
+app.post('/dangnhaptong', upload.fields([]), controllerDN.dangnhap);
 app.listen(3000, () => {
     console.log('Server is running on port 3000!');
 });
