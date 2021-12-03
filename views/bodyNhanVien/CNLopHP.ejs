@@ -2,7 +2,7 @@
     <header id="wrap-header">
         <div class="container" style="background-color: white;">
             <div class="row">  
-                <h2 class="text-center">Cập nhật lớp học phần
+                <h2 class="text-center">CẬP NHẬT LỚP HỌC PHẦN
 
                 </h2>
             </div>
@@ -14,6 +14,20 @@
                 <div class="tab-content">
                     <div id="tab1" class="tab-pane fade in active">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <br>
+                            <form class="form-inline" action="/nhanvien/cnlophp/locmhp">
+                                <div class="form-inline">
+                                    <label for="MaMHP">Mã MHP:</label>&ensp;&ensp;
+                                    <select class="form-control" id="mamhp" name="mamhp" required>
+                                        <%for(let i=0;i < dsmamon.length;i++){%>
+                                            <option value="<%=dsmamon[i].MaMHP%>">
+                                                <%=dsmamon[i].MaMHP%>
+                                            </option>
+                                            <%}%>
+                                    </select>
+                                    <button class="btn btn-default">Lọc</button>
+                                </div>
+                            </form>
                             <form class="form-inline" action="/nhanvien/cnlophp/timlophp" method="get">
                             </br>
                                 <div class="form-group">
@@ -57,6 +71,15 @@
                                     </tbody>
                                   </table>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <%if(sotrang>0){%>
+                                    <%for(let i = 1;i< sotrang;i++){%>
+                                        <ul class="pagination">
+                                            <li><a href="/nhanvien/cnlophp/locmhp?mamhp=<%=mhp%>&page=<%=i%>"><%=i%></a></li>
+                                        </ul>
+                                    <%}%>
+                                <%}%>
+                              </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane fade">
@@ -101,6 +124,15 @@
                             $("#status").empty().text(response);
                         }
                     });
+                    return false;
+                });
+            });
+            $(document).ready(function () {
+                $('#btnsavedatalophp').click(function () {
+                    $.ajax({url: "/nhanvien/cnlophp/savedatalophp", success: function(result){
+                        $("#statusupdatelhp").text(result.message);
+                    }});
+                
                     return false;
                 });
             });

@@ -3,8 +3,7 @@
         <a href="/nhanvien/cnkhoa"><h1>Trở về danh sách</h1></a>
         <form action="/nhanvien/cnkhoa/update_khoa" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="MaKhoa">Tên khoa:</label>
-                <input type="text" class="form-control" id="makhoa"  name="makhoa" value="<%=khoa.MaKhoa%>" disabled required>
+                <input type="hidden" class="form-control" id="makhoa"  name="makhoa" value="<%=khoa.MaKhoa%>" required>
             </div>
             <div class="form-group">
                 <label for="TenKhoa">Tên khoa:</label>

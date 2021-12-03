@@ -1,7 +1,7 @@
 <header id="wrap-header">
     <div class="container" style="background-color: white;"> 
         <div class="row">  
-            <h2 class="text-center">Cập nhật Khoa
+            <h2 class="text-center">CẬP NHẬT KHOA
 
             </h2>
         </div>
@@ -33,19 +33,37 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <%for(let i=0;i< listkhoa.length;i++){%>
-                                    <tr>
-                                        <!-- <td><input type="radio"></td> -->
-                                        <td><%=listkhoa[i].MaKhoa%></td>
-                                        <td><%=listkhoa[i].TenKhoa%></td>
-                                        <td>
-                                            <a href="/nhanvien/cnkhoa/editkhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-warning" >Sửa</a>
-                                            <a href="/nhanvien/cnkhoa/deletekhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-danger" >Xóa</a>
-                                        </td>
-                                    </tr>
+                                <%if(listkhoa.length>0){%>
+                                    <%for(let i=0;i< listkhoa.length;i++){%>
+                                        <tr>
+                                            <!-- <td><input type="radio"></td> -->
+                                            <td><%=listkhoa[i].MaKhoa%></td>
+                                            <td><%=listkhoa[i].TenKhoa%></td>
+                                            <td>
+                                                <a href="/nhanvien/cnkhoa/editkhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-warning" >Sửa</a>
+                                                <a href="/nhanvien/cnkhoa/deletekhoa/<%=listkhoa[i].MaKhoa%>" class="btn btn-danger" >Xóa</a>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                    <%}else{%>
+                                        <tr>
+                                            <td>Không tìm thấy</td>
+                                        </tr>
                                     <%}%>
+                                
+                                  
                                 </tbody>
                               </table>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <%if(sotrang>0){%>
+                                <%for(let i = 1;i< sotrang;i++){%>
+                                    <ul class="pagination">
+                                        <li><a href="/nhanvien/cnkhoa/?page=<%=i%>"><%=i%></a></li>
+                                    </ul>
+                                <%}%>
+                            <%}%>
+                            
                         </div>
                     </div>
                 </div>
@@ -66,8 +84,7 @@
                                 <br />
                                 <span id="status"></span><br>
                             </form>
-                            <a id="btnsavedatakhoa" href="/nhanvien/cnkhoa/savedatakhoa" class="btn btn-primary">Lưu dữ
-                                liệu từ file</a>
+                            <a id="btnsavedatakhoa" href="#" class="btn btn-primary">Lưu dữ liệu từ file</a>
                             <span id="statusupdatek"></span><br><br>
 
                         </div>
@@ -107,5 +124,17 @@
             return false;
         });
     });
+
+    $(document).ready(function () {
+            $('#btnsavedatakhoa').click(function () {
+                $.ajax({url: "/nhanvien/cnkhoa/savedatakhoa", success: function(result){
+                    $("#statusupdatek").text(result.message);
+                    // alert('thanhcong')
+                }});
+                return false;
+               
+            });
+            
+        });
 </script>
 </header>

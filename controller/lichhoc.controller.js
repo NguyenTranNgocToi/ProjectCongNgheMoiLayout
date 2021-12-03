@@ -21,7 +21,12 @@ module.exports.uploadfile = function (req, res) {
 };
 
 module.exports.trangxeplich = function (req, res) {
-    return res.render('./bodyNhanVien/XepLichHoc',{layout: './layouts/layoutNhanVien' , title: 'Xếp Lịch Học',listlh:0,sotrang:0,nam:0,hk:0});
+    database.getdsNam(function (dsnam) {
+        database.getdshocky(function (dshocky) {
+            return res.render('./bodyNhanVien/XepLichHoc',{layout: './layouts/layoutNhanVien' , title: 'Xếp Lịch Học',listlh:0,sotrang:0,nam:0,hk:0,dsnam:dsnam,dshocky:dshocky});
+        });       
+    });
+    
     
 };
 
@@ -34,36 +39,47 @@ module.exports.lockqlh = function (req, res) {
     var end = page * perPage;
     var namhoc = req.query.namhoc;
     var hocky = req.query.hocky;
-    database.nvloclichhoc(namhoc,hocky,function (listlich) {
-        let sotrang = (listlich.length) / perPage;
-        res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlich.slice(start,end), sotrang: sotrang+1,nam:namhoc,hk:hocky });
-    })
-
+    database.getdsNam(function (dsnam) {
+        database.getdshocky(function (dshocky) {
+            database.nvloclichhoc(namhoc,hocky,function (listlich) {
+                let sotrang = (listlich.length) / perPage;
+                res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlich.slice(start,end), sotrang: sotrang+1,nam:namhoc,hk:hocky,dsnam:dsnam,dshocky:dshocky });
+            });
+        });       
+    });
 };
 
 module.exports.timlhp = function (req, res) {
-    var page = parseInt( req.query.page) || 1;//n
-    var perPage = 10;
-    var start = (page - 1) *perPage;
-    var end = page * perPage;
     var malophp = req.query.malophocphan;
-    database.timlophplh(malophp,function(listlh){
-        if (listlh.length > 0) {
-            res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlh, sotrang:0,nam:0,hk:0 });
-        } else {
-            res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: 0, sotrang: 0,nam:0,hk:0 });
-        }
-        
+    database.getdsNam(function (dsnam) {
+        database.getdshocky(function (dshocky) {
+            database.timlophplh(malophp,function(listlh){
+                if (listlh.length > 0) {
+                    res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: listlh, sotrang:0,nam:0,hk:0,dsnam:dsnam,dshocky:dshocky });
+                } else {
+                    res.render('./bodyNhanVien/XepLichHoc', { layout: './layouts/layoutNhanVien', title: 'Xếp lich học', listlh: 0, sotrang: 0,nam:0,hk:0,dsnam:dsnam,dshocky:dshocky });
+                }
+                
+            });
+        });       
     });
+    
     
 };
 
 module.exports.xoalichhoc = function (req, res) {
     const malhp = req.params.malop;
     const manhom = req.params.manhom;
-    database.xoalichhoc(malhp,manhom,function(results){
-        res.redirect('/nhanvien/xeplichhoc');
-    })
+    database.xlkiemtradulieutruocxoa(malhp,manhom,function (kq) {
+        if(kq.length > 0){
+            res.send('Lịch học đã có sinh viên đăng kí không xóa được')
+        }else{
+            database.xoalichhoc(malhp,manhom,function(results){
+                res.redirect('/nhanvien/xeplichhoc');
+            });
+        }  
+    });
+    
 };
 
 

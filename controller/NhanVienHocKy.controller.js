@@ -13,9 +13,15 @@ var storage = multer.diskStorage({
 });
 
 module.exports.trangcapnhatHocKy = function (req, res) {
-    
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
     database.getAllHocKy(function (result) {
-        res.render('./bodyNhanVien/CNHocki', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Học Kỳ', listhocky : result});
+        let sotrang = (result.length) / perPage;
+        res.render('./bodyNhanVien/CNHocki', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Học Kỳ', listhocky : result.slice(start,end),sotrang:sotrang+1});
     })
 };
 
@@ -25,12 +31,25 @@ module.exports.chuyennhapHocKy = function (req, res) {
 
 module.exports.luuHocKy = function(req,res){
     console.log(req.body);
-        let data = {
-            HocKy: req.body.hocky
-        };
-        database.themHocKy(data, function(results){
-            res.redirect('/nhanvien/cnhocky');
-        });
+    const hocky = req.body.hocky;
+    database.kiemtrahockytrung(hocky,function(result){
+        if(result.length>0){
+            res.send({ message: 'Học kỳ'+" "+ result[0].HocKy+" "+ 'đã tồn tại' });
+        }else{
+            let data = {
+                HocKy: req.body.hocky
+            };
+            database.themHocKy(data, function(results){
+                res.redirect('/nhanvien/cnhocky');
+            });
+        } 
+    })
+        // let data = {
+        //     HocKy: req.body.hocky
+        // };
+        // database.themHocKy(data, function(results){
+        //     res.redirect('/nhanvien/cnhocky');
+        // });
 };
 
 module.exports.xoaHocKy = function (req, res) {

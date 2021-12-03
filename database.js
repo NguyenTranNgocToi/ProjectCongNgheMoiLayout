@@ -50,6 +50,18 @@ exports.getdsNam = function(callbackQuery){
         }
     })  
 };
+
+exports.getdshocky = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM hocky", function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+           
+        }
+    })  
+};
 // lấy mật khẩu sv ntnt
 exports.getPassSV = function(MSSV,callbackQuery){
     connect();
@@ -117,7 +129,7 @@ exports.themtaikhoansv = function(tk,callbackQuery){
             results = null;
         }
     });
-}
+};
 // Xóa sinh viên
 exports.xoaSV = function(masv,callbackQuery){
     connect();
@@ -167,6 +179,18 @@ exports.updateSV = function(masv,hoten,gioitinh,ns,diachi,dienthoai,khoahoc,call
         }
     }) 
 };
+//cap nhat lại mật khẩu
+exports.svupdatemk = function(mk,masv,callbackQuery){
+    connect();
+    connection.query("update taikhoansv set Pass = ? where MaTaiKhoan = ?",[mk,masv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 // lấy thông tin cá nhân sinh viên ntnt
 exports.getTTCNSV = function(MSSV,callbackQuery){
     connect();// order by MSSV DESC limit 5
@@ -191,6 +215,32 @@ exports.timkiemsv = function(tukhoa,callbackQuery){
             results = null;
         }
     }) 
+};
+
+//lấy mã sinh viên tự động
+exports.laymaSVtudong = function(callbackQuery){
+    connect();
+    connection.query("SELECT sinhvien.MSSV FROM sinhvien order by sinhvien.MSSV desc;",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.timkiemsvtongthe = function(tukhoa,callbackQuery){
+    connect();
+    connection.query("Select * from sinhvien where MSSV like N'%"+tukhoa+"' or MSSV like N'"+tukhoa+"%' or MSSV like N'%"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"' or DiaChi like N'"+tukhoa+"%' or DiaChi like N'%"+tukhoa+"%' or HoTen like N'%"+tukhoa+"' or HoTen like N'"+tukhoa+"%' or HoTen like N'%"+tukhoa+"%'",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });
 };
 
 exports.kiemtradl = function(masv,callbackQuery){
@@ -386,6 +436,68 @@ exports.timkiemkhoa = function(tukhoakhoa,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtradulieukhoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa in (?)",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.kiemtrakhoatrung = function(makhoa,callbackQuery){
+    connect();
+    connection.query("Select * from khoa where MaKhoa = ?",[makhoa],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+// exports.laysvtheocn = function(data,callbackQuery){
+//     connect();
+//     connection.query("SELECT sv.* FROM sinhvien sv join sinhvien_thuoc_nganh svn on sv.MSSV = svn.MSSV where svn.MaChuyenNganh = ?",[data],
+//     (err,results)=>{
+//         if(!err){
+//             callbackQuery(results);
+//         }else{
+//             console.log(err);
+//             results = null;
+//         }
+//     }) 
+// };
+exports.layCNtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT cn.* FROM khoa kh join chuyennganh cn on kh.MaKhoa = cn.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+//Lấy mã khoa
+exports.laymakhoa = function(callbackQuery){
+    connect();
+    connection.query("Select MaKhoa from khoa",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện khoa
 */
@@ -456,7 +568,7 @@ exports.updateChuyenNganh = function(tenchuyennganh,machuyennganh,callbackQuery)
             results = null;
         }
     }) 
-}
+};
 
 exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
     connect();
@@ -469,7 +581,32 @@ exports.timkiemChuyenNganh = function(tukhoachuyennganh,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+
+exports.chuyennganhkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh in (?)",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtracntrung = function(machuyennganh,callbackQuery){
+    connect();
+    connection.query("Select * from chuyennganh where MaChuyenNganh = ?",[machuyennganh],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện chuyên ngành
 */
@@ -556,6 +693,20 @@ exports.xlkiemtradulieu = function(malop,manhom,callbackQuery){
         }
     }) 
 };
+
+exports.xlkiemtradulieutruocxoa = function(malop,manhom,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM phieudangkylhp where MaLopHP = ? and Nhom = ? ",[malop,manhom],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 
 
@@ -657,6 +808,20 @@ exports.kiemtradulieubangmang = function(masv,callbackQuery){
         }
     }) 
 };
+
+exports.svkiemtratruocxoa = function(masv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sinhvien_thuoc_nganh where MSSV = ?",[masv],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 
 
 /*
@@ -791,7 +956,7 @@ exports.updateLHP = function(siso,mamhp,nam,hocky,dadangky,malophp,callbackQuery
             results = null;
         }
     }) 
-}
+};
 
 exports.timkiemlhp = function(tukhoalhp,callbackQuery){
     connect();
@@ -804,7 +969,45 @@ exports.timkiemlhp = function(tukhoalhp,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+
+exports.lhpkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP in (?) ",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.layLHPtheoMH = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT lhp.* FROM monhocphan mhp join lophocphan lhp on mhp.MaMHP = lhp.MaMHP where mhp.MaMHP = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtralhptrung = function(malhp,callbackQuery){
+    connect();
+    connection.query("Select * from lophocphan where MaLopHP = ?",[malhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện Lớp học phần
 */
@@ -863,10 +1066,11 @@ exports.chuyenDenUpdateMHP = function(MaMHP,callbackQuery){
     })  
 };
 
-exports.updateMHP = function(mamhp,tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,callbackQuery){
+exports.updateMHP = function(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,tenmhhp,mamhp,callbackQuery){
     connect();
     connection.query("update monhocphan set tenmhhp = ?,sotinchi = ?,hinhthucthi = ?,batbuoc = ?,makhoa = ?,hocphanyeucau = ? where mamhp = ?",
-    [tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau, mamhp],(err,results)=>{
+    [tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,mamhp],(err,results)=>{
+        // console.log(sotinchi,hinhthucthi,batbuoc,makhoa,hocphanyeucau,tenmhhp,mamhp);
         if(!err){
             callbackQuery(results);
         }else{
@@ -878,7 +1082,7 @@ exports.updateMHP = function(mamhp,tenmhhp,sotinchi,hinhthucthi,batbuoc,makhoa,h
 
 exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
     connect();
-    connection.query("Select * from monhocphan where mamhp like N'%"+tukhoamonhp+"%' or tenmhhp like N'%"+tukhoamonhp+"%'or sotinchi like N'%"+tukhoamonhp+"%'or hinhthucthi like N'%"+tukhoamonhp+"%'or batbuoc like N'%"+tukhoamonhp+"%'or makhoa like N'%"+tukhoamonhp+"%'or hocphanyeucau like N'%"+tukhoamonhp+"%'",
+    connection.query("Select * from monhocphan where mamhp like N'%"+tukhoamonhp+"%' or tenmhhp like N'%"+tukhoamonhp+"%'or sotinchi like N'%"+tukhoamonhp+"%'or hinhthucthi like N'%"+tukhoamonhp+"%'or batbuoc like N'%"+tukhoamonhp+"%'or makhoa like N'%"+tukhoamonhp+"%'or hocphanyeucau like N'%"+tukhoamonhp+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -887,7 +1091,69 @@ exports.timkiemmhp = function(tukhoamonhp,callbackQuery){
             results = null;
         }
     }) 
-}
+};
+exports.monhocphankiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where mamhp in (?) ",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+exports.laymamhp = function(callbackQuery){
+    connect();
+    connection.query("Select MaMHP from monhocphan",
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtramhtrung = function(mamhp,callbackQuery){
+    connect();
+    connection.query("Select * from monhocphan where MaMHP = ?",[mamhp],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layMHtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT mh.* FROM khoa kh join monhocphan mh on kh.MaKhoa = mh.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtramhptruocxoa = function(mamhp,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM lophocphan where MaMHP = ?",[mamhp],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
 /*
     Kết thúc xử lý cho giao diện Môn học phần
 */
@@ -946,10 +1212,11 @@ exports.chuyenDenUpdateGV = function(MaGV,callbackQuery){
     })  
 };
 
-exports.updateGV = function(magv,hoten,gioitinh,ngaysinh,diachi,dienthoai,callbackQuery){
+exports.updateGV = function(hoten,diachi,gioitinh,ngaysinh,dienthoai,magv,callbackQuery){
     connect();
     connection.query("update giangvien set HoTen = ?, DiaChi = ?, GioiTinh = ?, NgaySinh = ?, SoDT = ? where MaGV = ?",
     [hoten,diachi,gioitinh,ngaysinh,dienthoai,magv],(err,results)=>{
+        console.log(hoten,diachi,gioitinh,ngaysinh,dienthoai,magv)
         if(!err){
             callbackQuery(results);
         }else{
@@ -971,6 +1238,82 @@ exports.timkiemGV = function(tukhoagv,callbackQuery){
         }
     }) 
 };
+
+exports.giangvienkiemtradulieu = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM giangvien where MaGV in (?)",[data],function(err, results,fields){
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+        }
+    })  
+    //closeDB();
+};
+exports.kiemtragvtrung = function(magv,callbackQuery){
+    connect();
+    connection.query("Select * from giangvien where MaGV = ?",[magv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.layGVtheoKhoa = function(data,callbackQuery){
+    connect();
+    connection.query("SELECT gv.* FROM khoa kh join giangvien gv on kh.MaKhoa = gv.MaKhoa where kh.MaKhoa = ?",[data],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtrakhoaocntruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM chuyennganh where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtrakhoaogvtruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM giangvien where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.kiemtrakhoaomhptruocxoa = function(makhoa,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM monhocphan where MaKhoa = ?",[makhoa],
+    (err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 /*
     Kết thúc xử lý cho giao diện giảng viên
 */
@@ -1020,7 +1363,7 @@ exports.xoaNamHoc = function(Nam,callbackQuery){
 // Tìm kiếm năm học
 exports.timkiemNamHoc = function(tukhoanamhoc,callbackQuery){
     connect();
-    connection.query("Select * from nam where Nam like N'%"+tukhoanamhoc+"%'",
+    connection.query("Select * from nam where Nam like N'%"+tukhoanamhoc+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -1030,6 +1373,19 @@ exports.timkiemNamHoc = function(tukhoanamhoc,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtranamtrung = function(nam,callbackQuery){
+    connect();
+    connection.query("Select * from nam where Nam = ?",[nam],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
 /*
     Kết thúc xử lý cho giao diện năm học
 */
@@ -1079,7 +1435,7 @@ exports.xoaPhongHoc = function(PhongHoc,callbackQuery){
 // Tìm kiếm phòng học
 exports.timkiemPhongHoc = function(tukhoaphonghoc,callbackQuery){
     connect();
-    connection.query("Select * from phonghoc where PhongHoc like N'%"+tukhoaphonghoc+"%'",
+    connection.query("Select * from phonghoc where PhongHoc like N'%"+tukhoaphonghoc+"%' limit 10",
     (err,results)=>{
         if(!err){
             callbackQuery(results);
@@ -1089,6 +1445,18 @@ exports.timkiemPhongHoc = function(tukhoaphonghoc,callbackQuery){
         }
     }) 
 }
+
+exports.kiemtraphonghoctrung = function(ph,callbackQuery){
+    connect();
+    connection.query("Select * from phonghoc where PhongHoc = ?",[ph],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
 /*
     Kết thúc xử lý cho giao diện phòng học
 */
@@ -1135,6 +1503,207 @@ exports.xoaHocKy = function(HocKy,callbackQuery){
     })  
 };
 
+exports.kiemtrahockytrung = function(hocky,callbackQuery){
+    connect();
+    connection.query("Select * from hocky where HocKy = ?",[hocky],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
 /*
     Kết thúc xử lý cho giao diện học kỳ
+*/
+
+/*
+    Bắt đầu giao diện cập nhật nhân viên
+*/
+
+//lấy danh sách nhân viên
+exports.cnnvlayds = function(callbackQuery){
+    connect();
+    connection.query("SELECT * FROM nhanvienphongdaotao",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.themnhanvien = function(data,callbackQuery){
+    connect();
+    connection.query("Insert into nhanvienphongdaotao Set ? ",[data],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });  
+};
+exports.themtaikhoannv = function(tk,callbackQuery){
+    connect();
+    connection.query("Insert into taikhoannv Set ?",[tk],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    });
+};
+
+exports.nvchuyendentrangcapnhat = function(masv,callbackQuery){
+    connect();
+    connection.query("Select * from nhanvienphongdaotao where MaNV = ?",[masv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+exports.capnhatnhanvien = function(manv,hoten,diachi,sodt,ngaysinh,gioitinh,makhoa,callbackQuery){
+    connect();
+    connection.query("update nhanvienphongdaotao set HoTen = ?, DiaChi = ?, SoDT = ?, NgaySinh = ?, GioiTinh = ?, MaKhoa = ? where MaNV = ?",
+    [hoten,diachi,sodt,ngaysinh,gioitinh,makhoa,manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+// Xóa nhân viên
+exports.xoanhanvien = function(manv,callbackQuery){
+    connect();
+    connection.query("Delete from nhanvienphongdaotao where MaNV = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+//Xóa tài khoản nhân viên
+exports.xoataikhoanhanvien = function(manv,callbackQuery){
+    connect();
+    connection.query("Delete from taikhoannv where MaTaiKhoan = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    })  
+};
+
+//cap nhat lại mật khẩu
+exports.nvdatlaimatkhau = function(mk,manv,callbackQuery){
+    connect();
+    connection.query("update taikhoannv set Pass = ? where MaTaiKhoan = ?",[mk,manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+//lấy mã tự động
+exports.nvlaymatudong = function(callbackQuery){
+    connect();
+    connection.query("SELECT nhanvienphongdaotao.MaNV FROM nhanvienphongdaotao order by nhanvienphongdaotao.MaNV desc;",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvlaymkduoicsdl = function(manv,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM taikhoannv where MaTaiKhoan = ?",[manv],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+
+/*
+    Kết thúc giao diện cập nhật nhân viên
+*/
+
+/*
+    Bắt đầu xử lý giao diện nhập điểm
+*/
+
+exports.nvnhapdiemlaymalop = function(callbackQuery){
+    connect();
+    connection.query("SELECT phieudangkylhp.MaLopHP FROM phieudangkylhp group by phieudangkylhp.MaLopHP",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemlaydssv = function(malop,callbackQuery){
+    connect();
+    connection.query("SELECT ph.MSSV,sv.HoTen,ph.MaLopHP,ph.DiemTK,ph.DiemGK,ph.DiemTH,ph.DiemCK FROM sqlquanlyhocphan.phieudangkylhp ph join sqlquanlyhocphan.sinhvien sv on ph.MSSV = sv.MSSV where MaLopHP = ? and Nhom = 'LT'",[malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemlaysv = function(mssv,malop,callbackQuery){
+    connect();
+    connection.query("SELECT * FROM sqlquanlyhocphan.phieudangkylhp where MSSV = ? and MaLopHP = ? and Nhom = 'LT'",[mssv,malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+exports.nvnhapdiemcapnhatdiem = function(diemtk,diemgk,diemth,diemck,masv,malop,callbackQuery){
+    connect();
+    connection.query("update sqlquanlyhocphan.phieudangkylhp set DiemTK = ?, DiemGK = ? , DiemTH = ? , DiemCK = ? where MSSV = ? and MaLopHP = ? and Nhom = 'LT'",[diemtk,diemgk,diemth,diemck,masv,malop],(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
+/*
+   Kết thúc xử lý giao diện nhập điểm
 */

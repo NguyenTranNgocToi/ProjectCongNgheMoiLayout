@@ -16,9 +16,17 @@ var upload1 = multer({ storage: storage }).single('myfilekhoa');
 
 
 module.exports.trangcapnhatkhoa = function (req, res) {
-    
+
+    var page = parseInt(req.query.page) || 1;
+    //console.log(page);
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
     database.getAllKhoa(function (result) {
-        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa : result});
+        let sotrang = (result.length) / perPage;
+        res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa : result.slice(start,end),sotrang: sotrang+1});
     })
 };
 
@@ -33,20 +41,57 @@ module.exports.chuyennhapkhoa = function (req, res) {
 
 module.exports.luukhoa = function(req,res){
     console.log(req.body);
-        let data = {
-            MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
-        };
-        database.themKhoa(data, function(results){
-            res.redirect('/nhanvien/cnkhoa');
-        });
+        
+    const makhoa = req.body.makhoa;
+        database.kiemtrakhoatrung(makhoa,function(result){
+            if(result.length>0){
+                // res.redirect('/nhanvien/cnkhoa');
+                res.send({ message: 'Khoa có mã số'+" "+ result[0].MaKhoa+" "+ 'đã tồn tại' });
+                // console.log('Khoa có mã số' +'\t'+ result[0].MaKhoa +'\t'+ 'đã tồn tại');
+            }else{     
+                    let data = {
+                        MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
+                    };
+                    console.log(data);               
+                    database.themKhoa(data, function (results) {   
+                    });
+                    res.redirect('/nhanvien/cnkhoa');
+                // res.send({ message: 'thành công' });
+                
+            } 
+        })
+    // let data = {
+    //     MaKhoa: req.body.makhoa, TenKhoa: req.body.tenkhoa
+    // };               
+    // database.themKhoa(data, function (results) {   
+    //     res.redirect('/nhanvien/cnkhoa');
+    // });
 };
 
 
 module.exports.xoakhoa = function (req, res) {
     const khoaid = req.params.khoaid;
-        database.xoaKhoa(khoaid, function(results){
-            res.redirect('/nhanvien/cnkhoa');
-        });
+    database.kiemtrakhoaocntruocxoa(khoaid, function(ketqua){
+        if(ketqua.length > 0){
+            res.send({message:'Khoa đã được phân chuyên ngành, cần xoá chuyên ngành chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+        }else{
+        database.kiemtrakhoaogvtruocxoa(khoaid,function(ketqua){
+            if(ketqua.length > 0){
+                res.send({message:'Đã có giảng viên được phân vào khoa, cần xoá giảng viên chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+            }else{
+                database.kiemtrakhoaomhptruocxoa(khoaid,function(ketqua){
+                    if(ketqua.length > 0){
+                        res.send({message:'Đã có môn học phần được phân vào khoa, cần xoá môn học phần chứa khoa'+" " +ketqua[0].MaKhoa+" "+'trước'});
+                    }else{
+                        database.xoaKhoa(khoaid, function(results){
+                            res.redirect('/nhanvien/cnkhoa');
+                        });
+                    }
+                })
+            }
+        })
+        }
+    })
 };
 
 module.exports.chuyeneditkhoa = function (req, res) {
@@ -61,6 +106,8 @@ module.exports.chuyeneditkhoa = function (req, res) {
 module.exports.capnhatkhoa = function(req,res){
     const makhoa = req.body.makhoa;
     const tenkhoa = req.body.tenkhoa;
+
+    console.log(makhoa,tenkhoa);
 
     database.updateKhoa(makhoa,tenkhoa,function (results){
         res.redirect('/nhanvien/cnkhoa');
@@ -87,22 +134,33 @@ module.exports.savedatakhoa = function (req, res) {
             type: String
         },
     };
-
+    var arr = new Array();
     readXlsxFile('./file/datakhoa.xlsx', { schema }).then(({ rows, errors }) => {
         errors.length === 0;
-        //console.log(rows);
         for (let i = 0; i < rows.length; i++) {
-            // console.log(rows);   
-            let data = {
-                MaKhoa: rows[i].MaKhoa, TenKhoa: rows[i].TenKhoa
-            };
-            database.themKhoa(data, function (results) {
-                
-            });
-
+            let makhoa = rows[i].MaKhoa;
+            arr.push(makhoa);
         };
-         res.redirect('/nhanvien/cnKhoa');
+        database.kiemtradulieukhoa(arr,function (result) {
+            if(result.length>0){
+                res.send({ message: 'Khoa có mã số' +'\t'+ result[0].MaKhoa +'\t'+ 'đã tồn tại' });
+            }else{   
+                for (let a = 0; a < rows.length; a++) {
+                    
+                    let data = {
+                        MaKhoa: rows[a].MaKhoa, TenKhoa: rows[a].TenKhoa
+                    };
+                    database.themKhoa(data, function (results) {
+                        
+                    });
+        
+                };
+                res.send({ message: 'thành công' });
+            } 
+        });
     });
+    
+    
 
 };
 
@@ -111,11 +169,11 @@ module.exports.timkiemkhoa = function (req, res) {
     console.log(query);
     database.timkiemkhoa(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: results });
+            res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: results,sotrang: 0});
         } else {
-            database.getAllKhoa(function (result) {
-                res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: result });
-            });
+            // database.getAllKhoa(function (result) {
+                res.render('./bodyNhanVien/CNKhoa', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Khoa', listkhoa: 0,sotrang: 0 });
+            // });
         }
 
     });

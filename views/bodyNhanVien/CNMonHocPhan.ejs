@@ -2,7 +2,7 @@
     <header id="wrap-header">
         <div class="container" style="background-color: white;">
             <div class="row">  
-                <h2 class="text-center">Cập nhật môn học phần
+                <h2 class="text-center">CẬP NHẬT MÔN HỌC PHẦN
 
                 </h2>
             </div>
@@ -14,6 +14,20 @@
                 <div class="tab-content">
                     <div id="tab1" class="tab-pane fade in active">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <br>
+                            <form class="form-inline" action="/nhanvien/cnmonhp/lockhoa">
+                                <div class="form-inline">
+                                    <label for="MaKhoa">Mã khoa:</label>&ensp;&ensp;
+                                    <select class="form-control" id="makhoa" name="makhoa" required>
+                                        <%for(let i=0;i < dsmakhoa.length;i++){%>
+                                            <option value="<%=dsmakhoa[i].MaKhoa%>">
+                                                <%=dsmakhoa[i].MaKhoa%>
+                                            </option>
+                                            <%}%>
+                                    </select>
+                                    <button class="btn btn-default">Lọc</button>
+                                </div>
+                            </form>
                             <form class="form-inline" action="/nhanvien/cnmonhp/timmonhp" method="get">
                             </br>
                                 <div class="form-group">
@@ -40,25 +54,40 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        <%for(let i=0;i< listmhp.length;i++){%>
+                                        <%if(listmhp.length>0){%>
+                                            <%for(let i=0;i< listmhp.length;i++){%>
+                                                <tr>
+                                                    <!-- <td><input type="radio"></td> -->
+                                                    <td><%=listmhp[i].MaMHP%></td>
+                                                    <td><%=listmhp[i].TenMHHP%></td>
+                                                    <td><%=listmhp[i].SoTinChi%></td>
+                                                    <td><%=listmhp[i].HinhThucThi%></td>
+                                                    <td><%=listmhp[i].BatBuoc%></td>
+                                                    <td><%=listmhp[i].MaKhoa%></td>
+                                                    <td><%=listmhp[i].HocPhanYeuCau%></td>
+                                                    <td>
+                                                        <a href="/nhanvien/cnmonhp/editmonhp/<%=listmhp[i].MaMHP%>" class="btn btn-warning" >Sửa</a>
+                                                        <a href="/nhanvien/cnmonhp/deletemonhp/<%=listmhp[i].MaMHP%>" class="btn btn-danger" >Xóa</a>
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                        <%}else{%>
                                             <tr>
-                                                <!-- <td><input type="radio"></td> -->
-                                                <td><%=listmhp[i].MaMHP%></td>
-                                                <td><%=listmhp[i].TenMHHP%></td>
-                                                <td><%=listmhp[i].SoTinChi%></td>
-                                                <td><%=listmhp[i].HinhThucThi%></td>
-                                                <td><%=listmhp[i].BatBuoc%></td>
-                                                <td><%=listmhp[i].MaKhoa%></td>
-                                                <td><%=listmhp[i].HocPhanYeuCau%></td>
-                                                <td>
-                                                    <a href="/nhanvien/cnmonhp/editmonhp/<%=listmhp[i].MaMHP%>" class="btn btn-warning" >Sửa</a>
-                                                    <a href="/nhanvien/cnmonhp/deletemonhp/<%=listmhp[i].MaMHP%>" class="btn btn-danger" >Xóa</a>
-                                                </td>
+                                                <td>Chưa lọc</td>
                                             </tr>
                                             <%}%>
                                     </tbody>
                                   </table>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <%if(sotrang>0){%>
+                                    <%for(let i = 1;i< sotrang;i++){%>
+                                        <ul class="pagination">
+                                            <li><a href="/nhanvien/cnmonhp/lockhoa?makhoa=<%=mk%>&page=<%=i%>"><%=i%></a></li>
+                                        </ul>
+                                    <%}%>
+                                <%}%>
+                              </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane fade">
@@ -78,7 +107,7 @@
                                     <br />
                                     <span id="status"></span><br>
                                 </form>
-                                <a id="btnsavedatalophp" href="/nhanvien/cnmonhp/savedatamonhp" class="btn btn-primary">Lưu dữ
+                                <a id="btnsavedatalophp" href="#" class="btn btn-primary">Lưu dữ
                                     liệu từ file</a>
                                 <span id="statusupdatemhp"></span><br><br>
     
@@ -104,6 +133,15 @@
                             $("#status").empty().text(response);
                         }
                     });
+                    return false;
+                });
+            });
+            $(document).ready(function () {
+                $('#btnsavedatalophp').click(function () {
+                    $.ajax({url: "/nhanvien/cnmonhp/savedatamonhp", success: function(result){
+                        $("#statusupdatemhp").text(result.message);
+                    }});
+                
                     return false;
                 });
             });

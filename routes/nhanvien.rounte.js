@@ -17,6 +17,10 @@ const controllergv = require('../controller/nhanvien.giangvien.controller');
 const controllernamhoc = require('../controller/NhanVienNamHoc.controller');
 const controllerphonghoc = require('../controller/NhanVienPhongHoc.controller');
 const controllerhocky = require('../controller/NhanVienHocKy.controller');
+const controllercnnhanvien = require('../controller/capnhatnhanvien.contronler');
+const controllernvdoimk = require('../controller/nhanviendoimk.contronller');
+const controllertimkiemsv = require('../controller/nhanvientimsinhvien.controller');
+const controllernhapdiem = require('../controller/nhanviennhapdiem.controller');
 
 
 var database = require("../database");
@@ -36,6 +40,7 @@ router.get('/cnchuyennganh/deletechuyennganh/:chuyennganhid',controllerchuyennga
 router.get('/cnchuyennganh/editchuyennganh/:chuyennganhid', controllerchuyennganh.chuyeneditchuyennganh);
 router.get('/cnchuyennganh/timchuyennganh',upload.fields([]), controllerchuyennganh.timkiemchuyennganh);
 router.get('/cnchuyennganh/savedatachuyennganh', upload.fields([]),controllerchuyennganh.savedataChuyenNganh);
+router.get('/cnchuyennganh/lockhoa', controllerchuyennganh.lockhoa);
 
 router.post('/cnchuyennganh/save_chuyennganh', upload.fields([]),controllerchuyennganh.luuchuyennganh);
 router.post('/cnchuyennganh/update_chuyennganh', upload.fields([]), controllerchuyennganh.capnhatchuyennganh);
@@ -60,6 +65,7 @@ router.get('/cnmonhp/deletemonhp/:monhpid', controllermhp.xoamonhp);
 router.get('/cnmonhp/editmonhp/:monhpid', controllermhp.chuyeneditmonhp);
 router.get('/cnmonhp/timmonhp', upload.fields([]),controllermhp.timkiemmhp);
 router.get('/cnmonhp/savedatamonhp', upload.fields([]),controllermhp.savedatamonhp);
+router.get('/cnmonhp/lockhoa', controllermhp.lockhoamh);
 
 router.post('/cnmonhp/save_mhp', upload.fields([]),controllermhp.luumhp);
 router.post('/cnmonhp/update_mhp', upload.fields([]), controllermhp.capnhatmhp);
@@ -72,6 +78,7 @@ router.get('/cnlophp/deletelophp/:lophpid', controllerlhp.xoalophp);
 router.get('/cnlophp/editlophp/:lophpid', controllerlhp.chuyeneditlophp);
 router.get('/cnlophp/timlophp', upload.fields([]),controllerlhp.timkiemlophp);
 router.get('/cnlophp/savedatalophp', upload.fields([]),controllerlhp.savedataLopHP);
+router.get('/cnlophp/locmhp', controllerlhp.locmhp);
 
 router.post('/cnlophp/save_lophp', upload.fields([]),controllerlhp.luulhp);
 router.post('/cnlophp/update_lhp', upload.fields([]), controllerlhp.capnhatlophp);
@@ -87,6 +94,7 @@ router.post('/cnsinhvien/update_sv', upload.fields([]), controllersv.capnhatsv);
 router.post('/cnsinhvien/uploadfileSV', controllersv.uploadfile);
 router.get('/cnsinhvien/savedata', upload.fields([]),controllersv.savedata);
 router.get('/cnsinhvien/timsv', upload.fields([]),controllersv.timkiemsv);
+router.get('/cnsinhvien/suamk/:svid',controllersv.svdatlaimk);
 //<<<<<<< HEAD
 router.get('/cnsinhvien/lockq',controllersv.lockqkh );
 
@@ -98,6 +106,7 @@ router.get('/cngiangvien/editgv/:gvid', controllergv.chuyeneditgv);
 router.get('/cngiangvien/deletegv/:gvid', controllergv.xoagv);
 router.get('/cngiangvien/timgv', upload.fields([]),controllergv.timkiemgv);
 router.get('/cngiangvien/savedatagv', upload.fields([]),controllergv.savedataGV);
+router.get('/cngiangvien/lockhoa', controllergv.lockhoagv);
 
 router.post('/cngiangvien/save_giangvien', upload.fields([]), controllergv.luugv);
 router.post('/cngiangvien/update_giangvien', upload.fields([]), controllergv.capnhatgv);
@@ -151,56 +160,38 @@ router.get('/xepkhung/deletemhp/:mhid', controllerchcckh.xoamhkhcn);
 router.post('/xepkhung/uploadfilemhcn', controllerchcckh.uploadfilemhcn);
 router.get('/xepkhung/savedata', upload.fields([]),controllerchcckh.savedata);
 
+//nhân viên cập nhật nhân viên
+router.get('/cnnhanvien', controllercnnhanvien.trangcapnhapnv);
+router.get('/cnnhanvien/add-nv', controllercnnhanvien.chuyentrangnhap);
+router.post('/cnnhanvien/save_nhanvien',upload.fields([]), controllercnnhanvien.luunhanvien);
+router.post('/cnnhanvien/update_nhanvien',upload.fields([]), controllercnnhanvien.capnhatnhanvien);
+router.get('/cnnhanvien/editnv/:nvid', controllercnnhanvien.chuyentrangcapnhat);
+router.get('/cnnhanvien/xoanv/:nvid', controllercnnhanvien.xoanhanvien);
+router.get('/cnnhanvien/datlaimksv/:nvid', controllercnnhanvien.datlaimatkhaunv);
 
+//nhân viên đổi mật khẩu
+router.get('/nvdoimk',controllernvdoimk.trangdoimatkhaunv);
+router.post('/nvdoimk/doimk',upload.fields([]),controllernvdoimk.doimatkhau);
 
-router.get('/cngiangvien', (req, res) => {
-   // return res.render('CNGiangVien');
-    return res.render('./bodyNhanVien/CNGiangVien',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Giảng Viên'});
-});
-
-router.get('/cnmonhp', (req, res) => {
-   // return res.render('CNMonHocPhan');
-    return res.render('./bodyNhanVien/CNMonHocPhan',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Môn Học Phần'});
-});
-
-router.get('/cnlophp', (req, res) => {
-    //return res.render('CNLopHP');
-    return res.render('./bodyNhanVien/CNLopHP',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Lớp Học Phần'});
-});
-
-router.get('/cnnamhoc', (req, res) => {
-    return res.render('./bodyNhanVien/CNNamHoc',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Năm Học'});
-});
-
-router.get('/cnhocky', (req, res) => {
-    return res.render('./bodyNhanVien/CNHocKi',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Học Kì'});
-});
-
-router.get('/cnphonghoc', (req, res) => {
-    return res.render('./bodyNhanVien/CNPhongHoc',{layout: './layouts/layoutNhanVien' , title: 'Cập Nhật Phòng Học'});
-});
-
-
-
-
+//nhân viên tìm kiếm sinh viên
+router.get('/timsv', controllertimkiemsv.trangtimsv);
+router.get('/timsv/lockq', controllertimkiemsv.timsvlockq);
 
 router.get('/trangchuNV', (req, res) => {
     return res.render('./bodyNhanVien/GD_NV_TrangChu',{layout: './layouts/layoutNhanVien' , title: 'Trang Chủ Nhân Viên'});
 });
 
+//Nhập điểm
+router.get('/nhapdiem', controllernhapdiem.trangnhapdiem);
+router.get('/nhapdiem/loclop',controllernhapdiem.locdssv);
+router.get('/nhapdiem/suadiem/:masv&:malop',controllernhapdiem.chuyendentrangsuadiem);
+router.post('/nhapdiem/luudiem',upload.fields([]),controllernhapdiem.luudiem);
 
-
-router.get('/timsv', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemSV',{layout: './layouts/layoutNhanVien' , title:'Tìm Kiếm Sinh Viên'});
+//đăng xuất
+router.get('/dangxuat', (req, res) => {
+    res.clearCookie('msnv');
+    res.clearCookie('msnv');
+    return res.redirect('/');
 });
-
-router.get('/timgv', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemGV',{layout: './layouts/layoutNhanVien' , title: 'Tìm Kiếm Giảng Viên'});
-});
-router.get('/timmonhp', (req, res) => {
-    return res.render('./bodyNhanVien/TimKiemMHP',{layout: './layouts/layoutNhanVien' , title: 'Tìm Kiếm Môn Học Phần'});
-});
-
-
 
 module.exports = router;

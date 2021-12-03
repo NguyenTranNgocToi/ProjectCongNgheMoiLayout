@@ -13,9 +13,15 @@ var storage = multer.diskStorage({
 });
 
 module.exports.trangcapnhatNamHoc = function (req, res) {
-    
+    var page = parseInt(req.query.page) || 1;
+    var perPage = 10;
+
+    var start = (page - 1) * perPage;
+    var end = page * perPage;
+
     database.getAllNamHoc(function (result) {
-        res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc : result});
+        let sotrang = (result.length) / perPage;
+        res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc : result.slice(start,end),sotrang:sotrang+1});
     })
 };
 
@@ -25,12 +31,20 @@ module.exports.chuyennhapNamHoc = function (req, res) {
 
 module.exports.luuNamHoc = function(req,res){
     console.log(req.body);
-        let data = {
-            Nam: req.body.nam
-        };
-        database.themNamHoc(data, function(results){
-            res.redirect('/nhanvien/cnnamhoc');
-        });
+
+    const nam = req.body.nam;
+    database.kiemtranamtrung(nam,function(result){
+        if(result.length>0){
+            res.send({ message: 'Năm học'+" "+ result[0].Nam+" "+ 'đã tồn tại' });
+        }else{
+            let data = {
+                Nam: req.body.nam
+            };
+            database.themNamHoc(data, function(results){
+                res.redirect('/nhanvien/cnnamhoc');
+            });
+        } 
+    })      
 };
 
 module.exports.xoaNamHoc = function (req, res) {
@@ -45,10 +59,10 @@ module.exports.timkiemNamHoc = function (req, res) {
     console.log(query);
     database.timkiemNamHoc(query, function (results) {
         if (results.length > 0) {
-            res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc: results });
+            res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc: results,sotrang:0 });
         } else {
             database.getAllNamHoc(function (result) {
-                res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc: result });
+                res.render('./bodyNhanVien/CNNamHoc', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Năm Học', listnamhoc: result,sotrang:0 });
             });
         }
 

@@ -3,7 +3,7 @@
         <div class="container" style="background-color: white;">
             
             <div class="row">  
-                <h2 class="text-center">Cập nhật giảng viên
+                <h2 class="text-center">CẬP NHẬT GIẢNG VIÊN
 
                 </h2>
             </div>
@@ -15,6 +15,20 @@
                 <div class="tab-content">
                     <div id="tab1" class="tab-pane fade in active">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <br>
+                            <form class="form-inline" action="/nhanvien/cngiangvien/lockhoa">
+                                <div class="form-inline">
+                                    <label for="MaKhoa">Mã khoa:</label>&ensp;&ensp;
+                                    <select class="form-control" id="makhoa" name="makhoa" required>
+                                        <%for(let i=0;i < dsmakhoa.length;i++){%>
+                                            <option value="<%=dsmakhoa[i].MaKhoa%>">
+                                            <%=dsmakhoa[i].MaKhoa%>
+                                            </option>
+                                            <%}%>
+                                    </select>
+                                    <button class="btn btn-default">Lọc</button>
+                                </div>
+                            </form>
                             <form class="form-inline" action="/nhanvien/cngiangvien/timgv" method="get">
                             </br>
                                 <div class="form-group">
@@ -41,28 +55,43 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        <%for(let i=0;i< listgv.length;i++){%>
-                                            <tr>
-                                                <!-- <td><input type="radio"></td> -->
-                                                <td><%=listgv[i].MaGV%></td>
-                                                <td><%=listgv[i].HoTen%></td>
-                                                <td><%=listgv[i].DiaChi%></td>
-                                                <td><%=listgv[i].GioiTinh%></td>
-                                                <td><%=listgv[i].NgaySinh.getDate().toString()%>-
-                                                    <%=(listgv[i].NgaySinh.getMonth()+1).toString()%>-
-                                                        <%=listgv[i].NgaySinh.getFullYear().toString()%>%>
-                                                </td>
-                                                <td><%=listgv[i].SoDt%></td>
-                                                <td><%=listgv[i].Makhoa%></td>
-                                                <td>
-                                                    <a href="/nhanvien/cngiangvien/editgv/<%=listgv[i].MaGV%>" class="btn btn-warning" >Sửa</a>
-                                                    <a href="/nhanvien/cngiangvien/deletegv/<%=listgv[i].MaGV%>" class="btn btn-danger" >Xóa</a>
-                                                </td>
-                                            </tr>
-                                            <%}%>
+                                        <%if(listgv.length>0){%>
+                                            <%for(let i=0;i< listgv.length;i++){%>
+                                                <tr>
+                                                    <!-- <td><input type="radio"></td> -->
+                                                    <td><%=listgv[i].MaGV%></td>
+                                                    <td><%=listgv[i].HoTen%></td>
+                                                    <td><%=listgv[i].DiaChi%></td>
+                                                    <td><%=listgv[i].GioiTinh%></td>
+                                                    <td><%=listgv[i].NgaySinh.getDate().toString()%>-
+                                                        <%=(listgv[i].NgaySinh.getMonth()+1).toString()%>-
+                                                            <%=listgv[i].NgaySinh.getFullYear().toString()%>%>
+                                                    </td>
+                                                    <td><%=listgv[i].SoDt%></td>
+                                                    <td><%=listgv[i].Makhoa%></td>
+                                                    <td>
+                                                        <a href="/nhanvien/cngiangvien/editgv/<%=listgv[i].MaGV%>" class="btn btn-warning" >Sửa</a>
+                                                        <a href="/nhanvien/cngiangvien/deletegv/<%=listgv[i].MaGV%>" class="btn btn-danger" >Xóa</a>
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                      <%}else{%>
+                                        <tr>
+                                          <td>Chưa lọc</td>
+                                        </tr>
+                                        <%}%>
                                     </tbody>
                                   </table>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <%if(sotrang>0){%>
+                                    <%for(let i = 1;i< sotrang;i++){%>
+                                        <ul class="pagination">
+                                            <li><a href="/nhanvien/cngiangvien/lockhoa?makhoa=<%=mk%>&page=<%=i%>"><%=i%></a></li>
+                                        </ul>
+                                    <%}%>
+                                <%}%>
+                              </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane fade">
@@ -82,9 +111,9 @@
                                     <br />
                                     <span id="status"></span><br>
                                 </form>
-                                <a id="btnsavedatagv" href="/nhanvien/cngiangvien/savedatagv" class="btn btn-primary">Lưu dữ
+                                <a id="btnsavedatagv" href="#" class="btn btn-primary">Lưu dữ
                                     liệu từ file</a>
-                                <span id="statusupdatek"></span><br><br>
+                                <span id="statusupdategv"></span><br><br>
     
                             </div>
                         </div>
@@ -111,5 +140,15 @@
                     return false;
                 });
             });
+            $(document).ready(function () {
+                $('#btnsavedatagv').click(function () {
+                    $.ajax({url: "/nhanvien/cngiangvien/savedatagv", success: function(result){
+                        $("#statusupdategv").text(result.message);
+                    }});
+                
+                    return false;
+                });
+            });
         </script>
+        
     </header>

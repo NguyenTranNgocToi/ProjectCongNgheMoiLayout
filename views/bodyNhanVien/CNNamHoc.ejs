@@ -2,7 +2,7 @@
     <header id="wrap-header">
         <div class="container" style="background-color: white;">
             <div class="row">  
-                <h2 class="text-center">Cập nhật năm học
+                <h2 class="text-center">CẬP NHẬT NĂM HỌC
 
                 </h2>
             </div>
@@ -45,6 +45,15 @@
                                     </tbody>
                                   </table>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <%if(sotrang>0){%>
+                                    <%for(let i = 1;i< sotrang;i++){%>
+                                        <ul class="pagination">
+                                            <li><a href="/nhanvien/cnnamhoc/?page=<%=i%>"><%=i%></a></li>
+                                        </ul>
+                                    <%}%>
+                                <%}%>
+                              </div>
                         </div>
                     </div>
                     <div id="tab2" class="tab-pane fade">
