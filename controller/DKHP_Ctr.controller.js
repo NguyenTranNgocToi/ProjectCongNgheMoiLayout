@@ -475,7 +475,23 @@ module.exports.dangkyhocphan = function(req,res){
                                                      database.kiemtralichtrungthoigianchosinhvien(hocky,namhoc,mssv,malophoc,manhomlt, function (ktthoigian) {
                                                         //sinh viên bị trùng thời gian 
                                                         if(ktthoigian.length> 0){
-                                                            mess2="trùng lịch học"
+                                                            mess2="Trùng lịch học"
+                                                            return res.render('./bodySinhVien/GD_SV_dkhp',{
+                                                                layout: './layouts/layoutSinhVien' , 
+                                                                title: 'Đăng Ký Học Phần', 
+                                                                listmh, 
+                                                                listlh,
+                                                                listthuchanh,
+                                                                listlythuyet,
+                                                                listmonhocdadangky, 
+                                                                namhoc, 
+                                                                hocky,
+                                                                mamonhoc,
+                                                                malophoc,
+                                                                mess,
+                                                                mess1,
+                                                                mess2
+                                                            });
                                                         //sinh viên không bị trùng lịch học     
                                                         }else{
                                                             mess2="Đăng ký thành công"
