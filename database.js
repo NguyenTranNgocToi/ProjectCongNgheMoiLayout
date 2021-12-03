@@ -1515,6 +1515,19 @@ exports.kiemtrahockytrung = function(hocky,callbackQuery){
     })  
 };
 
+//Mã tự động
+exports.layhktudong = function(callbackQuery){
+    connect();
+    connection.query("SELECT hocky.HocKy FROM hocky order by hocky.HocKy desc;",(err,results)=>{
+        if(!err){
+            callbackQuery(results);
+        }else{
+            console.log(err);
+            results = null;
+        }
+    }) 
+};
+
 /*
     Kết thúc xử lý cho giao diện học kỳ
 */

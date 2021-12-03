@@ -26,7 +26,13 @@ module.exports.trangcapnhatHocKy = function (req, res) {
 };
 
 module.exports.chuyennhapHocKy = function (req, res) {
-    return res.render('./bodyKhongMenu/GD_NV_Form_Add_HocKy', { layout: './layouts/layoutKhongMenu', title: 'Thêm Học Kỳ' });
+    var matudong;
+    database.layhktudong(function(result){
+        matudong = parseInt(result[0].HocKy);
+        matudong = matudong +1;
+        return res.render('./bodyKhongMenu/GD_NV_Form_Add_HocKy', { layout: './layouts/layoutKhongMenu', title: 'Thêm Học Kỳ', matdhk: matudong });
+    })
+    
 };
 
 module.exports.luuHocKy = function(req,res){
