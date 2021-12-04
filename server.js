@@ -45,6 +45,10 @@ app.use('/sinhvien',authmiddlesv.requireAuth, sinhvienRoute);
 // không menu
 // đăng nhập post ntnt
 app.post('/dangnhaptong', upload.fields([]), controllerDN.dangnhap);
-app.listen(3000, () => {
+
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     console.log('Server is running on port 3000!');
 });
