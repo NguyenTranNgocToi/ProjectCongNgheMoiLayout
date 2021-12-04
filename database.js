@@ -3,19 +3,19 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     //local
 
-    host:'localhost',
-    user:'root',
-    password:'123456',
-    database:'sqlquanlyhocphan'
+    // host:'localhost',
+    // user:'root',
+    // password:'123456',
+    // database:'sqlquanlyhocphan'
 
     //phải có dòng này trong mysql local, còn trên aws không cần
     //alter user 'root'@'localhost' identified with mysql_native_password by 'sapassword'
 
     //aws
-    // host:'database-quanlyhocphan.cghxoveoeumb.ap-southeast-1.rds.amazonaws.com',
-    // user:'sa',
-    // password:'sapassword',
-    // database:'sqlquanlyhocphan'   
+    host:'database-quanlyhocphan.cghxoveoeumb.ap-southeast-1.rds.amazonaws.com',
+    user:'sa',
+    password:'sapassword',
+    database:'sqlquanlyhocphan'   
 });
 var connect = function(){
     connection.connect(function(err){
