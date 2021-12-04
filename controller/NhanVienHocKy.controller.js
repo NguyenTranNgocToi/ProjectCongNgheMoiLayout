@@ -21,7 +21,7 @@ module.exports.trangcapnhatHocKy = function (req, res) {
 
     database.getAllHocKy(function (result) {
         let sotrang = (result.length) / perPage;
-        res.render('./bodyNhanVien/CNHocki', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Học Kỳ', listhocky : result.slice(start,end),sotrang:sotrang+1});
+        res.render('./bodyNhanVien/CNhocki', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Học Kỳ', listhocky : result.slice(start,end),sotrang:sotrang+1});
     })
 };
 
