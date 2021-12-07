@@ -110,9 +110,9 @@ module.exports.capnhatsv = function (req, res) {
 module.exports.uploadfile = function (req, res) {
     upload1(req, res, function (err) {
         if (err) {
-            return res.end('Error uploading file');
+            return res.send('Error uploading file');
         }
-        res.end('File is uploaded successfully');
+        res.send('File is uploaded successfully');
     });
 };
 
