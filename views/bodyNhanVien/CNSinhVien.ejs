@@ -158,9 +158,8 @@
                         status('Error: ' + xhr.status);
                     },
 
-                    success: function (response) {
-                        
-                        $("#status3").empty().text(response);
+                    success: function (response) {                       
+                        $("#status3").empty().text(response.message);
                     }
                 });
                 return false;
