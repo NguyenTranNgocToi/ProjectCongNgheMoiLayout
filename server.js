@@ -25,6 +25,7 @@ app.use(express.json({ extended: false }));
 app.use(express.static('./views'));
 app.use(cookieParser());
 
+
 app.use(expressLayouts);
 //app.set('layout', './layouts/layoutChung');
 app.set('view engine', 'ejs');
