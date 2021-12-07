@@ -130,7 +130,7 @@
                                 <br />
                                 <input type="submit" value="Đưa lên server" name="submit">
                                 <br />
-                                <span id="status"></span><br>
+                                <span id="status3"></span><br>
                             </form>
                             <a id="btnsavedatasv" href="#" class="btn btn-primary">Lưu dữ
                                 liệu từ file</a>
@@ -150,7 +150,7 @@
     <script>
         $(document).ready(function () {
             $('#uploadForm').submit(function () {
-                $("#status").empty().text("Đang tải thư mục lên...");
+                $("#status3").empty().text("Đang tải thư mục lên...");
 
                 $(this).ajaxSubmit({
 
@@ -160,7 +160,7 @@
 
                     success: function (response) {
                         console.log(response)
-                        $("#status").empty().text(response);
+                        $("#status3").empty().text(response);
                     }
                 });
                 return false;
