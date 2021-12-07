@@ -110,11 +110,9 @@ module.exports.capnhatsv = function (req, res) {
 module.exports.uploadfile = function (req, res) {
     upload1(req, res, function (err) {
         if (err) {
-            // return res.send('Error uploading file');
-            return res.send({ message: 'Thành công' });
+            return res.send('Error uploading file'); 
         }
         // res.send('File is uploaded successfully');
-        return res.send({ message: 'Thất bại' });
     });
 };
 
