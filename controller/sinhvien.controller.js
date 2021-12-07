@@ -20,7 +20,7 @@ var upload1 = multer({ storage: storage }).single('myfilesv');
 
 
 module.exports.trangcapnhatsv = function (req, res) {
-    res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: 0, trang: 0,kh:0 });
+    res.render('./bodyNhanVien/CNSinhVien2', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: 0, trang: 0,kh:0 });
 };
 
 module.exports.lockqkh = function (req, res) {
@@ -34,7 +34,7 @@ module.exports.lockqkh = function (req, res) {
 
     database.laysvtheokh(kh, function (listsv) {
         let sotrang = (listsv.length) / perPage;
-        res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: listsv.slice(start,end), trang: sotrang+1,kh:kh });
+        res.render('./bodyNhanVien/CNSinhVien2', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv: listsv.slice(start,end), trang: sotrang+1,kh:kh });
     });
 
 };
@@ -111,8 +111,9 @@ module.exports.uploadfile = function (req, res) {
     upload1(req, res, function (err) {
         if (err) {
             return res.send('Error uploading file'); 
+        }else{
+            res.send('File is uploaded successfully');
         }
-        // res.send('File is uploaded successfully');
     });
 };
 
@@ -186,10 +187,10 @@ module.exports.timkiemsv = function (req, res) {
     database.timkiemsv(query, function (results) {
         if (results.length > 0) {
            
-            res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:results, trang:0,kh:0 });
+            res.render('./bodyNhanVien/CNSinhVien2', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:results, trang:0,kh:0 });
         } else {
             database.getAllSV(function (result) {
-                res.render('./bodyNhanVien/CNSinhVien', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:0, trang:0,kh:0 });
+                res.render('./bodyNhanVien/CNSinhVien2', { layout: './layouts/layoutNhanVien', title: 'Cập Nhật Sinh Viên', listsv:0, trang:0,kh:0 });
             });
         }
 
