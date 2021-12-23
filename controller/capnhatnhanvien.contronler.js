@@ -61,11 +61,16 @@ module.exports.capnhatnhanvien = function (req, res) {
 
 module.exports.xoanhanvien = function (req, res) {
     const nvid = req.params.nvid;
-    database.xoataikhoanhanvien(nvid, function (resultss) {
-        database.xoanhanvien(nvid, function (results) {
-            res.redirect('/nhanvien/cnnhanvien');
+    if(nvid == '01'){
+        res.send('Không được phép xóa');
+    }else{
+        database.xoataikhoanhanvien(nvid, function (resultss) {
+            database.xoanhanvien(nvid, function (results) {
+                res.redirect('/nhanvien/cnnhanvien');
+            });
         });
-    });
+    }
+    
 };
 
 module.exports.datlaimatkhaunv = function (req, res) {
