@@ -12,9 +12,9 @@ var connection = mysql.createConnection({
     //alter user 'root'@'localhost' identified with mysql_native_password by 'sapassword'
 
     //aws
-    // host:'database-quanlyhocphan.cghxoveoeumb.ap-southeast-1.rds.amazonaws.com',
-    // user:'sa',
-    // password:'sapassword',
+    // host:'',
+    // user:'',
+    // password:'',
     // database:'sqlquanlyhocphan'   
 });
 var connect = function(){
